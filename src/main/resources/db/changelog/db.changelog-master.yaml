@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      # schema
+      file: db/changelog/1.5/create-tables.sql
+  - include:
+      file: db/changelog/1.5/init-data.sql
+  - include:
+      file: db/changelog/1.5/update-tables.sql

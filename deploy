@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+#mvn clean package
+
+echo 'Copy files...'
+
+scp  target/meteo-ya.war root@fir:/opt/tomcat/9.0/webapps
+
+echo 'Restart server...'
+
+ssh  -tt root@fir << EOF
+
+systemctl stop  tomcatd
+
+sleep 1s
+
+if cd /opt/tomcat/9.0/logs/; then rm -f *; fi
+if cd /opt/tomcat/9.0/webapps/; then rm -rf meteo-ya; fi
+
+
+systemctl restart  tomcatd
+exit
+EOF
+
+sleep 3s
+
+wget -O wget.txt http://fir:8080/meteo-ya
+rm wget.txt
+rm .attach_pid*
+
+echo 'Bye'
+
+

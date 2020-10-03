@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ ps ax | grep tomcat | awk '{system("kill -KILL " $1 )}'
+ 
+
+
+
