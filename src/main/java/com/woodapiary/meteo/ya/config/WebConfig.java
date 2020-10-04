@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2002-2020 mail@woodapiary.com
+ * 2002-2020
+ * woodapiary.com
  */
 package com.woodapiary.meteo.ya.config;
 

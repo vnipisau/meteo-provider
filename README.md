@@ -1,3 +1,5 @@
+[![GitHub Release](https://img.shields.io/github/release/woodapiary/meteo-ya.svg)](https://github.com/woodapiary/meteo-ya/releases)
+
 # Spring Boot App for API Yandex weather
 
 1. Spring Boot (+)

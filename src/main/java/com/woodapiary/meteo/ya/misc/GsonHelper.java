@@ -1,3 +1,7 @@
+/**
+ * 2002-2020
+ * woodapiary.com
+ */
 package com.woodapiary.meteo.ya.misc;
 
 import java.io.IOException;

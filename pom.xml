@@ -392,11 +392,19 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<spring.profiles.active>mysql</spring.profiles.active>
+				<spring.profiles.active>dev</spring.profiles.active>
 				<skip.tests>false</skip.tests>
 			</properties>
 		</profile>
 
+		<profile>
+			<id>stage</id>
+			<properties>
+				<spring.profiles.active>stage</spring.profiles.active>
+				<skip.tests>false</skip.tests>
+			</properties>
+		</profile>
+		
 		<profile>
 			<id>prod</id>
 			<properties>
