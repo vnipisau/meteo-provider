@@ -4,6 +4,8 @@
  */
 package com.woodapiary.meteo.ya.dto;
 
+//TODO split comments
+
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +17,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /*
-
 temp_min    Минимальная температура для времени суток (°C). Число
 temp_max    Максимальная температура для времени суток (°C).    Число
 temp_avg    Средняя температура для времени суток (°C). Число

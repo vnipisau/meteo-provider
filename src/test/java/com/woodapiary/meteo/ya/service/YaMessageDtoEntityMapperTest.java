@@ -24,10 +24,10 @@ import com.woodapiary.meteo.ya.entity.Message;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MessageDtoEntityMapperTest {
+public class YaMessageDtoEntityMapperTest {
 
     @Autowired
-    MessageDtoEntityMapper mapper;
+    YaMessageDtoEntityMapper mapper;
     @Autowired
     YaMessageService requester;
 

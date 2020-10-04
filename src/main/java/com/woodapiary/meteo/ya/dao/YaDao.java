@@ -25,4 +25,6 @@ public interface YaDao {
 
     void deleteAllMessages();
 
+    List<Fact> findBySource(String sourceId);
+
 }

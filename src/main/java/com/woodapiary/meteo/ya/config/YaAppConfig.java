@@ -20,6 +20,15 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//TODO mapper for message info
+
+/* TODO WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.modelmapper.internal.PropertyInfoImpl$FieldPropertyInfo (file:/mnt/hog_m2/soft/maven/.m2/repository/org/modelmapper/modelmapper/2.3.5/modelmapper-2.3.5.jar) to field java.time.LocalDateTime.date
+WARNING: Please consider reporting this to the maintainers of org.modelmapper.internal.PropertyInfoImpl$FieldPropertyInfo
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+*/
+
 @Configuration
 public class YaAppConfig {
 

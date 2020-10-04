@@ -116,7 +116,7 @@ public class YaDaoTest {
     }
 
     @After
-    public void test10() {
+    public void after() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
     }

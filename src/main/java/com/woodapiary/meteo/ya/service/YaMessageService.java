@@ -9,12 +9,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +23,15 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.woodapiary.meteo.ya.config.YaProperties;
 import com.woodapiary.meteo.ya.dao.YaDao;
+import com.woodapiary.meteo.ya.dto.FactDto;
 import com.woodapiary.meteo.ya.dto.MessageDto;
 import com.woodapiary.meteo.ya.entity.Fact;
 import com.woodapiary.meteo.ya.entity.Forecast;
 import com.woodapiary.meteo.ya.entity.Message;
 import com.woodapiary.meteo.ya.entity.Source;
+import com.woodapiary.meteo.ya.repo.SourceRepository;
 
 @Service
 public class YaMessageService {
@@ -46,23 +44,13 @@ public class YaMessageService {
     @Autowired
     YaDao dao;
     @Autowired
-    MessageDtoEntityMapper mapper;
+    YaMessageDtoEntityMapper mapper;
     @Autowired
     YaProperties prop;
+    @Autowired
+    SourceRepository sRepo;
 
-    static final class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
-        @Override
-        public void write(final JsonWriter jsonWriter, final LocalDateTime localDateTime) throws IOException {
-            jsonWriter.value(localDateTime.toString());
-        }
-
-        @Override
-        public LocalDateTime read(final JsonReader jsonReader) throws IOException {
-            return LocalDateTime.parse(jsonReader.nextString(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-        }
-    }
-
-    public MessageDto request(final Source source) throws MalformedURLException, IOException {
+    public MessageDto request(final Source source) throws IOException {
         //System.out.println(prop.getApiKey());
         final String url = source.getUrl() + "?" + "lat=" + source.getLat() + "&" + "lon=" + source.getLon();
         URLConnection connection;
@@ -99,6 +87,26 @@ public class YaMessageService {
         final Forecast forecast = dao.saveForecast(message, mapper.forecastDtoToForecast(dto.getForecast()), mapper.partListDtoToPartList(dto.getForecast().getParts()));
         log.debug(forecast.toString());
         log.info("save yandex weather message to db - ok");
+    }
+
+    public void requestAllAndSave() {
+        for (final Source source : sRepo.findAll()) {
+            try {
+                final MessageDto dto = request(source);
+                saveToDb(dto, source);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public List<FactDto> getFacts(String sourceId) {
+        final List<FactDto> res = new ArrayList<>();
+        final List<Fact> src = dao.findBySource(sourceId);
+        for (final Fact entity : src) {
+            res.add(mapper.factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }

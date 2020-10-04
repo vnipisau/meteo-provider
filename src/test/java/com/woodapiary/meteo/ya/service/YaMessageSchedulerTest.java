@@ -7,8 +7,6 @@ package com.woodapiary.meteo.ya.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +39,7 @@ public class YaMessageSchedulerTest {
 
     @Ignore("request to real service")
     @Test
-    public void test02() throws IOException {
+    public void test02() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
         sRepo.save(createSource());

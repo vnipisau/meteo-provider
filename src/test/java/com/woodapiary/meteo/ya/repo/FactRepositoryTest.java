@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -63,27 +64,18 @@ public class FactRepositoryTest {
         assertEquals(ent1, ent2);
     }
 
-    @After
+    @Test
     public void test03() {
+        repo.save(createEntity());
+        final List<Fact> res = repo.findBySource("sourceId");
+        assertEquals(1, res.size());
+    }
+
+    @After
+    public void after() {
         repo.deleteAll();
     }
 
-    /*
-    "temp":9,
-    "feels_like":6,
-    "icon":"ovc",
-    "condition":"overcast",
-    "wind_speed":2.7,
-    "wind_gust":7.3,
-    "wind_dir":"w",
-    "pressure_mm":742,
-    "pressure_pa":990,
-    "humidity":79,
-    "daytime":"d",
-    "polar":false,
-    "season":"autumn",
-    "obs_time":1570197600
-    */
     Fact createEntity() {
         final Fact entity = new Fact();
         entity.setConditionw("overcast");

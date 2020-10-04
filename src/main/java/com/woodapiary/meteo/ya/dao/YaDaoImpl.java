@@ -73,4 +73,9 @@ public class YaDaoImpl implements YaDao {
         messageRepo.deleteAll();
     }
 
+    @Override
+    public List<Fact> findBySource(String sourceId) {
+        return factRepo.findBySource(sourceId);
+    }
+
 }

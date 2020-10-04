@@ -64,7 +64,7 @@ public class MessageRepositoryTest {
     }
 
     @After
-    public void test03() {
+    public void after() {
         repo.deleteAll();
     }
 

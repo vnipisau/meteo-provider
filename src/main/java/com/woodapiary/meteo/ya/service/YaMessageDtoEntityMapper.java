@@ -22,7 +22,7 @@ import com.woodapiary.meteo.ya.entity.Message;
 import com.woodapiary.meteo.ya.entity.Part;
 
 @Component
-public class MessageDtoEntityMapper {
+public class YaMessageDtoEntityMapper {
 
     @Autowired
     private ModelMapper modelMapper;
