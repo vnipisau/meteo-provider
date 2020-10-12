@@ -58,8 +58,8 @@ public class MessageRepositoryTest {
     public void test02() {
         final Message ent1 = repo.save(createEntity());
         final Message ent2 = repo.findById(ent1.getMessageId()).orElseThrow();
-        System.out.println(ent1.getModified());
-        System.out.println(ent2.getModified());
+        //System.out.println(ent1.getModified());
+        //System.out.println(ent2.getModified());
         assertEquals(ent1, ent2);
     }
 

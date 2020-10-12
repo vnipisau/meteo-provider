@@ -27,8 +27,6 @@ public class YaRestController {
     public GetFactsResultDto getFacts() {
         final String sourceId = "q";
         final GetFactsResultDto res = new GetFactsResultDto(messageService.getFacts(sourceId));
-        log.info(res.toString());
-        log.info("!!!!!!!!!!!!!!!!!!!!!!");
         return res;
     }
 

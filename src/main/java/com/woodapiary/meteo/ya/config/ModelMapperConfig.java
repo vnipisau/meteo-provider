@@ -30,7 +30,7 @@ WARNING: All illegal access operations will be denied in a future release
 */
 
 @Configuration
-public class YaAppConfig {
+public class ModelMapperConfig {
 
     Converter<String, LocalDateTime> stringToLocalDateTime = new AbstractConverter<>() {
         @Override

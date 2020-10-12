@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -59,16 +58,16 @@ public class YaRestControllerTest {
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("yandex-moscow").size() > 0);
+        assertThat(messageService.getFacts("yandex-moscow").size() > 0).isTrue();
     }
 
-    @Ignore
     @Test
     public void test01() {
         final ResponseEntity<GetFactsResultDto> response = restTemplate.getForEntity("/api/getfacts", GetFactsResultDto.class);
-        assertThat(response.getStatusCode().equals(HttpStatus.CREATED));
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
-        assertThat(response.getBody().getFacts().size() > 0);
+        assertThat(response.getBody().getFacts().size() > 0).isTrue();
     }
 
     Source createSource() {
