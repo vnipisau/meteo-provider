@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<appender name="meteoyalog"
+	<appender name="meteoproviderlog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
-		<File>${catalina.home}/logs/meteo-ya.log</File>
+		<File>${catalina.home}/logs/meteo-provider.log</File>
 		<Append>false</Append>
 		<encoder>
 			<pattern>%d %5p [%t] \(%c.java:%L\) - %m%n</pattern>
@@ -15,7 +15,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<maxHistory>30</maxHistory>
-			<FileNamePattern>${catalina.home}/logs/meteo-ya-%d{yyyy-MM-dd}.%i.log
+			<FileNamePattern>${catalina.home}/logs/meteo-provider-%d{yyyy-MM-dd}.%i.log
 			</FileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -31,8 +31,8 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.woodapiary.meteo.ya" additivity="false">
-		<appender-ref ref="meteoyalog" />
+	<logger name="com.woodapiary.meteo.provider" additivity="false">
+		<appender-ref ref="meteoproviderlog" />
 		<appender-ref ref="stdout" />
 	</logger>
 

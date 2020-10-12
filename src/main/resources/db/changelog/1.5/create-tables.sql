@@ -19,7 +19,7 @@ CREATE TABLE `source` (
 
 --changeset woodapiary:createtables2
 
-CREATE TABLE `message` (
+CREATE TABLE `ya_message` (
   `message_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `now` timestamp NULL DEFAULT NULL COMMENT 'Время сервера погоды в формате Unixtime',
   `now_dt` timestamp NULL DEFAULT NULL COMMENT 'Время сервера погоды utc',
@@ -35,7 +35,7 @@ CREATE TABLE `message` (
 
 --changeset woodapiary:createtables3
 
-CREATE TABLE `forecast` (
+CREATE TABLE `ya_forecast` (
   `forecast_id` bigint unsigned  NOT NULL AUTO_INCREMENT COMMENT 'id прогноза',
   `message_id` bigint unsigned  COMMENT 'id сообщения о погоде',
   `date` timestamp NULL DEFAULT NULL COMMENT 'Дата прогноза в формате ГГГГ-ММ-ДД (локальное)',
@@ -46,12 +46,12 @@ CREATE TABLE `forecast` (
   `moon_text` varchar(100) DEFAULT NULL COMMENT 'Текстовый код для фазы Луны',
   `week` tinyint(3) unsigned DEFAULT NULL COMMENT 'Порядковый номер недели',
   PRIMARY KEY (`forecast_id`),
-  CONSTRAINT `forecast_FK` FOREIGN KEY (`message_id`) REFERENCES `message` (`message_id`)
+  CONSTRAINT `forecast_FK` FOREIGN KEY (`message_id`) REFERENCES `ya_message` (`message_id`)
 ) COMMENT='Прогнозная погода - заголовок';
 
 --changeset woodapiary:createtables4
 
-CREATE TABLE `part` (
+CREATE TABLE `ya_part` (
   `part_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id прогнозного значения',
   `part_name` varchar(100) DEFAULT NULL COMMENT 'Название времени суток',
   `temp_min` smallint DEFAULT NULL COMMENT 'Температура (°C) min',
@@ -74,12 +74,12 @@ CREATE TABLE `part` (
   `forecast_id` bigint unsigned  COMMENT 'id прогнозного значения',
    PRIMARY KEY (`part_id`),
    KEY `part_FK` (`forecast_id`),
-   CONSTRAINT `part_FK` FOREIGN KEY (`forecast_id`) REFERENCES `forecast` (`forecast_id`)
+   CONSTRAINT `part_FK` FOREIGN KEY (`forecast_id`) REFERENCES `ya_forecast` (`forecast_id`)
 )  COMMENT='Прогнозная погода - на дату';
 
 --changeset woodapiary:createtables5
 
-CREATE TABLE `fact` (
+CREATE TABLE `ya_fact` (
   `fact_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id фактического значения',
   `temp` smallint DEFAULT NULL COMMENT 'Температура (°C)',
   `feels_like` smallint DEFAULT NULL COMMENT 'Ощущаемая температура (°C)',
@@ -99,6 +99,6 @@ CREATE TABLE `fact` (
   `message_id` bigint unsigned  COMMENT 'id сообщения',
    PRIMARY KEY (`fact_id`),
    KEY `fact_FK` (`message_id`),
-   CONSTRAINT `fact_FK` FOREIGN KEY (`message_id`) REFERENCES `message` (`message_id`)
+   CONSTRAINT `fact_FK` FOREIGN KEY (`message_id`) REFERENCES `ya_message` (`message_id`)
 )  COMMENT='Фактическая погода';
 
