@@ -29,4 +29,6 @@ jobs:
           METEO_USER:  ${{secrets.METEO_USER}}
           METEO_PASSWD:  ${{secrets.METEO_PASSWD}}
           YANDEX_API_KEY: none 
+          WEATHERSTACK_API_KEY: none
+          OPENWEATHERMAP_API_KEY: none
           
