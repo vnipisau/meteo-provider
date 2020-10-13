@@ -1,13 +1,18 @@
 
 package com.woodapiary.meteo.provider.dto.ow;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OwCurrentDto {
+public class OwCurrentDto implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2449923890786053212L;
     @SerializedName("dt")
     @Expose
     private Integer dt;

@@ -1,11 +1,17 @@
 
 package com.woodapiary.meteo.provider.dto.ow;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OwTempDto {
+public class OwTempDto implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7819531072129905198L;
     @SerializedName("day")
     @Expose
     private Double day;
