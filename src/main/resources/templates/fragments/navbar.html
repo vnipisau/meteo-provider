@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+	<div th:fragment="navbar">
+
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+					<a class="navbar-brand" th:href="@{/main}"><img th:src="@{/img/meteo20.png}" /></a>
+
+			<ul class="navbar-nav">
+								<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbardrop"
+					data-toggle="dropdown"><i class="fa fa-columns"></i>Управление</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/input}">Входные сигналы и данные</a> <a
+							class="dropdown-item" th:href="@{/command}">Выходные команды и данные</a>
+							 <a
+							class="dropdown-item" th:href="@{/reset}">Отправить sms</a>  
+							<a
+							class="dropdown-item" th:href="@{/event}">События</a>
+					</div></li>
+					
+					<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" th:href="@{/dev}"><i class="fa fa-columns"></i>Архив тегов</a>
+					</li>
+					
+					
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbardrop"
+					data-toggle="dropdown"><i class="fa fa-columns"></i>Сообщения</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/sms}">Входящие sms</a> <a
+							class="dropdown-item" th:href="@{/gps}">Координаты gps</a> 
+							<a
+							class="dropdown-item" th:href="@{/email}">Электронная почта</a>
+					</div></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbardrop"
+					data-toggle="dropdown"><i class="fa fa-columns"></i>Регистрация</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/users}">Пользователи</a> <a
+							class="dropdown-item" th:href="@{/router}">Шлюзы</a> <a
+							class="dropdown-item" th:href="@{/container}">Метеостанции</a>
+					</div></li>
+									<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="dev"><i class="fa fa-columns"></i>Справка</a>
+					</li>
+			</ul>
+
+			<div class="collapse navbar-collapse justify-content-end"
+				id="navbarCollapse">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-right"
+						th:href="@{/login}" th:text="'На сайте: ' + ${admindnone}" ></a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i
+							class="fa fa-sign-out"></i>Выйти</a></li>
+				</ul>
+			</div>
+
+		</nav>
+
+	</div>
+
+</body>
+</html>

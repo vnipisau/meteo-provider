@@ -31,6 +31,7 @@ import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
+import com.woodapiary.meteo.provider.mapper.YaMessageDtoEntityMapper;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @Service
@@ -50,6 +51,7 @@ public class YaMessageService {
     @Autowired
     SourceRepository sRepo;
 
+    //50 в сутки.
     public YaMessageDto request(final Source source) throws IOException {
         //System.out.println(prop.getApiKey());
         final String url = source.getUrl() + "?" + "lat=" + source.getLat() + "&" + "lon=" + source.getLon();

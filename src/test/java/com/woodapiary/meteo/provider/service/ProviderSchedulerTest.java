@@ -4,13 +4,15 @@
  */
 package com.woodapiary.meteo.provider.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,14 +20,15 @@ import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
-import com.woodapiary.meteo.provider.service.ProviderScheduler;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProviderSchedulerTest {
 
+    @Value("${meteo-provider.provider.realtest.enabled}")
+    private Boolean providerTestEnabled;
     @Autowired
-    ProviderScheduler sheduler;
+    private ProviderScheduler sheduler;
     @Autowired
     private YaDao dao;
     @Autowired
@@ -38,9 +41,9 @@ public class ProviderSchedulerTest {
         assertNotNull(sheduler);
     }
 
-    @Ignore("request to real service")
     @Test
     public void test02() {
+        assumeThat("request to real service", providerTestEnabled, is(true));
         dao.deleteAllMessages();
         sRepo.deleteAll();
         sRepo.save(createSource());

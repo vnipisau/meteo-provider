@@ -4,10 +4,7 @@
  */
 package com.woodapiary.meteo.provider.service;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
@@ -18,22 +15,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.woodapiary.meteo.provider.dao.YaDao;
-import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
+import com.woodapiary.meteo.provider.dao.OwDao;
+import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class YaMessageServiceTest {
+public class OwMessageServiceTest {
 
     @Value("${meteo-provider.provider.realtest.enabled}")
     private Boolean providerTestEnabled;
     @Autowired
-    private YaMessageService requester;
+    private OwMessageService requester;
     @Autowired
-    private YaDao dao;
+    private OwDao dao;
     @Autowired
     private SourceRepository sRepo;
     @Autowired
@@ -46,38 +43,26 @@ public class YaMessageServiceTest {
 
     @Test
     public void test02() throws IOException {
-        assumeThat("request to real service", providerTestEnabled, is(true));
-        final YaMessageDto result = requester.request(createSource());
+        //assumeThat("request to real service", providerTestEnabled, is(true));
+        final OwMessageDto result = requester.request(createSource());
         System.out.println(result.toString());
-        assertNotNull(result.getNow());
+        assertNotNull(result.getCurrent().getDt());
     }
 
     @Test
     public void test03() throws IOException {
-        final YaMessageDto result = requester.readFromFile("src/test/data/ya_v1.json");
+        final OwMessageDto result = requester.readFromFile("src/test/data/ow_onecall.json");
         //System.out.println(result.toString());
-        assertNotNull(result.getNow());
-    }
-
-    @Test
-    public void test04() throws IOException {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
-        final Source source = sRepo.save(createSource());
-        final YaMessageDto dto = requester.readFromFile("src/test/data/ya_v1.json");
-        requester.saveToDb(dto, source);
-        assertEquals(1, mRepo.count());
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
+        assertNotNull(result.getCurrent().getDt());
     }
 
     Source createSource() {
         final Source entity = new Source();
         entity.setLat(55.75);
         entity.setLon(37.6);
-        entity.setSourceName("yandex-moscow");
-        entity.setUrl("https://api.weather.yandex.ru/v1/informers/");
-        entity.setProvider("yandex");
+        entity.setSourceName("openweather-moscow");
+        entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
+        entity.setProvider("openweather");
         entity.setEnabled(true);
         return entity;
     }

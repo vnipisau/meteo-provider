@@ -2,7 +2,7 @@
  * 2002-2020
  * woodapiary.com
  */
-package com.woodapiary.meteo.provider.service;
+package com.woodapiary.meteo.provider.mapper;
 
 import java.lang.reflect.Type;
 import java.util.List;

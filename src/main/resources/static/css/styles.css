@@ -1,0 +1,14 @@
+.map {
+	height: 700px;
+	 	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.fsm {
+	font-size: 12px;
+}
+
+.wdfix {
+	-ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+}

@@ -2,7 +2,7 @@
  * 2002-2020
  * woodapiary.com
  */
-package com.woodapiary.meteo.provider.service;
+package com.woodapiary.meteo.provider.mapper;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +21,7 @@ import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
-import com.woodapiary.meteo.provider.service.YaMessageDtoEntityMapper;
+import com.woodapiary.meteo.provider.mapper.YaMessageDtoEntityMapper;
 import com.woodapiary.meteo.provider.service.YaMessageService;
 
 @RunWith(SpringRunner.class)
@@ -29,9 +29,9 @@ import com.woodapiary.meteo.provider.service.YaMessageService;
 public class YaMessageDtoEntityMapperTest {
 
     @Autowired
-    YaMessageDtoEntityMapper mapper;
+    private YaMessageDtoEntityMapper mapper;
     @Autowired
-    YaMessageService requester;
+    private YaMessageService requester;
 
     @Test
     public void test01() {
