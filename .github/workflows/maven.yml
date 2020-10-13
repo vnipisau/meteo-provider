@@ -23,7 +23,6 @@ jobs:
     - name: Build with Maven
       run: mvn -P stage -B package --file pom.xml
       env:
-          # The hostname used to communicate with the PostgreSQL service container
           MYSQL_HOST:  ${{secrets.MYSQL_HOST}}
           MYSQL_PORT:  ${{secrets.MYSQL_PORT}}
           METEO_USER:  ${{secrets.METEO_USER}}
