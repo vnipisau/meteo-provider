@@ -43,7 +43,7 @@ public class OwMessageServiceTest {
 
     @Test
     public void test02() throws IOException {
-        //assumeThat("request to real service", providerTestEnabled, is(true));
+        assumeThat("request to real service", providerTestEnabled, is(true));
         final OwMessageDto result = requester.request(createSource());
         System.out.println(result.toString());
         assertNotNull(result.getCurrent().getDt());
