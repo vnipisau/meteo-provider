@@ -1,4 +1,5 @@
 [![GitHub Release](https://img.shields.io/github/release/woodapiary/meteo-ya.svg)](https://github.com/woodapiary/meteo-ya/releases)
+![Java CI with Maven](https://github.com/woodapiary/meteo-provider/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 # Spring Boot App for API Yandex weather
 
