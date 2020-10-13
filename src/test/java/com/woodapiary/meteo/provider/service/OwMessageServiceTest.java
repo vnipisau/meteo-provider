@@ -4,7 +4,9 @@
  */
 package com.woodapiary.meteo.provider.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeThat;
 
 import java.io.IOException;
 
