@@ -10,7 +10,33 @@ import com.google.gson.annotations.SerializedName;
 public class OwDailyDto implements Serializable {
 
     /**
-     * 
+     * daily.dt Time of the forecasted data, Unix, UTC
+    daily.sunrise Sunrise time, Unix, UTC
+    daily.sunset Sunset time, Unix, UTC
+    daily.temp Units – default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
+    daily.temp.morn Morning temperature.
+    daily.temp.day Day temperature.
+    daily.temp.eve Evening temperature.
+    daily.temp.night Night temperature.
+    daily.temp.min Min daily temperature.
+    daily.temp.max Max daily temperature.
+    daily.feels_like This accounts for the human perception of weather. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
+    daily.feels_like.morn Morning temperature.
+    daily.feels_like.day Day temperature.
+    daily.feels_like.eve Evening temperature.
+    daily.feels_like.night Night temperature.
+    daily.pressure Atmospheric pressure on the sea level, hPa
+    daily.humidity Humidity, %
+    daily.dew_point Atmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+    daily.wind_speed Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
+    daily.wind_gust (where available) Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
+    daily.wind_deg Wind direction, degrees (meteorological)
+    daily.clouds Cloudiness, %
+    daily.uvi Midday UV index
+    daily.visibility Average visibility, metres
+    daily.pop Probability of precipitation
+    daily.rain (where available) Precipitation volume, mm
+    daily.snow (where available) Snow volume, mm
      */
     private static final long serialVersionUID = 2558912614499617185L;
     @SerializedName("dt")

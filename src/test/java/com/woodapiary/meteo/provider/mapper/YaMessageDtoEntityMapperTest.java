@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,13 +22,14 @@ import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
-import com.woodapiary.meteo.provider.mapper.YaMessageDtoEntityMapper;
 import com.woodapiary.meteo.provider.service.YaMessageService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class YaMessageDtoEntityMapperTest {
 
+    @Value("${meteo-provider.provider.testdata.path}")
+    private String testDataPath;
     @Autowired
     private YaMessageDtoEntityMapper mapper;
     @Autowired
@@ -40,7 +42,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final YaMessageDto dto1 = requester.readFromFile("src/test/data/ya_v1.json");
+        final YaMessageDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json");
         final YaMessage entity = mapper.messageDtoToMessage(dto1);
         final YaMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setInfo(null);
@@ -52,7 +54,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test03() throws IOException {
-        final YaFactDto dto1 = requester.readFromFile("src/test/data/ya_v1.json").getFact();
+        final YaFactDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json").getFact();
         final YaFact entity = mapper.factDtoToFact(dto1);
         final YaFactDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);
@@ -61,7 +63,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test04() throws IOException {
-        final YaForecastDto dto1 = requester.readFromFile("src/test/data/ya_v1.json").getForecast();
+        final YaForecastDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json").getForecast();
         final YaForecast entity = mapper.forecastDtoToForecast(dto1);
         final YaForecastDto dto2 = mapper.forecastDtoFromForecast(entity);
         assertNotNull(dto2);

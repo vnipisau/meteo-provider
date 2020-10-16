@@ -10,7 +10,22 @@ import com.google.gson.annotations.SerializedName;
 public class OwHourlyDto implements Serializable {
 
     /**
-     * 
+     * hourly.dt Time of the forecasted data, Unix, UTC
+    hourly.temp Temperature. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
+    hourly.feels_like Temperature. This accounts for the human perception of weather. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+    hourly.pressure Atmospheric pressure on the sea level, hPa
+    hourly.humidity Humidity, %
+    hourly.dew_point Atmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+    hourly.clouds Cloudiness, %
+    hourly.visibility Average visibility, metres
+    hourly.wind_speed Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour.How to change units used
+    hourly.wind_gust (where available) Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
+    chourly.wind_deg Wind direction, degrees (meteorological)
+    hourly.pop Probability of precipitation
+    hourly.rain
+    hourly.rain.1h (where available) Rain volume for last hour, mm
+    hourly.snow
+    hourly.snow.1h (where available) Snow volume for last hour, mm
      */
     private static final long serialVersionUID = 3708410789004563386L;
     @SerializedName("dt")

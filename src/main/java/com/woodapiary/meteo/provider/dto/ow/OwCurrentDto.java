@@ -10,7 +10,25 @@ import com.google.gson.annotations.SerializedName;
 public class OwCurrentDto implements Serializable {
 
     /**
-     * 
+     * current.dt Current time, Unix, UTC
+    current.sunrise Sunrise time, Unix, UTC
+    current.sunset Sunset time, Unix, UTC
+    current.temp Temperature. Units - default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
+    current.feels_like Temperature. This temperature parameter accounts for the human perception of weather. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+    current.pressure Atmospheric pressure on the sea level, hPa
+    current.humidity Humidity, %
+    current.dew_point AAtmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+    current.clouds Cloudiness, %
+    current.uvi Midday UV index
+    current.visibility Average visibility, metres
+    current.wind_speed Wind speed. Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
+    current.wind_gust (where available) Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
+    current.wind_deg Wind direction, degrees (meteorological)
+    
+    current.rain
+    current.rain.1h (where available) Rain volume for last hour, mm
+    current.snow
+    current.snow.1h (where available) Snow volume for last hour, mm
      */
     private static final long serialVersionUID = -2449923890786053212L;
     @SerializedName("dt")

@@ -22,16 +22,16 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.woodapiary.meteo.provider.config.AppProperties;
+import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @Service
 public class OwMessageService {
 
     static Logger log = LoggerFactory.getLogger(OwMessageService.class);
-
+    public static final String provider = "openweathermap";
     @Value("${OPENWEATHERMAP_API_KEY}")
     private String apiKey;
 
@@ -42,14 +42,13 @@ public class OwMessageService {
     @Autowired
     AppProperties prop;
     @Autowired
-    SourceRepository sRepo;
+    MeteoDao sRepo;
 
-    //https://api.openweathermap.org/data/2.5/onecall?lat=55&lon=37&exclude=minutely&appid=2155573ef172407e333e91860fe3406d
     //Free 60 calls/minute 1,000,000 calls/month
     public OwMessageDto request(final Source source) throws IOException {
         //System.out.println(prop.getApiKey());
         final String url = source.getUrl() + "?" + "lat=" + source.getLat() + "&" + "lon=" + source.getLon()
-                + "&" + "exclude=minutely" + "&" + "appid=" + apiKey;
+                + "&" + "exclude=minutely" + "&" + "appid=" + apiKey + "&" + "units=metric";
 
         URLConnection connection;
         connection = new URL(url).openConnection();
@@ -74,6 +73,12 @@ public class OwMessageService {
             final OwMessageDto owDto = parser.fromJson(rd, OwMessageDto.class);
             return owDto;
         }
+    }
+
+    public void saveToDb(final OwMessageDto dto, final Source source) {
+        //final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
+        //dao.saveFact(message, mapper.factDtoToFact(dto.getFact()));
+        log.info("save weatherstack message to db - ok");
     }
 
 }

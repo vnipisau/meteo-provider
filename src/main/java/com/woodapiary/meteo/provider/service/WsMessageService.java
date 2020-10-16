@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,27 +24,33 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.woodapiary.meteo.provider.config.AppProperties;
+import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.WsDao;
+import com.woodapiary.meteo.provider.dto.ws.WsCurrentDto;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
+import com.woodapiary.meteo.provider.entity.ws.WsFact;
+import com.woodapiary.meteo.provider.entity.ws.WsMessage;
+import com.woodapiary.meteo.provider.mapper.WsMessageDtoEntityMapper;
 
 @Service
 public class WsMessageService {
 
     static Logger log = LoggerFactory.getLogger(WsMessageService.class);
 
+    public static final String provider = "weatherstack";
+
     @Value("${WEATHERSTACK_API_KEY}")
     private String apiKey;
 
     @Autowired
     WsDao dao;
-    //@Autowired
-    //YaMessageDtoEntityMapper mapper;
+    @Autowired
+    WsMessageDtoEntityMapper mapper;
     @Autowired
     AppProperties prop;
     @Autowired
-    SourceRepository sRepo;
+    MeteoDao sRepo;
 
     //1.000 Calls / month
     public WsMessageDto request(final Source source) throws IOException {
@@ -71,6 +79,32 @@ public class WsMessageService {
             final WsMessageDto wsDto = parser.fromJson(rd, WsMessageDto.class);
             return wsDto;
         }
+    }
+
+    public void saveToDb(final WsMessageDto dto, final Source source) {
+        final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
+        dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()));
+        log.info("save ws weather message to db - ok");
+    }
+
+    public void requestAllAndSave() {
+        for (final Source source : sRepo.findSourceByProvider(provider)) {
+            try {
+                final WsMessageDto dto = request(source);
+                saveToDb(dto, source);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public List<WsCurrentDto> getFacts(String sourceId) {
+        final List<WsCurrentDto> res = new ArrayList<>();
+        final List<WsFact> src = dao.findBySource(sourceId);
+        for (final WsFact entity : src) {
+            res.add(mapper.factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }

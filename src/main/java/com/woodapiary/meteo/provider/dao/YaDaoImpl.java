@@ -78,4 +78,9 @@ public class YaDaoImpl implements YaDao {
         return factRepo.findBySource(sourceId);
     }
 
+    @Override
+    public long count() {
+        return messageRepo.count();
+    }
+
 }

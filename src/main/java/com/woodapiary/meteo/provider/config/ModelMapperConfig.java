@@ -11,6 +11,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
@@ -35,6 +37,9 @@ public class ModelMapperConfig {
     Converter<String, LocalDateTime> stringToLocalDateTime = new AbstractConverter<>() {
         @Override
         protected LocalDateTime convert(String source) {
+            if (source == null) {
+                return null;
+            }
             final LocalDateTime localDate = LocalDateTime.parse(source, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
             return localDate;
         }
@@ -43,6 +48,9 @@ public class ModelMapperConfig {
     Converter<LocalDateTime, String> stringFromLocalDateTime = new AbstractConverter<>() {
         @Override
         protected String convert(LocalDateTime source) {
+            if (source == null) {
+                return null;
+            }
             final String localDate = source.toString() + 'Z';
             return localDate;
         }
@@ -51,6 +59,9 @@ public class ModelMapperConfig {
     Converter<String, LocalDate> stringToLocalDate = new AbstractConverter<>() {
         @Override
         protected LocalDate convert(String source) {
+            if (source == null) {
+                return null;
+            }
             final LocalDate localDate = LocalDate.parse(source, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             return localDate;
         }
@@ -59,6 +70,9 @@ public class ModelMapperConfig {
     Converter<LocalDate, String> stringFromLocalDate = new AbstractConverter<>() {
         @Override
         protected String convert(LocalDate source) {
+            if (source == null) {
+                return null;
+            }
             final String localDate = source.toString();
             return localDate;
         }
@@ -67,6 +81,9 @@ public class ModelMapperConfig {
     Converter<String, LocalTime> stringToLocalTime = new AbstractConverter<>() {
         @Override
         protected LocalTime convert(String source) {
+            if (source == null) {
+                return null;
+            }
             final LocalTime localDate = LocalTime.parse(source, DateTimeFormatter.ofPattern("HH:mm"));
             return localDate;
         }
@@ -75,6 +92,9 @@ public class ModelMapperConfig {
     Converter<LocalTime, String> stringFromLocalTime = new AbstractConverter<>() {
         @Override
         protected String convert(LocalTime source) {
+            if (source == null) {
+                return null;
+            }
             final String localDate = source.toString();
             return localDate;
         }
@@ -83,6 +103,9 @@ public class ModelMapperConfig {
     Converter<Long, LocalDateTime> longToLocalDateTime = new AbstractConverter<>() {
         @Override
         protected LocalDateTime convert(Long source) {
+            if (source == null) {
+                return null;
+            }
             final LocalDateTime localDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(source), ZoneId.of("UTC"));
             return localDate;
         }
@@ -91,9 +114,39 @@ public class ModelMapperConfig {
     Converter<LocalDateTime, Long> longFromLocalDateTime = new AbstractConverter<>() {
         @Override
         protected Long convert(LocalDateTime source) {
+            if (source == null) {
+                return null;
+            }
             final ZonedDateTime zdt = source.atZone(ZoneId.of("UTC"));
             final Long localDate = zdt.toEpochSecond();
             return localDate;
+        }
+    };
+
+    Converter<List<String>, String> listOfStringToString = new AbstractConverter<>() {
+        @Override
+        protected String convert(List<String> source) {
+            if (source == null) {
+                return null;
+            }
+            final StringBuffer res = new StringBuffer();
+            for (final String str : source) {
+                res.append(str);
+                res.append(';');
+            }
+            return res.toString();
+        }
+    };
+
+    Converter<String, List<String>> listOfStringFromString = new AbstractConverter<>() {
+        @Override
+        protected List<String> convert(String source) {
+            if (source == null) {
+                return null;
+            }
+            final String[] ar = source.split(";");
+            final List<String> res = Arrays.asList(ar);
+            return res;
         }
     };
 
@@ -121,6 +174,10 @@ public class ModelMapperConfig {
         modelMapper.addConverter(longToLocalDateTime);
         //modelMapper.createTypeMap(Long.class, LocalDateTime.class);
         modelMapper.addConverter(longFromLocalDateTime);
+        modelMapper.createTypeMap(List.class, String.class);
+        modelMapper.addConverter(listOfStringToString);
+        modelMapper.createTypeMap(String.class, List.class);
+        modelMapper.addConverter(listOfStringFromString);
 
         return modelMapper;
     }

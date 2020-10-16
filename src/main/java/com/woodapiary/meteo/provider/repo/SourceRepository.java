@@ -4,6 +4,8 @@
  */
 package com.woodapiary.meteo.provider.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,5 +16,8 @@ public interface SourceRepository extends CrudRepository<Source, Long> {
 
     @Query(value = "select * from source as u where u.name = :name", nativeQuery = true)
     Source findByName(@Param("name") String name);
+
+    @Query(value = "select * from source as u where u.provider = :provider", nativeQuery = true)
+    List<Source> findByProvider(@Param("provider") String name);
 
 }

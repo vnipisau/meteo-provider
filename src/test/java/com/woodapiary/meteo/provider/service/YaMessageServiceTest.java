@@ -4,9 +4,8 @@
  */
 package com.woodapiary.meteo.provider.service;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -18,11 +17,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
-import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,14 +28,14 @@ public class YaMessageServiceTest {
 
     @Value("${meteo-provider.provider.realtest.enabled}")
     private Boolean providerTestEnabled;
+    @Value("${meteo-provider.provider.testdata.path}")
+    private String testDataPath;
     @Autowired
     private YaMessageService requester;
     @Autowired
     private YaDao dao;
     @Autowired
-    private SourceRepository sRepo;
-    @Autowired
-    private YaMessageRepository mRepo;
+    private MeteoDao sRepo;
 
     @Test
     public void test01() {
@@ -46,7 +44,7 @@ public class YaMessageServiceTest {
 
     @Test
     public void test02() throws IOException {
-        assumeThat("request to real service", providerTestEnabled, is(true));
+        assumeTrue("request to real service", providerTestEnabled);
         final YaMessageDto result = requester.request(createSource());
         System.out.println(result.toString());
         assertNotNull(result.getNow());
@@ -54,7 +52,7 @@ public class YaMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final YaMessageDto result = requester.readFromFile("src/test/data/ya_v1.json");
+        final YaMessageDto result = requester.readFromFile(testDataPath + "ya_v1.json");
         //System.out.println(result.toString());
         assertNotNull(result.getNow());
     }
@@ -63,10 +61,10 @@ public class YaMessageServiceTest {
     public void test04() throws IOException {
         dao.deleteAllMessages();
         sRepo.deleteAll();
-        final Source source = sRepo.save(createSource());
-        final YaMessageDto dto = requester.readFromFile("src/test/data/ya_v1.json");
+        final Source source = sRepo.saveSource(createSource());
+        final YaMessageDto dto = requester.readFromFile(testDataPath + "ya_v1.json");
         requester.saveToDb(dto, source);
-        assertEquals(1, mRepo.count());
+        assertEquals(1, dao.count());
         dao.deleteAllMessages();
         sRepo.deleteAll();
     }

@@ -4,8 +4,6 @@
  */
 package com.woodapiary.meteo.provider.dto.ya;
 
-//TODO split comments
-
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;

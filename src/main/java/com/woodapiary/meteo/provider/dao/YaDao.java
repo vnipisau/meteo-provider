@@ -17,14 +17,16 @@ import com.woodapiary.meteo.provider.entity.ya.YaPart;
 @Repository
 public interface YaDao {
 
-    YaMessage saveMessage(YaMessage Message, Source source);
+    YaMessage saveMessage(YaMessage message, Source source);
 
-    YaFact saveFact(YaMessage Message, YaFact fact);
+    YaFact saveFact(YaMessage message, YaFact fact);
 
-    YaForecast saveForecast(YaMessage Message, YaForecast forecast, List<YaPart> parts);
+    YaForecast saveForecast(YaMessage message, YaForecast forecast, List<YaPart> parts);
 
     void deleteAllMessages();
 
     List<YaFact> findBySource(String sourceId);
+
+    long count();
 
 }

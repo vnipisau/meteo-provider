@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class OwRainDto implements Serializable {
 
     /**
-     * 
+     * current.rain.1h (where available) Rain volume for last hour, mm
      */
     private static final long serialVersionUID = -5939472267104943328L;
     @SerializedName("1h")

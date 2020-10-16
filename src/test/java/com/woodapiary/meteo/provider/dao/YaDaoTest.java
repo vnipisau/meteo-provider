@@ -28,13 +28,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 import com.woodapiary.meteo.provider.entity.ya.YaPart;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaFactRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaForecastRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
@@ -51,7 +49,7 @@ public class YaDaoTest {
     @Autowired
     private YaDao dao;
     @Autowired
-    private SourceRepository sRepo;
+    private MeteoDao sRepo;
     @Autowired
     private YaMessageRepository mRepo;
     @Autowired
@@ -74,7 +72,7 @@ public class YaDaoTest {
 
     @Test
     public void test01() {
-        final Source source = sRepo.save(createSource());
+        final Source source = sRepo.saveSource(createSource());
         final YaMessage ent = dao.saveMessage(createMessage(), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, mRepo.count());
@@ -84,7 +82,7 @@ public class YaDaoTest {
 
     @Test
     public void test02() {
-        final Source source = sRepo.save(createSource());
+        final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(), source);
         final YaFact ft = dao.saveFact(mes, createFact());
         //System.out.println(ent.getFactId());
@@ -94,7 +92,7 @@ public class YaDaoTest {
 
     @Test
     public void test03() {
-        final Source source = sRepo.save(createSource());
+        final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(), source);
         final YaForecast fc = dao.saveForecast(mes, createForecast(), createParts());
         //System.out.println(ent.getFactId());
@@ -108,7 +106,7 @@ public class YaDaoTest {
 
     @Test
     public void test04() {
-        final Source source = sRepo.save(createSource());
+        final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(), source);
         final YaFact ft = dao.saveFact(mes, createFact());
         final YaForecast fc = dao.saveForecast(mes, createForecast(), createParts());

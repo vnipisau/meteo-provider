@@ -24,21 +24,20 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.woodapiary.meteo.provider.config.AppProperties;
+import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaFactDto;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
-import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 import com.woodapiary.meteo.provider.mapper.YaMessageDtoEntityMapper;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @Service
 public class YaMessageService {
 
     static Logger log = LoggerFactory.getLogger(YaMessageService.class);
-
+    public static final String provider = "yandex";
     @Value("${YANDEX_API_KEY}")
     private String apiKey;
 
@@ -49,7 +48,7 @@ public class YaMessageService {
     @Autowired
     AppProperties prop;
     @Autowired
-    SourceRepository sRepo;
+    MeteoDao sRepo;
 
     //50 в сутки.
     public YaMessageDto request(final Source source) throws IOException {
@@ -83,16 +82,13 @@ public class YaMessageService {
 
     public void saveToDb(final YaMessageDto dto, final Source source) {
         final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        log.debug(message.toString());
-        final YaFact fact = dao.saveFact(message, mapper.factDtoToFact(dto.getFact()));
-        log.debug(fact.toString());
-        final YaForecast forecast = dao.saveForecast(message, mapper.forecastDtoToForecast(dto.getForecast()), mapper.partListDtoToPartList(dto.getForecast().getParts()));
-        log.debug(forecast.toString());
+        dao.saveFact(message, mapper.factDtoToFact(dto.getFact()));
+        dao.saveForecast(message, mapper.forecastDtoToForecast(dto.getForecast()), mapper.partListDtoToPartList(dto.getForecast().getParts()));
         log.info("save yandex weather message to db - ok");
     }
 
     public void requestAllAndSave() {
-        for (final Source source : sRepo.findAll()) {
+        for (final Source source : sRepo.findSourceByProvider(provider)) {
             try {
                 final YaMessageDto dto = request(source);
                 saveToDb(dto, source);

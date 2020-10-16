@@ -9,7 +9,11 @@ import com.google.gson.annotations.SerializedName;
 public class OwAlertDto implements Serializable {
 
     /**
-     * 
+     * alerts.sender_name Name of the alert source
+    alerts.event Alert event name
+    alerts.start Date and time of the start of the alert, Unix, UTC
+    alerts.end Date and time of the end of the alert, Unix, UTC
+    alerts.description Description of the alert
      */
     private static final long serialVersionUID = 5657108068648895897L;
     @SerializedName("sender_name")

@@ -4,9 +4,8 @@
  */
 package com.woodapiary.meteo.provider.service;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
@@ -16,10 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.WsDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
-import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,11 +29,11 @@ public class ProviderSchedulerTest {
     @Autowired
     private ProviderScheduler sheduler;
     @Autowired
-    private YaDao dao;
+    private YaDao daoYa;
     @Autowired
-    private SourceRepository sRepo;
+    private WsDao daoWs;
     @Autowired
-    private YaMessageRepository mRepo;
+    private MeteoDao sRepo;
 
     @Test
     public void test01() {
@@ -43,23 +42,46 @@ public class ProviderSchedulerTest {
 
     @Test
     public void test02() {
-        assumeThat("request to real service", providerTestEnabled, is(true));
-        dao.deleteAllMessages();
+        assumeTrue("request to real service", providerTestEnabled);
+        daoYa.deleteAllMessages();
         sRepo.deleteAll();
-        sRepo.save(createSource());
-        sheduler.run();
-        assertEquals(1, mRepo.count());
-        dao.deleteAllMessages();
+        sRepo.saveSource(createSourceYa());
+        sheduler.runYa();
+        assertEquals(1, daoYa.count());
+        daoYa.deleteAllMessages();
         sRepo.deleteAll();
     }
 
-    Source createSource() {
+    @Test
+    public void test03() {
+        assumeTrue("request to real service", providerTestEnabled);
+        daoWs.deleteAllMessages();
+        sRepo.deleteAll();
+        sRepo.saveSource(createSourceYa());
+        sheduler.runYa();
+        assertEquals(1, daoWs.count());
+        daoWs.deleteAllMessages();
+        sRepo.deleteAll();
+    }
+
+    Source createSourceYa() {
         final Source entity = new Source();
         entity.setLat(55.75);
         entity.setLon(37.6);
         entity.setSourceName("yandex-moscow");
         entity.setUrl("https://api.weather.yandex.ru/v1/informers/");
         entity.setProvider("yandex");
+        entity.setEnabled(true);
+        return entity;
+    }
+
+    Source createSourceWs() {
+        final Source entity = new Source();
+        entity.setLat(55.75);
+        entity.setLon(37.6);
+        entity.setSourceName("weatherstack-moscow");
+        entity.setUrl("http://api.weatherstack.com/current");
+        entity.setProvider("weatherstack");
         entity.setEnabled(true);
         return entity;
     }

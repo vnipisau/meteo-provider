@@ -7,9 +7,8 @@ package com.woodapiary.meteo.provider.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,45 +24,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.woodapiary.meteo.provider.dao.YaDao;
-import com.woodapiary.meteo.provider.dto.ya.YaGetFactsResultDto;
+import com.woodapiary.meteo.provider.dao.WsDao;
+import com.woodapiary.meteo.provider.dto.ws.WsGetFactsResultDto;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.entity.ya.YaFact;
-import com.woodapiary.meteo.provider.entity.ya.YaMessage;
+import com.woodapiary.meteo.provider.entity.ws.WsFact;
+import com.woodapiary.meteo.provider.entity.ws.WsMessage;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
-import com.woodapiary.meteo.provider.service.YaMessageService;
+import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class YaRestControllerTest {
+public class WsRestControllerTest {
 
-    static Logger log = LoggerFactory.getLogger(YaRestControllerTest.class);
+    static Logger log = LoggerFactory.getLogger(WsRestControllerTest.class);
 
     @Autowired
-    private YaMessageService messageService;
+    private WsMessageService messageService;
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
-    private YaDao dao;
+    private WsDao dao;
     @Autowired
     private SourceRepository sRepo;
 
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(), source);
+        final WsMessage mes = dao.saveMessage(createMessage(), source);
         dao.saveFact(mes, createFact());
     }
 
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("yandex-moscow").size() > 0).isTrue();
+        assertThat(messageService.getFacts("weatherstack-moscow").size() > 0).isTrue();
     }
 
     @Test
     public void test01() {
-        final ResponseEntity<YaGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ya-facts", YaGetFactsResultDto.class);
+        final ResponseEntity<WsGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ws-facts", WsGetFactsResultDto.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
@@ -72,22 +71,23 @@ public class YaRestControllerTest {
 
     Source createSource() {
         final Source entity = new Source();
-        entity.setSourceName("yandex-moscow");
-        entity.setProvider("yandex");
+        entity.setLat(55.75);
+        entity.setLon(37.6);
+        entity.setSourceName("weatherstack-moscow");
+        entity.setUrl("http://api.weatherstack.com/current");
+        entity.setProvider("weatherstack");
         entity.setEnabled(true);
-        entity.setUrl("none");
         return entity;
     }
 
-    YaMessage createMessage() {
-        final YaMessage entity = new YaMessage();
-        entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+    WsMessage createMessage() {
+        final WsMessage entity = new WsMessage();
         return entity;
     }
 
-    YaFact createFact() {
-        final YaFact entity = new YaFact();
-        entity.setObsTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(1570197600L * 1000), ZoneId.of("UTC")));
+    WsFact createFact() {
+        final WsFact entity = new WsFact();
+        entity.setObservationTime(LocalTime.ofInstant(Instant.ofEpochMilli(1570197600L * 1000), ZoneId.of("UTC")));
         return entity;
     }
 

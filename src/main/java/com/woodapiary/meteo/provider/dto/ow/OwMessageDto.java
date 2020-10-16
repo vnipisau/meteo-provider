@@ -10,7 +10,14 @@ import com.google.gson.annotations.SerializedName;
 public class OwMessageDto implements Serializable {
 
     /**
-     * 
+     * lat Geographical coordinates of the location (latitude)
+    lon Geographical coordinates of the location (longitude)
+    timezone Timezone name for the requested location
+    timezone_offset Shift in seconds from UTC
+    current Current weather data API response
+    hourly Hourly forecast weather data API response
+    daily Daily forecast weather data API response
+    alerts Government weather alerts data from major national weather warning systems
      */
     private static final long serialVersionUID = 7018276095573932055L;
     @SerializedName("lat")

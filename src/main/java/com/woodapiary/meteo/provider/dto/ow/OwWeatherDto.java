@@ -9,7 +9,10 @@ import com.google.gson.annotations.SerializedName;
 public class OwWeatherDto implements Serializable {
 
     /**
-     * 
+     * current.weather.id Weather condition id
+    current.weather.main Group of weather parameters (Rain, Snow, Extreme etc.)
+    current.weather.description Weather condition within the group (full list of weather conditions). Get the output in your language
+    current.weather.icon Weather icon id. How to get icons
      */
     private static final long serialVersionUID = 2212839116570912068L;
     @SerializedName("id")

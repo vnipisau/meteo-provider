@@ -102,3 +102,44 @@ CREATE TABLE `ya_fact` (
    CONSTRAINT `fact_FK` FOREIGN KEY (`message_id`) REFERENCES `ya_message` (`message_id`)
 )  COMMENT='Фактическая погода';
 
+--changeset woodapiary:createtables6
+
+CREATE TABLE `ws_message` (
+  `message_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Время создания записи',
+  `source_id` bigint unsigned  COMMENT 'id источника погоды',
+  PRIMARY KEY (`message_id`),
+  KEY `wsmessage_FK` (`source_id`),
+  CONSTRAINT `wsmessage_FK` FOREIGN KEY (`source_id`) REFERENCES `source` (`source_id`)
+)  COMMENT='Сообщения о погоде';
+
+--changeset woodapiary:createtables7
+
+
+CREATE TABLE `ws_fact` (
+  `fact_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id фактического значения',
+  `observation_time` time NULL DEFAULT NULL COMMENT 'Время замера погодных данных в формате Unixtime utc',
+  `temperature` smallint DEFAULT NULL COMMENT 'Температура (°C)',
+  `weather_code`smallint unsigned DEFAULT NULL COMMENT '',
+  `weather_icons` varchar(255) DEFAULT NULL COMMENT 'Код иконки погоды.',
+  `weather_descriptions` varchar(255) DEFAULT NULL COMMENT '',
+  `wind_speed` smallint unsigned DEFAULT NULL COMMENT 'Скорость ветра (в м/с ) ',
+  `wind_degree` smallint unsigned DEFAULT NULL COMMENT '',
+  `wind_dir` varchar(3) DEFAULT NULL COMMENT 'Направление ветра.',
+  `pressure` smallint unsigned DEFAULT NULL COMMENT 'Давление (в гектопаскалях) (mbar)',
+  `precip` smallint unsigned DEFAULT NULL COMMENT '',
+  `humidity` smallint unsigned DEFAULT NULL COMMENT 'Влажность воздуха (в процентах)',
+  `cloudcover` smallint unsigned DEFAULT NULL COMMENT '',
+  `feelslike` smallint DEFAULT NULL COMMENT 'Ощущаемая температура (°C)',
+  `uv_index` smallint unsigned DEFAULT NULL COMMENT '',
+  `visibility` smallint unsigned DEFAULT NULL COMMENT '',
+  `message_id` bigint unsigned  COMMENT 'id сообщения',
+   PRIMARY KEY (`fact_id`),
+   KEY `wsfact_FK` (`message_id`),
+   CONSTRAINT `wsfact_FK` FOREIGN KEY (`message_id`) REFERENCES `ws_message` (`message_id`)
+)  
+
+
+
+
+

@@ -1,8 +1,4 @@
-/**
- * 2002-2020
- * woodapiary.com
- */
-package com.woodapiary.meteo.provider.entity.ya;
+package com.woodapiary.meteo.provider.entity.ws;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,12 +21,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.woodapiary.meteo.provider.entity.Source;
 
 /**
- * The persistent class for the yaweather database table.
+ * The persistent class for the wsweather database table.
  *
  */
 @Entity
-@Table(name = "ya_message")
-public class YaMessage implements Serializable {
+@Table(name = "ws_message")
+public class WsMessage implements Serializable {
 
     /**
      * 
@@ -40,54 +36,19 @@ public class YaMessage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
     private LocalDateTime modified;
-    private LocalDateTime now;
-    private LocalDateTime nowDt;
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "source_id")
     private Source source;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private YaFact mfact;
-    @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private YaForecast mforecast;
+    private WsFact mfact;
 
     public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(final Long messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
-    }
-
-    public LocalDateTime getNowDt() {
-        return nowDt;
-    }
-
-    public void setNowDt(final LocalDateTime nowDt) {
-        this.nowDt = nowDt;
-    }
-
-    public Source getSource() {
-        return source;
-    }
-
-    public void setSource(final Source source) {
-        this.source = source;
-    }
-
-    public YaFact getMfact() {
-        return mfact;
-    }
-
-    public void setMfact(final YaFact fact) {
-        this.mfact = fact;
-    }
-
-    public YaForecast getMforecast() {
-        return mforecast;
-    }
-
-    public void setMforecast(final YaForecast forecast) {
-        this.mforecast = forecast;
     }
 
     public LocalDateTime getModified() {
@@ -98,12 +59,24 @@ public class YaMessage implements Serializable {
         this.modified = modified;
     }
 
-    public LocalDateTime getNow() {
-        return now;
+    public Source getSource() {
+        return source;
     }
 
-    public void setNow(LocalDateTime now) {
-        this.now = now;
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public WsFact getMfact() {
+        return mfact;
+    }
+
+    public void setMfact(WsFact mfact) {
+        this.mfact = mfact;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
     @Override
@@ -120,4 +93,5 @@ public class YaMessage implements Serializable {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
+
 }

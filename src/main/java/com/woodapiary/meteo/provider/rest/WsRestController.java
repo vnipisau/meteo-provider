@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.woodapiary.meteo.provider.dto.ya.YaGetFactsResultDto;
-import com.woodapiary.meteo.provider.service.YaMessageService;
+import com.woodapiary.meteo.provider.dto.ws.WsGetFactsResultDto;
+import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RestController
 @RequestMapping("/api")
-public class YaRestController {
+public class WsRestController {
 
-    static Logger log = LoggerFactory.getLogger(YaRestController.class);
+    static Logger log = LoggerFactory.getLogger(WsRestController.class);
 
     @Autowired
-    private YaMessageService messageService;
+    private WsMessageService messageService;
 
-    @GetMapping("/get-ya-facts")
-    public YaGetFactsResultDto getFacts() {
+    @GetMapping("/get-ws-facts")
+    public WsGetFactsResultDto getFacts() {
         final String sourceId = "q";
-        final YaGetFactsResultDto res = new YaGetFactsResultDto(messageService.getFacts(sourceId));
+        final WsGetFactsResultDto res = new WsGetFactsResultDto(messageService.getFacts(sourceId));
         return res;
     }
 
