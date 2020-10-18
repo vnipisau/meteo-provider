@@ -183,7 +183,7 @@ public class YaPartDto implements Serializable {
         this.icon = icon;
     }
 
-    public String getConditionW() {
+    public String getConditionw() {
         return conditionw;
     }
 

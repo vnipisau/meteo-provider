@@ -31,6 +31,7 @@ public class WsMessageDtoEntityMapper {
     TypeMap<WsCurrentDto, WsFact> typeMapFactDtoToFact;
     TypeMap<WsFact, WsCurrentDto> typeMapFactDtoFromFact;
 
+    //TODO source.getSource().stream().map(Human::getName).collect(Collectors.joining(","))
     Converter<List<String>, String> listOfStringToString = new AbstractConverter<>() {
         @Override
         protected String convert(List<String> source) {
