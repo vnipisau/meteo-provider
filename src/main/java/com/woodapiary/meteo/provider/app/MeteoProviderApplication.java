@@ -34,3 +34,5 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO Хуки при старте и останове сервера, при запросах
 //TODO Добавить калининград и Свичус
 //TODO дао для сорца, через jdbc template, get by provider and place.
+//TODO gsmeteo
+//TODO metar

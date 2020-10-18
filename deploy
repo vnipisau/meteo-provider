@@ -4,7 +4,7 @@
 
 echo 'Copy files...'
 
-scp  target/meteo-ya.war root@fir:/opt/tomcat/9.0/webapps
+scp  target/meteo-provider.war root@fir:/opt/tomcat/9.0/webapps
 
 echo 'Restart server...'
 
@@ -15,7 +15,7 @@ systemctl stop  tomcatd
 sleep 1s
 
 if cd /opt/tomcat/9.0/logs/; then rm -f *; fi
-if cd /opt/tomcat/9.0/webapps/; then rm -rf meteo-ya; fi
+if cd /opt/tomcat/9.0/webapps/; then rm -rf meteo-provider; fi
 
 
 systemctl restart  tomcatd
@@ -24,7 +24,7 @@ EOF
 
 sleep 3s
 
-wget -O wget.txt http://fir:8080/meteo-ya
+wget -O wget.txt http://fir:8080/meteo-provider
 rm wget.txt
 rm .attach_pid*
 

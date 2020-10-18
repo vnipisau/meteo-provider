@@ -133,7 +133,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>meteo-ya</finalName>
+		<finalName>meteo-provider</finalName>
 
 		<testResources>
 			<testResource>

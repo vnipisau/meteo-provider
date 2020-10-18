@@ -27,7 +27,7 @@ public class ProviderScheduler {
     @Value("${meteo-provider.provider.ow.enabled}")
     private Boolean providerOwEnabled;
 
-    final int mFixedRate = 3600;
+    final int mFixedRate = 3600 * 2;
 
     @Scheduled(fixedRate = 1000 * mFixedRate, initialDelay = 5000)
     public void runYa() {
