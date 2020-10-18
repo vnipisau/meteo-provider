@@ -87,6 +87,7 @@ public class WsFactRepositoryTest {
         entity.setWindDir("nw");
         entity.setWindDegree(100);
         entity.setWindSpeed(27);
+        entity.setPrecip(0.1);
         return entity;
     }
 

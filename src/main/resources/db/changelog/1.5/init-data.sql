@@ -18,6 +18,6 @@
  INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('yandex-kaliningrad','yandex','https://api.weather.yandex.ru/v1/informers/',true,54.710157,20.510137);
 
 --changeset woodapiary:initdata5
- INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-moscow','weatherstack','http://api.weatherstack.com/current/',true,55.75,37.6);
- INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-svinchus','weatherstack','http://api.weatherstack.com/current/',true,54.571705,41.083740);
- INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-kaliningrad','weatherstack','http://api.weatherstack.com/current/',true,54.710157,20.510137);
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-moscow','weatherstack','http://api.weatherstack.com/current',true,55.75,37.6);
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-svinchus','weatherstack','http://api.weatherstack.com/current',true,54.571705,41.083740);
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-kaliningrad','weatherstack','http://api.weatherstack.com/current',true,54.710157,20.510137);

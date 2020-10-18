@@ -39,7 +39,7 @@ public class WsFact implements Serializable {
     private Integer windDegree;
     private String windDir;
     private Integer pressure;
-    private Integer precip;
+    private Double precip;
     private Integer humidity;
     private Integer cloudcover;
     private Integer feelslike;
@@ -130,11 +130,11 @@ public class WsFact implements Serializable {
         this.pressure = pressure;
     }
 
-    public Integer getPrecip() {
+    public Double getPrecip() {
         return precip;
     }
 
-    public void setPrecip(Integer precip) {
+    public void setPrecip(Double precip) {
         this.precip = precip;
     }
 

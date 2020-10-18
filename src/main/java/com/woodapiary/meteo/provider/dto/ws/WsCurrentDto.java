@@ -58,7 +58,7 @@ public class WsCurrentDto implements Serializable {
     //Returns the precipitation level in the selected unit. (Default: MM - millimeters)
     @SerializedName("precip")
     @Expose
-    private Integer precip;
+    private Double precip;
     //Returns the air humidity level in percentage.
     @SerializedName("humidity")
     @Expose
@@ -152,11 +152,11 @@ public class WsCurrentDto implements Serializable {
         this.pressure = pressure;
     }
 
-    public Integer getPrecip() {
+    public Double getPrecip() {
         return precip;
     }
 
-    public void setPrecip(Integer precip) {
+    public void setPrecip(Double precip) {
         this.precip = precip;
     }
 
