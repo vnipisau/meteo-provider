@@ -61,7 +61,7 @@ public class WsMessageService {
         try (InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));) {
             final String response = rd.readLine();
-            System.out.println(response);
+            //System.out.println(response);
             final WsMessageDto wsDto = new Gson().fromJson(response, WsMessageDto.class);
             //System.out.println(wsDto.toString());
             rd.close();

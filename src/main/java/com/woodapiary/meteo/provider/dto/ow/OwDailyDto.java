@@ -8,86 +8,91 @@ package com.woodapiary.meteo.provider.dto.ow;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class OwDailyDto implements Serializable {
 
     /**
-     * daily.dt Time of the forecasted data, Unix, UTC
-    daily.sunrise Sunrise time, Unix, UTC
-    daily.sunset Sunset time, Unix, UTC
-    daily.temp Units – default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
-    daily.temp.morn Morning temperature.
-    daily.temp.day Day temperature.
-    daily.temp.eve Evening temperature.
-    daily.temp.night Night temperature.
-    daily.temp.min Min daily temperature.
-    daily.temp.max Max daily temperature.
-    daily.feels_like This accounts for the human perception of weather. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit. How to change units used
-    daily.feels_like.morn Morning temperature.
-    daily.feels_like.day Day temperature.
-    daily.feels_like.eve Evening temperature.
-    daily.feels_like.night Night temperature.
-    daily.pressure Atmospheric pressure on the sea level, hPa
-    daily.humidity Humidity, %
-    daily.dew_point Atmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
-    daily.wind_speed Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
-    daily.wind_gust (where available) Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
-    daily.wind_deg Wind direction, degrees (meteorological)
-    daily.clouds Cloudiness, %
-    daily.uvi Midday UV index
-    daily.visibility Average visibility, metres
-    daily.pop Probability of precipitation
-    daily.rain (where available) Precipitation volume, mm
-    daily.snow (where available) Snow volume, mm
      */
     private static final long serialVersionUID = 2558912614499617185L;
+    //Time of the forecasted data, Unix, UTC
     @SerializedName("dt")
     @Expose
     private Integer dt;
+    //Sunrise time, Unix, UTC
     @SerializedName("sunrise")
     @Expose
     private Integer sunrise;
+    //Sunset time, Unix, UTC
     @SerializedName("sunset")
     @Expose
     private Integer sunset;
+    //Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
     @SerializedName("temp")
     @Expose
     private OwTempDto temp;
+    //This accounts for the human perception of weather. Units – default: kelvin, metric
     @SerializedName("feels_like")
     @Expose
     private OwFeelsLikeDto feelsLike;
+    //Atmospheric pressure on the sea level, hPa
     @SerializedName("pressure")
     @Expose
     private Integer pressure;
+    //Humidity, %
     @SerializedName("humidity")
     @Expose
     private Integer humidity;
+    //Atmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
     @SerializedName("dew_point")
     @Expose
     private Double dewPoint;
+    //Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. 
     @SerializedName("wind_speed")
     @Expose
     private Double windSpeed;
+    //Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour
+    @SerializedName("wind_gust")
+    @Expose
+    private Double windGust;
+    //Wind direction, degrees (meteorological)
     @SerializedName("wind_deg")
     @Expose
     private Integer windDeg;
+    //
     @SerializedName("weather")
     @Expose
     private List<OwWeatherDto> weather = null;
+    //Cloudiness, %
     @SerializedName("clouds")
     @Expose
     private Integer clouds;
+    //Probability of precipitation
     @SerializedName("pop")
     @Expose
     private Double pop;
+    //Midday UV index
     @SerializedName("uvi")
     @Expose
     private Double uvi;
+    //Average visibility, metres
+    @SerializedName("visibility")
+    @Expose
+    private Integer visibility;
+    //Precipitation volume, mm
     @SerializedName("rain")
     @Expose
     private Double rain;
+    //Precipitation volume, mm
+    @SerializedName("snow")
+    @Expose
+    private Double snow;
 
     public Integer getDt() {
         return dt;
@@ -161,6 +166,14 @@ public class OwDailyDto implements Serializable {
         this.windSpeed = windSpeed;
     }
 
+    public Double getWindGust() {
+        return windGust;
+    }
+
+    public void setWindGust(Double windGust) {
+        this.windGust = windGust;
+    }
+
     public Integer getWindDeg() {
         return windDeg;
     }
@@ -207,6 +220,29 @@ public class OwDailyDto implements Serializable {
 
     public void setRain(Double rain) {
         this.rain = rain;
+    }
+
+    public Double getSnow() {
+        return snow;
+    }
+
+    public void setSnow(Double snow) {
+        this.snow = snow;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
 }

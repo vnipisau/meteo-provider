@@ -8,43 +8,48 @@ package com.woodapiary.meteo.provider.dto.ow;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class OwMessageDto implements Serializable {
 
     /**
-     * lat Geographical coordinates of the location (latitude)
-    lon Geographical coordinates of the location (longitude)
-    timezone Timezone name for the requested location
-    timezone_offset Shift in seconds from UTC
-    current Current weather data API response
-    hourly Hourly forecast weather data API response
-    daily Daily forecast weather data API response
-    alerts Government weather alerts data from major national weather warning systems
      */
     private static final long serialVersionUID = 7018276095573932055L;
+    //Geographical coordinates of the location (latitude)
     @SerializedName("lat")
     @Expose
     private Double lat;
+    //Geographical coordinates of the location (longitude)
     @SerializedName("lon")
     @Expose
     private Double lon;
+    //Timezone name for the requested location
     @SerializedName("timezone")
     @Expose
     private String timezone;
+    //timezone_offset Shift in seconds from UTC
     @SerializedName("timezone_offset")
     @Expose
     private Integer timezoneOffset;
+    //Current weather data API response
     @SerializedName("current")
     @Expose
     private OwCurrentDto current;
+    //Hourly forecast weather data API response
     @SerializedName("hourly")
     @Expose
     private List<OwHourlyDto> hourly = null;
+    //Daily forecast weather data API response
     @SerializedName("daily")
     @Expose
     private List<OwDailyDto> daily = null;
+    //Government weather alerts data from major national weather warning systems
     @SerializedName("alerts")
     @Expose
     private List<OwAlertDto> alerts = null;
@@ -113,4 +118,18 @@ public class OwMessageDto implements Serializable {
         this.alerts = alerts;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 }

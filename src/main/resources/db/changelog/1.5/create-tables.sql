@@ -139,6 +139,54 @@ CREATE TABLE `ws_fact` (
    CONSTRAINT `wsfact_FK` FOREIGN KEY (`message_id`) REFERENCES `ws_message` (`message_id`)
 )  
 
+--changeset woodapiary:createtables8
+CREATE TABLE `ow_message` (
+  `message_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Время создания записи',
+  `source_id` bigint unsigned  COMMENT 'id источника погоды',
+  PRIMARY KEY (`message_id`),
+  KEY `owmessage_FK` (`source_id`),
+  CONSTRAINT `owmessage_FK` FOREIGN KEY (`source_id`) REFERENCES `source` (`source_id`)
+)  COMMENT='Сообщения о погоде';
+
+--changeset woodapiary:createtables9
+CREATE TABLE `ow_fact` (
+  `fact_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id фактического значения',
+  `dt` time NULL DEFAULT NULL COMMENT 'Время замера погодных данных в формате Unixtime utc',
+  `sunrise` time NULL DEFAULT NULL COMMENT 'Время восхода в формате Unixtime utc',
+  `sunset` time NULL DEFAULT NULL COMMENT 'Время заката в формате Unixtime utc',
+  `temp` DECIMAL(5,2) DEFAULT NULL COMMENT 'Температура (°C)',
+  `feels_like` DECIMAL(5,2) DEFAULT NULL COMMENT 'Ощущаемая температура (°C)',
+  `pressure` smallint unsigned DEFAULT NULL COMMENT 'Давление (в гектопаскалях) (mbar)',
+  `humidity` smallint unsigned DEFAULT NULL COMMENT 'Влажность воздуха (в процентах)',
+  `dew_point` DECIMAL(5,2) DEFAULT NULL COMMENT 'Точка росы (°C)',
+  `uvi` DECIMAL(5,2) DEFAULT NULL COMMENT '',
+  `clouds` smallint unsigned DEFAULT NULL COMMENT '',
+  `visibility` smallint unsigned DEFAULT NULL COMMENT '',
+  `wind_speed` smallint unsigned DEFAULT NULL COMMENT 'Скорость ветра (в м/с ) ',
+  `wind_deg` smallint unsigned DEFAULT NULL COMMENT '',
+  `wind_gust` varchar(3) DEFAULT NULL COMMENT 'Направление ветра.',
+  `rain1h` DECIMAL(5,2) DEFAULT NULL COMMENT '',
+  `snow1h` DECIMAL(5,2) DEFAULT NULL COMMENT '',
+  `message_id` bigint unsigned  COMMENT 'id сообщения',
+   PRIMARY KEY (`fact_id`),
+   KEY `owfact_FK` (`message_id`),
+   CONSTRAINT `owfact_FK` FOREIGN KEY (`message_id`) REFERENCES `ow_message` (`message_id`)
+) 
+
+--changeset woodapiary:createtables10
+CREATE TABLE `ow_weather` (
+  `weather_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id фактического значения',
+  `id` smallint DEFAULT NULL COMMENT '',
+  `main` varchar(255) DEFAULT NULL COMMENT '',
+  `description` varchar(255) DEFAULT NULL COMMENT '',
+  `icon` varchar(255) DEFAULT NULL COMMENT 'Код иконки погоды.',
+  `fact_id` bigint unsigned  COMMENT 'id сообщения',
+   PRIMARY KEY (`weather_id`),
+   KEY `owweather_FK` (`fact_id`),
+   CONSTRAINT `owweather_FK` FOREIGN KEY (`fact_id`) REFERENCES `ow_fact` (`fact_id`)
+) 
+
 
 
 

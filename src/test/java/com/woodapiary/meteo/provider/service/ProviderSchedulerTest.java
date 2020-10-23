@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dao.WsDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.entity.Source;
@@ -32,6 +33,8 @@ public class ProviderSchedulerTest {
     private YaDao daoYa;
     @Autowired
     private WsDao daoWs;
+    @Autowired
+    private OwDao daoOw;
     @Autowired
     private MeteoDao sRepo;
 
@@ -58,8 +61,20 @@ public class ProviderSchedulerTest {
         daoWs.deleteAllMessages();
         sRepo.deleteAll();
         sRepo.saveSource(createSourceYa());
-        sheduler.runYa();
+        sheduler.runWs();
         assertEquals(1, daoWs.count());
+        daoWs.deleteAllMessages();
+        sRepo.deleteAll();
+    }
+
+    @Test
+    public void test04() {
+        assumeTrue("request to real service", providerTestEnabled);
+        daoOw.deleteAllMessages();
+        sRepo.deleteAll();
+        sRepo.saveSource(createSourceYa());
+        sheduler.runOw();
+        assertEquals(1, daoOw.count());
         daoWs.deleteAllMessages();
         sRepo.deleteAll();
     }
@@ -82,6 +97,17 @@ public class ProviderSchedulerTest {
         entity.setSourceName("weatherstack-moscow");
         entity.setUrl("http://api.weatherstack.com/current");
         entity.setProvider("weatherstack");
+        entity.setEnabled(true);
+        return entity;
+    }
+
+    Source createSourceOw() {
+        final Source entity = new Source();
+        entity.setLat(55.75);
+        entity.setLon(37.6);
+        entity.setSourceName("openweather-moscow");
+        entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
+        entity.setProvider("openweather");
         entity.setEnabled(true);
         return entity;
     }

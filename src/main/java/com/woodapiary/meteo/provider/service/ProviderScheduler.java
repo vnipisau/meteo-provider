@@ -20,6 +20,8 @@ public class ProviderScheduler {
     YaMessageService requsterYa;
     @Autowired
     WsMessageService requsterWs;
+    @Autowired
+    OwMessageService requsterOw;
     @Value("${meteo-provider.provider.ya.enabled}")
     private Boolean providerYaEnabled;
     @Value("${meteo-provider.provider.ws.enabled}")
@@ -45,6 +47,15 @@ public class ProviderScheduler {
         }
         log.info("ws weather scheduler started ok");
         requsterWs.requestAllAndSave();
+    }
+
+    @Scheduled(fixedRate = 1000 * mFixedRate, initialDelay = 6000)
+    public void runOw() {
+        if (!providerOwEnabled) {
+            return;
+        }
+        log.info("ow weather scheduler started ok");
+        requsterOw.requestAllAndSave();
     }
 
 }

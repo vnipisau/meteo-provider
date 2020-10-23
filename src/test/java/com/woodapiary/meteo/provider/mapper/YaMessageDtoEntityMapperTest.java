@@ -5,6 +5,7 @@
 package com.woodapiary.meteo.provider.mapper;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -50,6 +51,8 @@ public class YaMessageDtoEntityMapperTest {
         dto1.setForecast(null);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertTrue(dto1.equals(dto2));
     }
 
     @Test
@@ -59,6 +62,8 @@ public class YaMessageDtoEntityMapperTest {
         final YaFactDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertTrue(dto1.equals(dto2));
     }
 
     @Test
@@ -68,6 +73,8 @@ public class YaMessageDtoEntityMapperTest {
         final YaForecastDto dto2 = mapper.forecastDtoFromForecast(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertTrue(dto1.equals(dto2));
     }
 
 }

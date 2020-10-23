@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +26,12 @@ import com.google.gson.GsonBuilder;
 import com.woodapiary.meteo.provider.config.AppProperties;
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
+import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwMessage;
+import com.woodapiary.meteo.provider.mapper.OwMessageDtoEntityMapper;
 
 @Service
 public class OwMessageService {
@@ -37,8 +43,8 @@ public class OwMessageService {
 
     @Autowired
     OwDao dao;
-    //@Autowired
-    //YaMessageDtoEntityMapper mapper;
+    @Autowired
+    OwMessageDtoEntityMapper mapper;
     @Autowired
     AppProperties prop;
     @Autowired
@@ -76,9 +82,29 @@ public class OwMessageService {
     }
 
     public void saveToDb(final OwMessageDto dto, final Source source) {
-        //final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        //dao.saveFact(message, mapper.factDtoToFact(dto.getFact()));
-        log.info("save weatherstack message to db - ok");
+        final OwMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
+        dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()), mapper.weatherListDtoToWeatherList(dto.getCurrent().getWeather()));
+        log.info("save openweather message to db - ok");
+    }
+
+    public void requestAllAndSave() {
+        for (final Source source : sRepo.findSourceByProvider(provider)) {
+            try {
+                final OwMessageDto dto = request(source);
+                saveToDb(dto, source);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public List<OwCurrentDto> getFacts(String sourceId) {
+        final List<OwCurrentDto> res = new ArrayList<>();
+        final List<OwFact> src = dao.findBySource(sourceId);
+        for (final OwFact entity : src) {
+            res.add(mapper.factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }

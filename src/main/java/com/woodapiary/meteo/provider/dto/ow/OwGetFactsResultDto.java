@@ -2,37 +2,39 @@
  * 2002-2020
  * woodapiary.com
  */
-
 package com.woodapiary.meteo.provider.dto.ow;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-public class OwRainDto implements Serializable {
-
+public class OwGetFactsResultDto implements Serializable {
     /**
-     * current.rain.1h 
+     * 
      */
-    private static final long serialVersionUID = -5939472267104943328L;
+    private static final long serialVersionUID = 6814981993984095537L;
 
-    //(where available) Rain volume for last hour, mm
-    @SerializedName("1h")
-    @Expose
-    private Double m1h;
+    List<OwCurrentDto> facts;
 
-    public Double getM1h() {
-        return m1h;
+    public OwGetFactsResultDto() {
+
     }
 
-    public void set1h(Double m1h) {
-        this.m1h = m1h;
+    public OwGetFactsResultDto(List<OwCurrentDto> facts) {
+        super();
+        this.facts = facts;
+    }
+
+    public List<OwCurrentDto> getFacts() {
+        return facts;
+    }
+
+    public void setFacts(List<OwCurrentDto> facts) {
+        this.facts = facts;
     }
 
     @Override
@@ -49,5 +51,4 @@ public class OwRainDto implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
-
 }

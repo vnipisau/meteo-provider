@@ -13,7 +13,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LOG.info("Increment counter");
+        LOG.info("run command line app startup");
         counter++;
     }
 }

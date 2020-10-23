@@ -21,3 +21,9 @@
  INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-moscow','weatherstack','http://api.weatherstack.com/current',true,55.75,37.6);
  INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-svinchus','weatherstack','http://api.weatherstack.com/current',true,54.571705,41.083740);
  INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('weatherstack-kaliningrad','weatherstack','http://api.weatherstack.com/current',true,54.710157,20.510137);
+
+--changeset woodapiary:initdata6
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('openweathermap-moscow','openweathermap','https://api.openweathermap.org/data/2.5/onecall',true,55.75,37.6);
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('openweathermap-svinchus','openweathermap','https://api.openweathermap.org/data/2.5/onecall',true,54.571705,41.083740);
+ INSERT  INTO  source  (source_name, provider, url,enabled,lat,lon)  VALUES  ('openweathermap-kaliningrad','openweathermap','https://api.openweathermap.org/data/2.5/onecall',true,54.710157,20.510137);
+ 

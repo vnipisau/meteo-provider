@@ -7,24 +7,32 @@ package com.woodapiary.meteo.provider.dto.ow;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class OwFeelsLikeDto implements Serializable {
 
     /**
-     * 
      */
     private static final long serialVersionUID = -8466938076997950674L;
+    //Day temperature.
     @SerializedName("day")
     @Expose
     private Double day;
+    //Night temperature.
     @SerializedName("night")
     @Expose
     private Double night;
+    //Evening temperature.
     @SerializedName("eve")
     @Expose
     private Double eve;
+    //Morning temperature.
     @SerializedName("morn")
     @Expose
     private Double morn;
@@ -59,6 +67,21 @@ public class OwFeelsLikeDto implements Serializable {
 
     public void setMorn(Double morn) {
         this.morn = morn;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
 }

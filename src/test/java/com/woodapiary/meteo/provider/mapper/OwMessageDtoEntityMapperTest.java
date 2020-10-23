@@ -17,22 +17,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.woodapiary.meteo.provider.dto.ws.WsCurrentDto;
-import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
-import com.woodapiary.meteo.provider.entity.ws.WsFact;
-import com.woodapiary.meteo.provider.entity.ws.WsMessage;
-import com.woodapiary.meteo.provider.service.WsMessageService;
+import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
+import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
+import com.woodapiary.meteo.provider.dto.ow.OwRainDto;
+import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwMessage;
+import com.woodapiary.meteo.provider.service.OwMessageService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class WsMessageDtoEntityMapperTest {
+public class OwMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
     @Autowired
-    private WsMessageDtoEntityMapper mapper;
+    private OwMessageDtoEntityMapper mapper;
     @Autowired
-    private WsMessageService requester;
+    private OwMessageService requester;
 
     @Test
     public void test01() {
@@ -41,12 +42,17 @@ public class WsMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final WsMessageDto dto1 = requester.readFromFile(testDataPath + "/ws.json");
-        final WsMessage entity = mapper.messageDtoToMessage(dto1);
-        final WsMessageDto dto2 = mapper.messageDtoFromMessage(entity);
-        dto1.setLocation(null);
+        final OwMessageDto dto1 = requester.readFromFile(testDataPath + "/ow_onecall.json");
+        final OwMessage entity = mapper.messageDtoToMessage(dto1);
+        final OwMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setCurrent(null);
-        dto1.setRequest(null);
+        dto1.setAlerts(null);
+        dto1.setDaily(null);
+        dto1.setHourly(null);
+        dto1.setLat(null);
+        dto1.setLon(null);
+        dto1.setTimezone(null);
+        dto1.setTimezoneOffset(null);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());
@@ -55,9 +61,12 @@ public class WsMessageDtoEntityMapperTest {
 
     @Test
     public void test03() throws IOException {
-        final WsCurrentDto dto1 = requester.readFromFile(testDataPath + "ws.json").getCurrent();
-        final WsFact entity = mapper.factDtoToFact(dto1);
-        final WsCurrentDto dto2 = mapper.factDtoFromFact(entity);
+        final OwCurrentDto dto1 = requester.readFromFile(testDataPath + "ow_onecall.json").getCurrent();
+        final OwRainDto ord = new OwRainDto();
+        ord.set1h(0.1);
+        dto1.setRain(ord);
+        final OwFact entity = mapper.factDtoToFact(dto1);
+        final OwCurrentDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());

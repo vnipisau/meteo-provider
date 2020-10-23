@@ -4,43 +4,71 @@
  */
 package com.woodapiary.meteo.provider.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
+import com.woodapiary.meteo.provider.entity.ow.OwWeather;
+import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
+import com.woodapiary.meteo.provider.repo.ow.OwMessageRepository;
+import com.woodapiary.meteo.provider.repo.ow.OwWeatherRepository;
 
 @Component
 public class OwDaoImpl implements OwDao {
 
+    @Autowired
+    private OwMessageRepository messageRepo;
+    @Autowired
+    private OwFactRepository factRepo;
+    @Autowired
+    private OwWeatherRepository weatherRepo;
+
     @Override
-    public OwMessage saveMessage(OwMessage message, Source source) {
-        // TODO Auto-generated method stub
-        return null;
+    @Transactional
+    public OwMessage saveMessage(OwMessage entity, Source source) {
+        entity.setSource(source);
+        //System.out.println(entity);
+        return messageRepo.save(entity);
     }
 
     @Override
-    public OwFact saveFact(OwMessage message, OwFact fact) {
-        // TODO Auto-generated method stub
-        return null;
+    @Transactional
+    public OwFact saveFact(OwMessage message, OwFact fact, List<OwWeather> weather) {
+        fact.setMessage(message);
+        fact.setWeather(new ArrayList<>());
+        for (final OwWeather w : weather) {
+            fact.addWeather(w);
+        }
+        factRepo.save(fact);
+        for (final OwWeather w : weather) {
+            weatherRepo.save(w);
+        }
+        return factRepo.save(fact);
     }
 
     @Override
+    @Transactional
     public void deleteAllMessages() {
-        // TODO Auto-generated method stub
-
+        weatherRepo.deleteAll();
+        factRepo.deleteAll();
+        messageRepo.deleteAll();
     }
 
     @Override
     public List<OwFact> findBySource(String sourceId) {
-        // TODO Auto-generated method stub
-        return null;
+        return factRepo.findBySource(sourceId);
     }
 
     @Override
     public long count() {
-        return 0;
+        return messageRepo.count();
     }
+
 }

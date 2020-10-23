@@ -22,6 +22,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The persistent class for the source database table.
  *
  */
+//TODO добавить timezone и timezoneoffset
+//TODO добавить unit
 @Entity
 @Table(name = "source")
 public class Source implements Serializable {

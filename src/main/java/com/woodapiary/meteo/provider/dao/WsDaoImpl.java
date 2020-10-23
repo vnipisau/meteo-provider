@@ -6,6 +6,8 @@ package com.woodapiary.meteo.provider.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,7 @@ public class WsDaoImpl implements WsDao {
     private WsFactRepository factRepo;
 
     @Override
+    @Transactional
     public WsMessage saveMessage(WsMessage entity, Source source) {
         entity.setSource(source);
         //System.out.println(entity);
@@ -31,12 +34,14 @@ public class WsDaoImpl implements WsDao {
     }
 
     @Override
+    @Transactional
     public WsFact saveFact(WsMessage message, WsFact fact) {
         fact.setMessage(message);
         return factRepo.save(fact);
     }
 
     @Override
+    @Transactional
     public void deleteAllMessages() {
         factRepo.deleteAll();
         messageRepo.deleteAll();
