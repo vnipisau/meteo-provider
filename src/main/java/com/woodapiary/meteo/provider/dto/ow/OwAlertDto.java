@@ -31,11 +31,11 @@ public class OwAlertDto implements Serializable {
     //Date and time of the start of the alert, Unix, UTC
     @SerializedName("start")
     @Expose
-    private Integer start;
+    private Long start;
     //Date and time of the end of the alert, Unix, UTC
     @SerializedName("end")
     @Expose
-    private Integer end;
+    private Long end;
     //Description of the alert
     @SerializedName("description")
     @Expose
@@ -57,19 +57,19 @@ public class OwAlertDto implements Serializable {
         this.event = event;
     }
 
-    public Integer getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public void setStart(Integer start) {
+    public void setStart(Long start) {
         this.start = start;
     }
 
-    public Integer getEnd() {
+    public Long getEnd() {
         return end;
     }
 
-    public void setEnd(Integer end) {
+    public void setEnd(Long end) {
         this.end = end;
     }
 

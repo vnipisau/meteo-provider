@@ -25,15 +25,15 @@ public class OwCurrentDto implements Serializable {
     //Current time, Unix, UTC
     @SerializedName("dt")
     @Expose
-    private Integer dt;
+    private Long dt;
     //Sunrise time, Unix, UTC
     @SerializedName("sunrise")
     @Expose
-    private Integer sunrise;
+    private Long sunrise;
     //Sunset time, Unix, UTC
     @SerializedName("sunset")
     @Expose
-    private Integer sunset;
+    private Long sunset;
     //Temperature. Units - default: kelvin, metric: Celsius, imperial: Fahrenheit.
     @SerializedName("temp")
     @Expose
@@ -90,27 +90,27 @@ public class OwCurrentDto implements Serializable {
     @Expose
     private OwRainDto snow;
 
-    public Integer getDt() {
+    public Long getDt() {
         return dt;
     }
 
-    public void setDt(Integer dt) {
+    public void setDt(Long dt) {
         this.dt = dt;
     }
 
-    public Integer getSunrise() {
+    public Long getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(Integer sunrise) {
+    public void setSunrise(Long sunrise) {
         this.sunrise = sunrise;
     }
 
-    public Integer getSunset() {
+    public Long getSunset() {
         return sunset;
     }
 
-    public void setSunset(Integer sunset) {
+    public void setSunset(Long sunset) {
         this.sunset = sunset;
     }
 

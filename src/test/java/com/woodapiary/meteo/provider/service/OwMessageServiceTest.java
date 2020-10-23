@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +57,6 @@ public class OwMessageServiceTest {
         assertNotNull(result.getCurrent().getDt());
     }
 
-    @Ignore
     @Test
     public void test04() throws IOException {
         dao.deleteAllMessages();
@@ -77,7 +75,7 @@ public class OwMessageServiceTest {
         entity.setLon(37.6);
         entity.setSourceName("openweather-moscow");
         entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
-        entity.setProvider("openweather");
+        entity.setProvider("openweathermap");
         entity.setEnabled(true);
         return entity;
     }

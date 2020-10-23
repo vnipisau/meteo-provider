@@ -49,7 +49,7 @@ public class ProviderScheduler {
         requsterWs.requestAllAndSave();
     }
 
-    @Scheduled(fixedRate = 1000 * mFixedRate, initialDelay = 6000)
+    @Scheduled(fixedRate = 1000 * mFixedRate / 10, initialDelay = 7000)
     public void runOw() {
         if (!providerOwEnabled) {
             return;

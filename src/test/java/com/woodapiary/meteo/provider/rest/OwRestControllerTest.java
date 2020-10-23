@@ -60,7 +60,6 @@ public class OwRestControllerTest {
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("openweathermap-moscow").size() > 0).isTrue();
     }
 
     @Test

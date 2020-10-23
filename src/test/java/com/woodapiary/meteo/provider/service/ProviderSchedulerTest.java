@@ -60,7 +60,7 @@ public class ProviderSchedulerTest {
         assumeTrue("request to real service", providerTestEnabled);
         daoWs.deleteAllMessages();
         sRepo.deleteAll();
-        sRepo.saveSource(createSourceYa());
+        sRepo.saveSource(createSourceWs());
         sheduler.runWs();
         assertEquals(1, daoWs.count());
         daoWs.deleteAllMessages();
@@ -72,10 +72,10 @@ public class ProviderSchedulerTest {
         assumeTrue("request to real service", providerTestEnabled);
         daoOw.deleteAllMessages();
         sRepo.deleteAll();
-        sRepo.saveSource(createSourceYa());
+        sRepo.saveSource(createSourceOw());
         sheduler.runOw();
         assertEquals(1, daoOw.count());
-        daoWs.deleteAllMessages();
+        daoOw.deleteAllMessages();
         sRepo.deleteAll();
     }
 
@@ -105,9 +105,9 @@ public class ProviderSchedulerTest {
         final Source entity = new Source();
         entity.setLat(55.75);
         entity.setLon(37.6);
-        entity.setSourceName("openweather-moscow");
+        entity.setSourceName("openweathermap-moscoapw");
         entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
-        entity.setProvider("openweather");
+        entity.setProvider("openweathermap");
         entity.setEnabled(true);
         return entity;
     }

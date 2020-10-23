@@ -24,7 +24,7 @@ public class OwHourlyDto implements Serializable {
     //Time of the forecasted data, Unix, UTC
     @SerializedName("dt")
     @Expose
-    private Integer dt;
+    private Long dt;
     //Temperature. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
     @SerializedName("temp")
     @Expose
@@ -82,11 +82,11 @@ public class OwHourlyDto implements Serializable {
     @Expose
     private OwRainDto snow;
 
-    public Integer getDt() {
+    public Long getDt() {
         return dt;
     }
 
-    public void setDt(Integer dt) {
+    public void setDt(Long dt) {
         this.dt = dt;
     }
 
