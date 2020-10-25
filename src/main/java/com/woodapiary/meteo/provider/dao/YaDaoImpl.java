@@ -74,6 +74,7 @@ public class YaDaoImpl implements YaDao {
     }
 
     @Override
+    @Transactional
     public List<YaFact> findBySource(String sourceId) {
         return factRepo.findBySource(sourceId);
     }

@@ -48,6 +48,7 @@ public class WsDaoImpl implements WsDao {
     }
 
     @Override
+    @Transactional
     public List<WsFact> findBySource(String sourceId) {
         return factRepo.findBySource(sourceId);
     }

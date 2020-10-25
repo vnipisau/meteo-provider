@@ -5,7 +5,6 @@
 package com.woodapiary.meteo.provider.mapper;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
+import com.woodapiary.meteo.provider.dto.ow.OwRainDto;
 import com.woodapiary.meteo.provider.dto.ow.OwWeatherDto;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
@@ -33,44 +33,48 @@ public class OwMessageDtoEntityMapper {
     TypeMap<OwCurrentDto, OwFact> typeMapFactDtoToFact;
     TypeMap<OwFact, OwCurrentDto> typeMapFactDtoFromFact;
 
-    //TODO source.getSource().stream().map(Human::getName).collect(Collectors.joining(","))
-    Converter<List<String>, String> listOfStringToString = new AbstractConverter<>() {
+    Converter<OwRainDto, Double> rainToDouble = new AbstractConverter<>() {
         @Override
-        protected String convert(List<String> source) {
+        protected Double convert(OwRainDto source) {
             if (source == null) {
                 return null;
             }
-            final StringBuffer res = new StringBuffer();
-            for (final String str : source) {
-                res.append(str);
-                res.append(';');
-            }
-            return res.toString();
+            return source.getM1h();
         }
     };
 
-    Converter<String, List<String>> listOfStringFromString = new AbstractConverter<>() {
+    Converter<Double, OwRainDto> rainFromDouble = new AbstractConverter<>() {
         @Override
-        protected List<String> convert(String source) {
+        protected OwRainDto convert(Double source) {
             if (source == null) {
                 return null;
             }
-            final String[] ar = source.split(";");
-            final List<String> res = Arrays.asList(ar);
+            final OwRainDto res = new OwRainDto();
+            res.set1h(source);
             return res;
         }
     };
 
+    /*
+    Converter<List<OwWeather>, List<OwWeatherDto>> weatherListDtoFromWeatherList = new AbstractConverter<>() {
+        @Override
+        protected List<OwWeatherDto> convert(List<OwWeather> source) {
+            if (source == null) {
+                return null;
+            }
+            return weatherListDtoFromWeatherList(source);
+        }
+    };
+    */
     @PostConstruct
     public void init() {
-        /* modelMapper.createTypeMap(List.class, String.class);
-        modelMapper.addConverter(listOfStringToString);
-        modelMapper.createTypeMap(String.class, List.class);
-        modelMapper.addConverter(listOfStringFromString);
-        */
         typeMapFactDtoToFact = modelMapper.createTypeMap(OwCurrentDto.class, OwFact.class);
-        //typeMapFactDtoToFact.addMappings(mapper -> mapper.using(stringToLocalTime).map(WsCurrentDto::getObservationTime, WsFact::setObservationTime));
+        typeMapFactDtoToFact.addMappings(mapper -> mapper.using(rainToDouble).map(OwCurrentDto::getRain, OwFact::setRain1h));
+        typeMapFactDtoToFact.addMappings(mapper -> mapper.using(rainToDouble).map(OwCurrentDto::getSnow, OwFact::setSnow1h));
         typeMapFactDtoFromFact = modelMapper.createTypeMap(OwFact.class, OwCurrentDto.class);
+        typeMapFactDtoFromFact.addMappings(mapper -> mapper.using(rainFromDouble).map(OwFact::getRain1h, OwCurrentDto::setRain));
+        typeMapFactDtoFromFact.addMappings(mapper -> mapper.using(rainFromDouble).map(OwFact::getSnow1h, OwCurrentDto::setSnow));
+        //typeMapFactDtoFromFact.addMappings(mapper -> mapper.using(weatherListDtoFromWeatherList).map(OwFact::getWeather, OwCurrentDto::setWeather));
     }
 
     public OwMessage messageDtoToMessage(final OwMessageDto dto) {
@@ -89,7 +93,7 @@ public class OwMessageDtoEntityMapper {
     }
 
     public OwCurrentDto factDtoFromFact(final OwFact entity) {
-        final OwCurrentDto dto = modelMapper.map(entity, OwCurrentDto.class);
+        final OwCurrentDto dto = typeMapFactDtoFromFact.map(entity);
         return dto;
     }
 
@@ -100,7 +104,7 @@ public class OwMessageDtoEntityMapper {
         return entityList;
     }
 
-    public List<OwWeatherDto> weatherListDtoFromweatherList(final List<OwWeather> entityList) {
+    public List<OwWeatherDto> weatherListDtoFromWeatherList(final List<OwWeather> entityList) {
         final Type listType = new TypeToken<List<OwWeatherDto>>() {
         }.getType();
         final List<OwWeatherDto> dtoList = modelMapper.map(entityList, listType);

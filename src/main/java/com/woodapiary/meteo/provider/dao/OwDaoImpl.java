@@ -62,6 +62,7 @@ public class OwDaoImpl implements OwDao {
     }
 
     @Override
+    @Transactional
     public List<OwFact> findBySource(String sourceId) {
         return factRepo.findBySource(sourceId);
     }

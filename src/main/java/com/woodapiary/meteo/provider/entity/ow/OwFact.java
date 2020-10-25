@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class OwFact implements Serializable {
     private Integer windGust;
     private Double rain1h;
     private Double snow1h;
-    @OneToMany(mappedBy = "weatherId")
+    @OneToMany(mappedBy = "weatherId", fetch = FetchType.EAGER)
     private List<OwWeather> weather;
     @OneToOne
     @JoinColumn(name = "message_id", referencedColumnName = "messageId")
