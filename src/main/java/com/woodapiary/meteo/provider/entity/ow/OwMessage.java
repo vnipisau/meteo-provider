@@ -6,6 +6,7 @@ package com.woodapiary.meteo.provider.entity.ow;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -46,6 +48,8 @@ public class OwMessage implements Serializable {
     private Source source;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
     private OwFact mfact;
+    @OneToMany(mappedBy = "alertId")
+    private List<OwAlert> alerts;
 
     public Long getMessageId() {
         return messageId;
@@ -81,6 +85,26 @@ public class OwMessage implements Serializable {
 
     public static long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    public List<OwAlert> getAlerts() {
+        return alerts;
+    }
+
+    public void setParts(final List<OwAlert> alerts) {
+        this.alerts = alerts;
+    }
+
+    public OwAlert addAlert(final OwAlert alert) {
+        getAlerts().add(alert);
+        alert.setMessage(this);
+        return alert;
+    }
+
+    public OwAlert removePart(final OwAlert alert) {
+        getAlerts().remove(alert);
+        alert.setMessage(null);
+        return alert;
     }
 
     @Override

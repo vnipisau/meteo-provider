@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.entity.ow.OwAlert;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
+import com.woodapiary.meteo.provider.repo.ow.OwAlertRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwMessageRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwWeatherRepository;
@@ -29,6 +31,8 @@ public class OwDaoImpl implements OwDao {
     private OwFactRepository factRepo;
     @Autowired
     private OwWeatherRepository weatherRepo;
+    @Autowired
+    private OwAlertRepository alertRepo;
 
     @Override
     @Transactional
@@ -70,6 +74,16 @@ public class OwDaoImpl implements OwDao {
     @Override
     public long count() {
         return messageRepo.count();
+    }
+
+    @Override
+    @Transactional
+    public List<OwAlert> saveAlerts(OwMessage message, List<OwAlert> alerts) {
+        for (final OwAlert alert : alerts) {
+            alert.setMessage(message);
+            alertRepo.save(alert);
+        }
+        return alerts;
     }
 
 }

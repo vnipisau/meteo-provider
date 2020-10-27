@@ -36,3 +36,4 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO дао для сорца, через jdbc template, get by provider and place.
 //TODO gsmeteo
 //TODO metar
+//TODO created and modified
