@@ -36,6 +36,8 @@ public class OwMessageServiceTest {
     private OwDao dao;
     @Autowired
     private MeteoDao sRepo;
+    @Autowired
+    private OwDirectoryService dir;
 
     @Test
     public void test01() {
@@ -61,12 +63,15 @@ public class OwMessageServiceTest {
     public void test04() throws IOException {
         dao.deleteAllMessages();
         sRepo.deleteAll();
+        dao.deleteWeatherConditionCodes();
         final Source source = sRepo.saveSource(createSource());
+        dir.saveToDb();
         final OwMessageDto dto = requester.readFromFile(testDataPath + "ow_onecall.json");
         requester.saveToDb(dto, source);
         assertEquals(1, dao.count());
         dao.deleteAllMessages();
         sRepo.deleteAll();
+        dao.deleteWeatherConditionCodes();
     }
 
     Source createSource() {

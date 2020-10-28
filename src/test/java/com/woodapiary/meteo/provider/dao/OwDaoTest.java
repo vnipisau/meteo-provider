@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,7 +25,10 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.entity.ow.OwAlert;
+import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
@@ -51,6 +55,7 @@ public class OwDaoTest {
     public void insert() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
+        dao.deleteWeatherConditionCodes();
     }
 
     @Test
@@ -72,24 +77,66 @@ public class OwDaoTest {
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(), source);
-        final OwFact ft = dao.saveFact(mes, createFact(), createcreateWeatherList());
+        final List<OwWeather> ews = createWeatherList();
+        dao.saveWeatherConditionCodes(ews);
+        final OwFact ft = dao.saveFact(mes, createFact(), ews);
         //System.out.println(ent.getFactId());
         assertEquals(1, ftRepo.count());
         assertNotNull(ft.getFactId());
     }
 
     @Test
+    public void test03() {
+        final Source source = sRepo.saveSource(createSource());
+        final OwMessage mes = dao.saveMessage(createMessage(), source);
+        final List<OwAlert> res = dao.saveAlerts(mes, createAlertList());
+        assertEquals(2, res.size());
+        assertNotNull(res.get(0).getAlertId());
+    }
+
+    @Test
     public void test04() {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(), source);
-        final OwFact ft = dao.saveFact(mes, createFact(), createcreateWeatherList());
+        final List<OwWeather> ews = createWeatherList();
+        dao.saveWeatherConditionCodes(ews);
+        final OwFact ft = dao.saveFact(mes, createFact(), ews);
+        //System.out.println(ent.getFactId());
+        assertEquals(1, ftRepo.count());
         assertNotNull(ft.getFactId());
+    }
+
+    @Ignore
+    @Test
+    public void test05() {
+        final Source source = sRepo.saveSource(createSource());
+        final OwMessage mes = dao.saveMessage(createMessage(), source);
+        final List<OwWeather> ews = createWeatherList();
+        dao.saveWeatherConditionCodes(ews);
+        final OwDaily ft = dao.saveDaily(mes, createDaily(), ews);
+        //System.out.println(ent.getFactId());
+        assertEquals(1, ftRepo.count());
+        assertNotNull(ft.getDailyId());
+    }
+
+    @Ignore
+    @Test
+    public void test06() {
+        final Source source = sRepo.saveSource(createSource());
+        final OwMessage mes = dao.saveMessage(createMessage(), source);
+        final List<OwWeather> ews = createWeatherList();
+        dao.saveWeatherConditionCodes(ews);
+        final OwHourly ft = dao.saveHourly(mes, createHourly(), ews);
+        //System.out.println(ent.getFactId());
+        assertEquals(1, ftRepo.count());
+        assertNotNull(ft.getHourlyId());
     }
 
     @After
     public void after() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
+        dao.deleteWeatherConditionCodes();
     }
 
     Source createSource() {
@@ -111,15 +158,38 @@ public class OwDaoTest {
         return entity;
     }
 
-    OwWeather createWeather() {
-        final OwWeather entity = new OwWeather();
+    OwDaily createDaily() {
+        final OwDaily entity = new OwDaily();
         return entity;
     }
 
-    List<OwWeather> createcreateWeatherList() {
+    OwHourly createHourly() {
+        final OwHourly entity = new OwHourly();
+        return entity;
+    }
+
+    OwWeather createWeather(int i) {
+        final OwWeather entity = new OwWeather();
+        entity.setId(i);
+        return entity;
+    }
+
+    List<OwWeather> createWeatherList() {
         final List<OwWeather> res = new ArrayList<>();
-        res.add(createWeather());
-        res.add(createWeather());
+        res.add(createWeather(1));
+        res.add(createWeather(2));
+        return res;
+    }
+
+    OwAlert createAlert() {
+        final OwAlert entity = new OwAlert();
+        return entity;
+    }
+
+    List<OwAlert> createAlertList() {
+        final List<OwAlert> res = new ArrayList<>();
+        res.add(createAlert());
+        res.add(createAlert());
         return res;
     }
 

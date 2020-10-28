@@ -31,6 +31,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
+    private final String testDataFile = "ya_v1.json";
     @Autowired
     private YaMessageDtoEntityMapper mapper;
     @Autowired
@@ -43,7 +44,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final YaMessageDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json");
+        final YaMessageDto dto1 = requester.readFromFile(testDataPath + testDataFile);
         final YaMessage entity = mapper.messageDtoToMessage(dto1);
         final YaMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setInfo(null);
@@ -57,7 +58,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test03() throws IOException {
-        final YaFactDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json").getFact();
+        final YaFactDto dto1 = requester.readFromFile(testDataPath + testDataFile).getFact();
         final YaFact entity = mapper.factDtoToFact(dto1);
         final YaFactDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);
@@ -68,7 +69,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test04() throws IOException {
-        final YaForecastDto dto1 = requester.readFromFile(testDataPath + "ya_v1.json").getForecast();
+        final YaForecastDto dto1 = requester.readFromFile(testDataPath + testDataFile).getForecast();
         final YaForecast entity = mapper.forecastDtoToForecast(dto1);
         final YaForecastDto dto2 = mapper.forecastDtoFromForecast(entity);
         assertNotNull(dto2);

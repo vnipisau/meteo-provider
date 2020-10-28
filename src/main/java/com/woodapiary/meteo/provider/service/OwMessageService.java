@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.woodapiary.meteo.provider.config.AppProperties;
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
@@ -45,8 +44,6 @@ public class OwMessageService {
     OwDao dao;
     @Autowired
     OwMessageDtoEntityMapper mapper;
-    @Autowired
-    AppProperties prop;
     @Autowired
     MeteoDao sRepo;
 
@@ -84,6 +81,7 @@ public class OwMessageService {
     public void saveToDb(final OwMessageDto dto, final Source source) {
         final OwMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
         dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()), mapper.weatherListDtoToWeatherList(dto.getCurrent().getWeather()));
+        dao.saveAlerts(message, mapper.alertListDtoToAlertList(dto.getAlerts()));
         log.info("save openweather message to db - ok");
     }
 

@@ -17,10 +17,12 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.woodapiary.meteo.provider.dto.ow.OwAlertDto;
 import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.dto.ow.OwRainDto;
 import com.woodapiary.meteo.provider.dto.ow.OwWeatherDto;
+import com.woodapiary.meteo.provider.entity.ow.OwAlert;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
@@ -108,6 +110,20 @@ public class OwMessageDtoEntityMapper {
         final Type listType = new TypeToken<List<OwWeatherDto>>() {
         }.getType();
         final List<OwWeatherDto> dtoList = modelMapper.map(entityList, listType);
+        return dtoList;
+    }
+
+    public List<OwAlert> alertListDtoToAlertList(List<OwAlertDto> dtoList) {
+        final Type listType = new TypeToken<List<OwAlert>>() {
+        }.getType();
+        final List<OwAlert> entityList = modelMapper.map(dtoList, listType);
+        return entityList;
+    }
+
+    public List<OwAlertDto> alertListDtoFromAlertList(List<OwAlert> entityList) {
+        final Type listType = new TypeToken<List<OwAlertDto>>() {
+        }.getType();
+        final List<OwAlertDto> dtoList = modelMapper.map(entityList, listType);
         return dtoList;
     }
 

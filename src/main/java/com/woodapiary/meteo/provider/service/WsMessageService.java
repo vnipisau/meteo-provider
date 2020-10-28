@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.woodapiary.meteo.provider.config.AppProperties;
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.WsDao;
 import com.woodapiary.meteo.provider.dto.ws.WsCurrentDto;
@@ -47,8 +46,6 @@ public class WsMessageService {
     WsDao dao;
     @Autowired
     WsMessageDtoEntityMapper mapper;
-    @Autowired
-    AppProperties prop;
     @Autowired
     MeteoDao sRepo;
 

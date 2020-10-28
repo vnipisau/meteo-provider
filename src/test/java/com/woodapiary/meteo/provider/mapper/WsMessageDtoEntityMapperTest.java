@@ -29,6 +29,7 @@ public class WsMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
+    private final String testDataFile = "ws.json";
     @Autowired
     private WsMessageDtoEntityMapper mapper;
     @Autowired
@@ -41,7 +42,7 @@ public class WsMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final WsMessageDto dto1 = requester.readFromFile(testDataPath + "/ws.json");
+        final WsMessageDto dto1 = requester.readFromFile(testDataPath + testDataFile);
         final WsMessage entity = mapper.messageDtoToMessage(dto1);
         final WsMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setLocation(null);
@@ -55,7 +56,7 @@ public class WsMessageDtoEntityMapperTest {
 
     @Test
     public void test03() throws IOException {
-        final WsCurrentDto dto1 = requester.readFromFile(testDataPath + "ws.json").getCurrent();
+        final WsCurrentDto dto1 = requester.readFromFile(testDataPath + testDataFile).getCurrent();
         final WsFact entity = mapper.factDtoToFact(dto1);
         final WsCurrentDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);

@@ -54,7 +54,9 @@ public class OwRestControllerTest {
     public void insert() {
         final Source source = sRepo.save(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(), source);
-        dao.saveFact(mes, createFact(), createcreateWeatherList());
+        final List<OwWeather> ews = createWeatherList();
+        dao.saveWeatherConditionCodes(ews);
+        dao.saveFact(mes, createFact(), ews);
     }
 
     @Test
@@ -94,15 +96,16 @@ public class OwRestControllerTest {
         return entity;
     }
 
-    OwWeather createWeather() {
+    OwWeather createWeather(int i) {
         final OwWeather entity = new OwWeather();
+        entity.setId(i);
         return entity;
     }
 
-    List<OwWeather> createcreateWeatherList() {
+    List<OwWeather> createWeatherList() {
         final List<OwWeather> res = new ArrayList<>();
-        res.add(createWeather());
-        res.add(createWeather());
+        res.add(createWeather(1));
+        res.add(createWeather(2));
         return res;
     }
 
@@ -110,6 +113,7 @@ public class OwRestControllerTest {
     public void after() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
+        dao.deleteWeatherConditionCodes();
     }
 
 }

@@ -4,7 +4,6 @@
  */
 package com.woodapiary.meteo.provider.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,11 +13,15 @@ import org.springframework.stereotype.Component;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ow.OwAlert;
+import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 import com.woodapiary.meteo.provider.repo.ow.OwAlertRepository;
+import com.woodapiary.meteo.provider.repo.ow.OwDailyRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
+import com.woodapiary.meteo.provider.repo.ow.OwHourlyRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwMessageRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwWeatherRepository;
 
@@ -33,6 +36,10 @@ public class OwDaoImpl implements OwDao {
     private OwWeatherRepository weatherRepo;
     @Autowired
     private OwAlertRepository alertRepo;
+    @Autowired
+    private OwDailyRepository dailyRepo;
+    @Autowired
+    private OwHourlyRepository hourlyRepo;
 
     @Override
     @Transactional
@@ -46,22 +53,16 @@ public class OwDaoImpl implements OwDao {
     @Transactional
     public OwFact saveFact(OwMessage message, OwFact fact, List<OwWeather> weather) {
         fact.setMessage(message);
-        fact.setWeather(new ArrayList<>());
-        for (final OwWeather w : weather) {
-            fact.addWeather(w);
-        }
-        factRepo.save(fact);
-        for (final OwWeather w : weather) {
-            weatherRepo.save(w);
-        }
+        fact.setWeather(weather);
         return factRepo.save(fact);
     }
 
     @Override
     @Transactional
     public void deleteAllMessages() {
-        weatherRepo.deleteAll();
+        alertRepo.deleteAll();
         factRepo.deleteAll();
+        weatherRepo.deleteAll();
         messageRepo.deleteAll();
     }
 
@@ -84,6 +85,36 @@ public class OwDaoImpl implements OwDao {
             alertRepo.save(alert);
         }
         return alerts;
+    }
+
+    @Override
+    @Transactional
+    public void saveWeatherConditionCodes(List<OwWeather> weather) {
+        for (final OwWeather w : weather) {
+            weatherRepo.save(w);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteWeatherConditionCodes() {
+        weatherRepo.deleteAll();
+    }
+
+    @Override
+    @Transactional
+    public OwDaily saveDaily(OwMessage message, OwDaily daily, List<OwWeather> weather) {
+        daily.setMessage(message);
+        daily.setWeather(weather);
+        return dailyRepo.save(daily);
+    }
+
+    @Override
+    @Transactional
+    public OwHourly saveHourly(OwMessage message, OwHourly hourly, List<OwWeather> weather) {
+        hourly.setMessage(message);
+        hourly.setWeather(weather);
+        return hourlyRepo.save(hourly);
     }
 
 }

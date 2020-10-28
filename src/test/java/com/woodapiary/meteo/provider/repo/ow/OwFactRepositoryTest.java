@@ -83,9 +83,9 @@ public class OwFactRepositoryTest {
         entity.setDt(LocalDateTime.ofInstant(Instant.ofEpochMilli(1570197600L * 1000), ZoneId.of("UTC")));
         entity.setPressure(990);
         entity.setTemp(10.0);
-        entity.setWindGust(1);
+        entity.setWindGust(1.0);
         entity.setWindDeg(100);
-        entity.setWindSpeed(27);
+        entity.setWindSpeed(27.0);
         return entity;
     }
 

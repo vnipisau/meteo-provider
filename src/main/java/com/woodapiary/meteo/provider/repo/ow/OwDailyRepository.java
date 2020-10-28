@@ -6,8 +6,8 @@ package com.woodapiary.meteo.provider.repo.ow;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.woodapiary.meteo.provider.entity.ow.OwWeather;
+import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 
-public interface OwWeatherRepository extends CrudRepository<OwWeather, Integer> {
+public interface OwDailyRepository extends CrudRepository<OwDaily, Long> {
 
 }

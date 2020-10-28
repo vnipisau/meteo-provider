@@ -7,13 +7,8 @@ package com.woodapiary.meteo.provider.entity.ow;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -30,16 +25,10 @@ public class OwWeather implements Serializable {
     private static final long serialVersionUID = 2212839116570912068L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long weatherId;
     private Integer id;
     private String main;
     private String description;
     private String icon;
-
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "fact_id")
-    private OwFact fact;
 
     public Integer getId() {
         return id;
@@ -71,22 +60,6 @@ public class OwWeather implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public Long getWeatherId() {
-        return weatherId;
-    }
-
-    public void setWeatherId(Long weatherId) {
-        this.weatherId = weatherId;
-    }
-
-    public OwFact getFact() {
-        return fact;
-    }
-
-    public void setFact(OwFact fact) {
-        this.fact = fact;
     }
 
     @Override

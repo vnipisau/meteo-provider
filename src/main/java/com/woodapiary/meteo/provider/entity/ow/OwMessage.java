@@ -50,6 +50,10 @@ public class OwMessage implements Serializable {
     private OwFact mfact;
     @OneToMany(mappedBy = "alertId")
     private List<OwAlert> alerts;
+    @OneToMany(mappedBy = "dailyId")
+    private List<OwDaily> daily;
+    @OneToMany(mappedBy = "hourlyId")
+    private List<OwHourly> hourly;
 
     public Long getMessageId() {
         return messageId;
@@ -83,15 +87,51 @@ public class OwMessage implements Serializable {
         this.mfact = mfact;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public List<OwHourly> getHourly() {
+        return hourly;
+    }
+
+    public void setHourly(final List<OwHourly> hourly) {
+        this.hourly = hourly;
+    }
+
+    public OwHourly addHourly(final OwHourly hourly) {
+        getHourly().add(hourly);
+        hourly.setMessage(this);
+        return hourly;
+    }
+
+    public OwHourly removeHourly(final OwHourly hourly) {
+        getHourly().remove(hourly);
+        hourly.setMessage(null);
+        return hourly;
+    }
+
+    public List<OwDaily> getDaily() {
+        return daily;
+    }
+
+    public void setDaily(final List<OwDaily> daily) {
+        this.daily = daily;
+    }
+
+    public OwDaily addOwDaily(final OwDaily daily) {
+        getDaily().add(daily);
+        daily.setMessage(this);
+        return daily;
+    }
+
+    public OwDaily removeOwDaily(final OwDaily daily) {
+        getDaily().remove(daily);
+        daily.setMessage(null);
+        return daily;
     }
 
     public List<OwAlert> getAlerts() {
         return alerts;
     }
 
-    public void setParts(final List<OwAlert> alerts) {
+    public void setAlerts(final List<OwAlert> alerts) {
         this.alerts = alerts;
     }
 
@@ -101,7 +141,7 @@ public class OwMessage implements Serializable {
         return alert;
     }
 
-    public OwAlert removePart(final OwAlert alert) {
+    public OwAlert removeAlert(final OwAlert alert) {
         getAlerts().remove(alert);
         alert.setMessage(null);
         return alert;
