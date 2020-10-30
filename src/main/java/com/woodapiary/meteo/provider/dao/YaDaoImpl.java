@@ -80,7 +80,7 @@ public class YaDaoImpl implements YaDao {
     }
 
     @Override
-    public long count() {
+    public long countMessages() {
         return messageRepo.count();
     }
 

@@ -52,7 +52,7 @@ public class OwFact implements Serializable {
     private Double windGust;
     private Double rain1h;
     private Double snow1h;
-    @ManyToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "ow_weather_fact", joinColumns = { @JoinColumn(name = "fact_id") }, inverseJoinColumns = { @JoinColumn(name = "weather_id") })
     private List<OwWeather> weather;
     @OneToOne

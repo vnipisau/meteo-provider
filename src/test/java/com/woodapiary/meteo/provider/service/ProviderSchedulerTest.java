@@ -50,7 +50,7 @@ public class ProviderSchedulerTest {
         sRepo.deleteAll();
         sRepo.saveSource(createSourceYa());
         sheduler.runYa();
-        assertEquals(1, daoYa.count());
+        assertEquals(1, daoYa.countMessages());
         daoYa.deleteAllMessages();
         sRepo.deleteAll();
     }
@@ -62,7 +62,7 @@ public class ProviderSchedulerTest {
         sRepo.deleteAll();
         sRepo.saveSource(createSourceWs());
         sheduler.runWs();
-        assertEquals(1, daoWs.count());
+        assertEquals(1, daoWs.countMessages());
         daoWs.deleteAllMessages();
         sRepo.deleteAll();
     }
@@ -74,7 +74,7 @@ public class ProviderSchedulerTest {
         sRepo.deleteAll();
         sRepo.saveSource(createSourceOw());
         sheduler.runOw();
-        assertEquals(1, daoOw.count());
+        assertEquals(1, daoOw.countMessages());
         daoOw.deleteAllMessages();
         sRepo.deleteAll();
     }

@@ -27,6 +27,6 @@ public interface YaDao {
 
     List<YaFact> findBySource(String sourceId);
 
-    long count();
+    long countMessages();
 
 }

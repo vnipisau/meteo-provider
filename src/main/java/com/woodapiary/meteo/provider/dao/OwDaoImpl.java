@@ -62,7 +62,8 @@ public class OwDaoImpl implements OwDao {
     public void deleteAllMessages() {
         alertRepo.deleteAll();
         factRepo.deleteAll();
-        weatherRepo.deleteAll();
+        dailyRepo.deleteAll();
+        hourlyRepo.deleteAll();
         messageRepo.deleteAll();
     }
 
@@ -73,7 +74,7 @@ public class OwDaoImpl implements OwDao {
     }
 
     @Override
-    public long count() {
+    public long countMessages() {
         return messageRepo.count();
     }
 

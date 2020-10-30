@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -31,7 +30,9 @@ import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
+import com.woodapiary.meteo.provider.repo.ow.OwDailyRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
+import com.woodapiary.meteo.provider.repo.ow.OwHourlyRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwMessageRepository;
 
 @RunWith(SpringRunner.class)
@@ -50,6 +51,10 @@ public class OwDaoTest {
     private OwMessageRepository mRepo;
     @Autowired
     private OwFactRepository ftRepo;
+    @Autowired
+    private OwDailyRepository dailyRepo;
+    @Autowired
+    private OwHourlyRepository hourlyRepo;
 
     @Before
     public void insert() {
@@ -106,30 +111,28 @@ public class OwDaoTest {
         assertNotNull(ft.getFactId());
     }
 
-    @Ignore
     @Test
     public void test05() {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwDaily ft = dao.saveDaily(mes, createDaily(), ews);
+        final OwDaily d = dao.saveDaily(mes, createDaily(), ews);
         //System.out.println(ent.getFactId());
-        assertEquals(1, ftRepo.count());
-        assertNotNull(ft.getDailyId());
+        assertEquals(1, dailyRepo.count());
+        assertNotNull(d.getDailyId());
     }
 
-    @Ignore
     @Test
     public void test06() {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwHourly ft = dao.saveHourly(mes, createHourly(), ews);
+        final OwHourly h = dao.saveHourly(mes, createHourly(), ews);
         //System.out.println(ent.getFactId());
-        assertEquals(1, ftRepo.count());
-        assertNotNull(ft.getHourlyId());
+        assertEquals(1, hourlyRepo.count());
+        assertNotNull(h.getHourlyId());
     }
 
     @After

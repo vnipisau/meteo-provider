@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class OwHourly implements Serializable {
     private Double pop;
     private Double rain1h;
     private Double snow1h;
-    @ManyToMany(cascade = { CascadeType.REFRESH })
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "ow_weather_hourly", joinColumns = { @JoinColumn(name = "hourly_id") }, inverseJoinColumns = { @JoinColumn(name = "weather_id") })
     private List<OwWeather> weather;
     @OneToOne

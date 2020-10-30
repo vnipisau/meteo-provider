@@ -36,5 +36,5 @@ public interface OwDao {
 
     void deleteWeatherConditionCodes();
 
-    long count();
+    long countMessages();
 }

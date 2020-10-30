@@ -68,7 +68,7 @@ public class OwMessageServiceTest {
         dir.saveToDb();
         final OwMessageDto dto = requester.readFromFile(testDataPath + "ow_onecall.json");
         requester.saveToDb(dto, source);
-        assertEquals(1, dao.count());
+        assertEquals(1, dao.countMessages());
         dao.deleteAllMessages();
         sRepo.deleteAll();
         dao.deleteWeatherConditionCodes();

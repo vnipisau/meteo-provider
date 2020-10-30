@@ -64,7 +64,7 @@ public class YaMessageServiceTest {
         final Source source = sRepo.saveSource(createSource());
         final YaMessageDto dto = requester.readFromFile(testDataPath + "ya_v1.json");
         requester.saveToDb(dto, source);
-        assertEquals(1, dao.count());
+        assertEquals(1, dao.countMessages());
         dao.deleteAllMessages();
         sRepo.deleteAll();
     }

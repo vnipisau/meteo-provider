@@ -64,7 +64,7 @@ public class WsMessageServiceTest {
         final Source source = sRepo.saveSource(createSource());
         final WsMessageDto dto = requester.readFromFile(testDataPath + "ws.json");
         requester.saveToDb(dto, source);
-        assertEquals(1, dao.count());
+        assertEquals(1, dao.countMessages());
         dao.deleteAllMessages();
         sRepo.deleteAll();
     }
