@@ -34,7 +34,7 @@ import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.YaMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
 public class YaRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(YaRestControllerTest.class);
@@ -51,8 +51,7 @@ public class YaRestControllerTest {
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(), source);
-        dao.saveFact(mes, createFact());
+        dao.saveMessage(createMessage(createFact(), null), source);
     }
 
     @Test
@@ -79,9 +78,10 @@ public class YaRestControllerTest {
         return entity;
     }
 
-    YaMessage createMessage() {
+    YaMessage createMessage(YaFact yaFact, Object object) {
         final YaMessage entity = new YaMessage();
         entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+        entity.setMfact(yaFact);
         return entity;
     }
 

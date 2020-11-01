@@ -45,16 +45,33 @@ public class OwDaoImpl implements OwDao {
     @Transactional
     public OwMessage saveMessage(OwMessage entity, Source source) {
         entity.setSource(source);
-        //System.out.println(entity);
-        return messageRepo.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public OwFact saveFact(OwMessage message, OwFact fact, List<OwWeather> weather) {
-        fact.setMessage(message);
-        fact.setWeather(weather);
-        return factRepo.save(fact);
+        messageRepo.save(entity);
+        if (entity.getMfact() != null) {
+            entity.getMfact().setMessage(entity);
+            factRepo.save(entity.getMfact());
+        }
+        final List<OwDaily> daily = entity.getDaily();
+        if (daily != null) {
+            for (final OwDaily d : daily) {
+                d.setMessage(entity);
+                dailyRepo.save(d);
+            }
+        }
+        final List<OwHourly> hourly = entity.getHourly();
+        if (hourly != null) {
+            for (final OwHourly d : hourly) {
+                d.setMessage(entity);
+                hourlyRepo.save(d);
+            }
+        }
+        final List<OwAlert> alerts = entity.getAlerts();
+        if (alerts != null) {
+            for (final OwAlert d : alerts) {
+                d.setMessage(entity);
+                alertRepo.save(d);
+            }
+        }
+        return entity;
     }
 
     @Override
@@ -80,16 +97,6 @@ public class OwDaoImpl implements OwDao {
 
     @Override
     @Transactional
-    public List<OwAlert> saveAlerts(OwMessage message, List<OwAlert> alerts) {
-        for (final OwAlert alert : alerts) {
-            alert.setMessage(message);
-            alertRepo.save(alert);
-        }
-        return alerts;
-    }
-
-    @Override
-    @Transactional
     public void saveWeatherConditionCodes(List<OwWeather> weather) {
         for (final OwWeather w : weather) {
             weatherRepo.save(w);
@@ -100,22 +107,6 @@ public class OwDaoImpl implements OwDao {
     @Transactional
     public void deleteWeatherConditionCodes() {
         weatherRepo.deleteAll();
-    }
-
-    @Override
-    @Transactional
-    public OwDaily saveDaily(OwMessage message, OwDaily daily, List<OwWeather> weather) {
-        daily.setMessage(message);
-        daily.setWeather(weather);
-        return dailyRepo.save(daily);
-    }
-
-    @Override
-    @Transactional
-    public OwHourly saveHourly(OwMessage message, OwHourly hourly, List<OwWeather> weather) {
-        hourly.setMessage(message);
-        hourly.setWeather(weather);
-        return hourlyRepo.save(hourly);
     }
 
 }

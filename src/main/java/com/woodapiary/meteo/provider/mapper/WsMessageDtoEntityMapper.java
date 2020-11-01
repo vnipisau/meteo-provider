@@ -87,6 +87,7 @@ public class WsMessageDtoEntityMapper {
         modelMapper.addConverter(listOfStringToString);
         modelMapper.createTypeMap(String.class, List.class);
         modelMapper.addConverter(listOfStringFromString);
+
         typeMapFactDtoToFact = modelMapper.createTypeMap(WsCurrentDto.class, WsFact.class);
         typeMapFactDtoToFact.addMappings(mapper -> mapper.using(stringToLocalTime).map(WsCurrentDto::getObservationTime, WsFact::setObservationTime));
         typeMapFactDtoFromFact = modelMapper.createTypeMap(WsFact.class, WsCurrentDto.class);

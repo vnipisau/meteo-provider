@@ -80,17 +80,19 @@ public class WsMessageService {
 
     public void saveToDb(final WsMessageDto dto, final Source source) {
         final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()));
-        log.info("save ws weather message to db - ok");
+        //dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()));
+        log.info("save ws weather message to db - ok " + message.getMessageId());
     }
 
     public void requestAllAndSave() {
+        WsMessageDto dto = null;
         for (final Source source : sRepo.findSourceByProvider(provider)) {
             try {
-                final WsMessageDto dto = request(source);
+                dto = request(source);
                 saveToDb(dto, source);
-            } catch (final IOException e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
+                log.error("ws message is " + (dto == null ? "null" : dto.toString()));
             }
         }
     }

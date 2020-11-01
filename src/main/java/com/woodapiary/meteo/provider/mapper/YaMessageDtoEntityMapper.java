@@ -7,7 +7,12 @@ package com.woodapiary.meteo.provider.mapper;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +31,36 @@ public class YaMessageDtoEntityMapper {
 
     @Autowired
     private ModelMapper modelMapper;
+    TypeMap<YaForecastDto, YaForecast> typeMapForecastDtoToForecast;
+    TypeMap<YaForecast, YaForecastDto> typeMapForecastDtoFromForecast;
+
+    Converter<List<YaPart>, List<YaPartDto>> partListDtoFromPartList = new AbstractConverter<>() {
+        @Override
+        protected List<YaPartDto> convert(List<YaPart> source) {
+            if (source == null) {
+                return null;
+            }
+            return partListDtoFromPartList(source);
+        }
+    };
+
+    Converter<List<YaPartDto>, List<YaPart>> partListDtoToPartList = new AbstractConverter<>() {
+        @Override
+        protected List<YaPart> convert(List<YaPartDto> source) {
+            if (source == null) {
+                return null;
+            }
+            return partListDtoToPartList(source);
+        }
+    };
+
+    @PostConstruct
+    public void init() {
+        typeMapForecastDtoToForecast = modelMapper.createTypeMap(YaForecastDto.class, YaForecast.class);
+        typeMapForecastDtoToForecast.addMappings(mapper -> mapper.using(partListDtoToPartList).map(YaForecastDto::getParts, YaForecast::setParts));
+        typeMapForecastDtoFromForecast = modelMapper.createTypeMap(YaForecast.class, YaForecastDto.class);
+        typeMapForecastDtoFromForecast.addMappings(mapper -> mapper.using(partListDtoFromPartList).map(YaForecast::getParts, YaForecastDto::setParts));
+    }
 
     public YaMessage messageDtoToMessage(final YaMessageDto dto) {
         final YaMessage entity = modelMapper.map(dto, YaMessage.class);
@@ -38,7 +73,7 @@ public class YaMessageDtoEntityMapper {
     }
 
     public YaForecast forecastDtoToForecast(final YaForecastDto dto) {
-        final YaForecast entity = modelMapper.map(dto, YaForecast.class);
+        final YaForecast entity = typeMapForecastDtoToForecast.map(dto);
         return entity;
     }
 
@@ -60,7 +95,7 @@ public class YaMessageDtoEntityMapper {
     }
 
     public YaForecastDto forecastDtoFromForecast(final YaForecast entity) {
-        final YaForecastDto dto = modelMapper.map(entity, YaForecastDto.class);
+        final YaForecastDto dto = typeMapForecastDtoFromForecast.map(entity);
         return dto;
     }
 

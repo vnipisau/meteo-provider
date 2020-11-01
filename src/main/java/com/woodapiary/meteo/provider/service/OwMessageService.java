@@ -58,7 +58,7 @@ public class OwMessageService {
         try (InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));) {
             final String response = rd.readLine();
-            System.out.println(response);
+            //System.out.println(response);
             final OwMessageDto owDto = new Gson().fromJson(response, OwMessageDto.class);
             //System.out.println(wsDto.toString());
             rd.close();
@@ -80,18 +80,18 @@ public class OwMessageService {
 
     public void saveToDb(final OwMessageDto dto, final Source source) {
         final OwMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()), mapper.weatherListDtoToWeatherList(dto.getCurrent().getWeather()));
-        dao.saveAlerts(message, mapper.alertListDtoToAlertList(dto.getAlerts()));
-        log.info("save openweather message to db - ok");
+        log.info("save openweather message to db - ok" + message.getMessageId());
     }
 
     public void requestAllAndSave() {
+        OwMessageDto dto = null;
         for (final Source source : sRepo.findSourceByProvider(provider)) {
             try {
-                final OwMessageDto dto = request(source);
+                dto = request(source);
                 saveToDb(dto, source);
-            } catch (final IOException e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
+                log.error("ow message is " + (dto == null ? "null" : dto.toString()));
             }
         }
     }

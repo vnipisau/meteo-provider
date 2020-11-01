@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
@@ -23,13 +24,15 @@ import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@Transactional
 public class YaMessageServiceTest {
 
     @Value("${meteo-provider.provider.realtest.enabled}")
     private Boolean providerTestEnabled;
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
+    private final String testDataFile = "ya_v1.json";
     @Autowired
     private YaMessageService requester;
     @Autowired
@@ -52,7 +55,7 @@ public class YaMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final YaMessageDto result = requester.readFromFile(testDataPath + "ya_v1.json");
+        final YaMessageDto result = requester.readFromFile(testDataPath + testDataFile);
         //System.out.println(result.toString());
         assertNotNull(result.getNow());
     }
@@ -62,7 +65,7 @@ public class YaMessageServiceTest {
         dao.deleteAllMessages();
         sRepo.deleteAll();
         final Source source = sRepo.saveSource(createSource());
-        final YaMessageDto dto = requester.readFromFile(testDataPath + "ya_v1.json");
+        final YaMessageDto dto = requester.readFromFile(testDataPath + testDataFile);
         requester.saveToDb(dto, source);
         assertEquals(1, dao.countMessages());
         dao.deleteAllMessages();

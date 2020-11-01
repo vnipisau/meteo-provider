@@ -26,7 +26,7 @@ import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 import com.woodapiary.meteo.provider.service.YaMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
 public class YaMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")

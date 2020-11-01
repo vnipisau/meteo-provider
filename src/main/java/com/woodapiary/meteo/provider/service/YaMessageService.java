@@ -79,18 +79,18 @@ public class YaMessageService {
 
     public void saveToDb(final YaMessageDto dto, final Source source) {
         final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        dao.saveFact(message, mapper.factDtoToFact(dto.getFact()));
-        dao.saveForecast(message, mapper.forecastDtoToForecast(dto.getForecast()), mapper.partListDtoToPartList(dto.getForecast().getParts()));
-        log.info("save yandex weather message to db - ok");
+        log.info("save yandex weather message to db - ok " + message.getMessageId());
     }
 
     public void requestAllAndSave() {
+        YaMessageDto dto = null;
         for (final Source source : sRepo.findSourceByProvider(provider)) {
             try {
-                final YaMessageDto dto = request(source);
+                dto = request(source);
                 saveToDb(dto, source);
-            } catch (final IOException e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
+                log.error("ya message is " + (dto == null ? "null" : dto.toString()));
             }
         }
     }

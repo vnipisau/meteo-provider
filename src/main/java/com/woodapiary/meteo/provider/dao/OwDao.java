@@ -9,24 +9,13 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.entity.ow.OwAlert;
-import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
-import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 
 @Repository
 public interface OwDao {
     OwMessage saveMessage(OwMessage message, Source source);
-
-    OwFact saveFact(OwMessage message, OwFact fact, List<OwWeather> weather);
-
-    OwDaily saveDaily(OwMessage message, OwDaily daily, List<OwWeather> weather);
-
-    OwHourly saveHourly(OwMessage message, OwHourly hourly, List<OwWeather> weather);
-
-    List<OwAlert> saveAlerts(OwMessage message, List<OwAlert> alerts);
 
     void deleteAllMessages();
 
@@ -37,4 +26,6 @@ public interface OwDao {
     void deleteWeatherConditionCodes();
 
     long countMessages();
+
+    //TODO add count parts
 }

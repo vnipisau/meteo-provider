@@ -268,19 +268,19 @@ public class OwDaily implements Serializable {
         this.visibility = visibility;
     }
 
-    public Double getRain1h() {
+    public Double getRain() {
         return rain1h;
     }
 
-    public void setRain1h(Double rain) {
+    public void setRain(Double rain) {
         this.rain1h = rain;
     }
 
-    public Double getSnow1h() {
+    public Double getSnow() {
         return snow1h;
     }
 
-    public void setSnow1h(Double snow) {
+    public void setSnow(Double snow) {
         this.snow1h = snow;
     }
 

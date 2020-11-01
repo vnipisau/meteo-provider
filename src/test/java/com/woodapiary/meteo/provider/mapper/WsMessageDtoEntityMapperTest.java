@@ -24,7 +24,7 @@ import com.woodapiary.meteo.provider.entity.ws.WsMessage;
 import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
 public class WsMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")

@@ -29,14 +29,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwGetFactsResultDto;
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.entity.ow.OwAlert;
+import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.OwMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
 public class OwRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(OwRestControllerTest.class);
@@ -53,10 +56,9 @@ public class OwRestControllerTest {
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        dao.saveFact(mes, createFact(), ews);
+        dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
     }
 
     @Test
@@ -85,13 +87,18 @@ public class OwRestControllerTest {
         return entity;
     }
 
-    OwMessage createMessage() {
+    OwMessage createMessage(OwFact fact, List<OwDaily> daily, List<OwHourly> hourly, List<OwAlert> alerts) {
         final OwMessage entity = new OwMessage();
+        entity.setMfact(fact);
+        entity.setDaily(daily);
+        entity.setHourly(hourly);
+        entity.setAlerts(alerts);
         return entity;
     }
 
-    OwFact createFact() {
+    OwFact createFact(List<OwWeather> w) {
         final OwFact entity = new OwFact();
+        entity.setWeather(w);
         entity.setDt(LocalDateTime.ofInstant(Instant.ofEpochMilli(1570197600L * 1000), ZoneId.of("UTC")));
         return entity;
     }

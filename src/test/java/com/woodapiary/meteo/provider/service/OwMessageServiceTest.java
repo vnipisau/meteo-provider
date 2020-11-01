@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
@@ -23,13 +24,15 @@ import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@Transactional
 public class OwMessageServiceTest {
 
     @Value("${meteo-provider.provider.realtest.enabled}")
     private Boolean providerTestEnabled;
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
+    private final String testDataFile = "ow_onecall.json";
     @Autowired
     private OwMessageService requester;
     @Autowired
@@ -46,6 +49,7 @@ public class OwMessageServiceTest {
 
     @Test
     public void test02() throws IOException {
+        //TODO
         assumeTrue("request to real service", providerTestEnabled);
         final OwMessageDto result = requester.request(createSource());
         System.out.println(result.toString());
@@ -54,7 +58,7 @@ public class OwMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final OwMessageDto result = requester.readFromFile(testDataPath + "ow_onecall.json");
+        final OwMessageDto result = requester.readFromFile(testDataPath + testDataFile);
         //System.out.println(result.toString());
         assertNotNull(result.getCurrent().getDt());
     }
@@ -66,7 +70,7 @@ public class OwMessageServiceTest {
         dao.deleteWeatherConditionCodes();
         final Source source = sRepo.saveSource(createSource());
         dir.saveToDb();
-        final OwMessageDto dto = requester.readFromFile(testDataPath + "ow_onecall.json");
+        final OwMessageDto dto = requester.readFromFile(testDataPath + testDataFile);
         requester.saveToDb(dto, source);
         assertEquals(1, dao.countMessages());
         dao.deleteAllMessages();

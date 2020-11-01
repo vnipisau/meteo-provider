@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
@@ -23,6 +24,7 @@ import com.woodapiary.meteo.provider.entity.Source;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class ProviderSchedulerTest {
 
     @Value("${meteo-provider.provider.realtest.enabled}")
@@ -69,6 +71,7 @@ public class ProviderSchedulerTest {
 
     @Test
     public void test04() {
+        //TODO замокать
         assumeTrue("request to real service", providerTestEnabled);
         daoOw.deleteAllMessages();
         sRepo.deleteAll();

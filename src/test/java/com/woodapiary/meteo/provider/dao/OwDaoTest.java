@@ -30,6 +30,7 @@ import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
+import com.woodapiary.meteo.provider.repo.ow.OwAlertRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwDailyRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
 import com.woodapiary.meteo.provider.repo.ow.OwHourlyRepository;
@@ -55,6 +56,8 @@ public class OwDaoTest {
     private OwDailyRepository dailyRepo;
     @Autowired
     private OwHourlyRepository hourlyRepo;
+    @Autowired
+    private OwAlertRepository alertRepo;
 
     @Before
     public void insert() {
@@ -71,7 +74,7 @@ public class OwDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage ent = dao.saveMessage(createMessage(), source);
+        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, mRepo.count());
         assertNotNull(ent.getMessageId());
@@ -81,58 +84,42 @@ public class OwDaoTest {
     @Test
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwFact ft = dao.saveFact(mes, createFact(), ews);
+        final OwMessage mes = dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, ftRepo.count());
-        assertNotNull(ft.getFactId());
+        assertNotNull(mes.getMfact().getFactId());
     }
 
     @Test
     public void test03() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
-        final List<OwAlert> res = dao.saveAlerts(mes, createAlertList());
-        assertEquals(2, res.size());
-        assertNotNull(res.get(0).getAlertId());
-    }
-
-    @Test
-    public void test04() {
-        final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
-        final List<OwWeather> ews = createWeatherList();
-        dao.saveWeatherConditionCodes(ews);
-        final OwFact ft = dao.saveFact(mes, createFact(), ews);
-        //System.out.println(ent.getFactId());
-        assertEquals(1, ftRepo.count());
-        assertNotNull(ft.getFactId());
+        final OwMessage mes = dao.saveMessage(createMessage(null, null, null, createAlertList()), source);
+        assertEquals(2, alertRepo.count());
+        assertNotNull(mes.getAlerts().get(0).getAlertId());
     }
 
     @Test
     public void test05() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwDaily d = dao.saveDaily(mes, createDaily(), ews);
+        final OwMessage mes = dao.saveMessage(createMessage(null, List.of(createDaily(ews)), null, null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, dailyRepo.count());
-        assertNotNull(d.getDailyId());
+        assertNotNull(mes.getDaily().get(0).getDailyId());
     }
 
     @Test
     public void test06() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(), source);
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwHourly h = dao.saveHourly(mes, createHourly(), ews);
+        final OwMessage mes = dao.saveMessage(createMessage(null, null, List.of(createHourly(ews)), null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, hourlyRepo.count());
-        assertNotNull(h.getHourlyId());
+        assertNotNull(mes.getHourly().get(0).getHourlyId());
     }
 
     @After
@@ -151,23 +138,30 @@ public class OwDaoTest {
         return entity;
     }
 
-    OwMessage createMessage() {
+    OwMessage createMessage(OwFact fact, List<OwDaily> daily, List<OwHourly> hourly, List<OwAlert> alerts) {
         final OwMessage entity = new OwMessage();
+        entity.setMfact(fact);
+        entity.setDaily(daily);
+        entity.setHourly(hourly);
+        entity.setAlerts(alerts);
         return entity;
     }
 
-    OwFact createFact() {
+    OwFact createFact(List<OwWeather> w) {
         final OwFact entity = new OwFact();
+        entity.setWeather(w);
         return entity;
     }
 
-    OwDaily createDaily() {
+    OwDaily createDaily(List<OwWeather> w) {
         final OwDaily entity = new OwDaily();
+        entity.setWeather(w);
         return entity;
     }
 
-    OwHourly createHourly() {
+    OwHourly createHourly(List<OwWeather> w) {
         final OwHourly entity = new OwHourly();
+        entity.setWeather(w);
         return entity;
     }
 

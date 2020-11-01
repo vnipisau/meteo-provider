@@ -15,13 +15,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwWeatherDto;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@Transactional
 public class OwDirectoryServiceTest {
 
     @Autowired

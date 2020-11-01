@@ -1,5 +1,5 @@
 /**
- * 2002-2020
+  * 2002-2020
  * woodapiary.com
  */
 package com.woodapiary.meteo.provider.dao;
@@ -16,8 +16,6 @@ import com.woodapiary.meteo.provider.entity.ws.WsMessage;
 public interface WsDao {
 
     WsMessage saveMessage(WsMessage message, Source source);
-
-    WsFact saveFact(WsMessage message, WsFact fact);
 
     void deleteAllMessages();
 

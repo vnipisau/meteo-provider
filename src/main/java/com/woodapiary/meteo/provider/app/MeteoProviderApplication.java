@@ -12,7 +12,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @ComponentScan(basePackages = "com.woodapiary.meteo.provider")
@@ -20,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.woodapiary.meteo.provider")
 @EntityScan(basePackages = "com.woodapiary.meteo.provider.entity")
-@EnableScheduling
+//@EnableScheduling
 public class MeteoProviderApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -37,3 +36,4 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO gsmeteo
 //TODO metar
 //TODO created and modified
+//TODO yandex version 2 

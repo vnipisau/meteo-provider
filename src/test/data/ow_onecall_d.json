@@ -1,0 +1,94 @@
+﻿{
+  "lat": 55,
+  "lon": 37,
+  "timezone": "Europe/Moscow",
+  "timezone_offset": 10800,
+  "current": {
+    "dt": 1602662094,
+    "sunrise": 1602647986,
+    "sunset": 1602686148,
+    "temp": 15.72,
+    "feels_like": 14.85,
+    "pressure": 1015,
+    "humidity": 77,
+    "dew_point": 11.7,
+    "uvi": 1.45,
+    "clouds": 11,
+    "visibility": 9000,
+    "wind_speed": 2,
+    "wind_deg": 120,
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ]
+  },
+  "hourly": [
+    {
+      "dt": 1602658800,
+      "temp": 15.72,
+      "feels_like": 14.72,
+      "pressure": 1015,
+      "humidity": 77,
+      "dew_point": 11.7,
+      "clouds": 11,
+      "visibility": 10000,
+      "wind_speed": 2.19,
+      "wind_deg": 149,
+      "weather": [
+        {
+          "id": 801,
+          "main": "Clouds",
+          "description": "few clouds",
+          "icon": "02d"
+        }
+      ],
+      "pop": 0,
+      "rain": {
+        "1h": 0.13
+      }
+    }
+  ],
+  "daily": [
+    {
+      "dt": 1602666000,
+      "sunrise": 1602647986,
+      "sunset": 1602686148,
+      "temp": {
+        "day": 16.28,
+        "min": 10.54,
+        "max": 17.47,
+        "night": 14.09,
+        "eve": 14.16,
+        "morn": 11.84
+      },
+      "feels_like": {
+        "day": 15.05,
+        "night": 11.98,
+        "eve": 12.8,
+        "morn": 11.21
+      },
+      "pressure": 1015,
+      "humidity": 74,
+      "dew_point": 11.64,
+      "wind_speed": 2.48,
+      "wind_deg": 135,
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain",
+          "icon": "10d"
+        }
+      ],
+      "clouds": 14,
+      "pop": 0.32,
+      "rain": 0.19,
+      "uvi": 1.45
+    }
+    
+  ]
+}

@@ -29,15 +29,12 @@ public class WsDaoImpl implements WsDao {
     @Transactional
     public WsMessage saveMessage(WsMessage entity, Source source) {
         entity.setSource(source);
-        //System.out.println(entity);
+        messageRepo.save(entity);
+        if (entity.getMfact() != null) {
+            entity.getMfact().setMessage(entity);
+            factRepo.save(entity.getMfact());
+        }
         return messageRepo.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public WsFact saveFact(WsMessage message, WsFact fact) {
-        fact.setMessage(message);
-        return factRepo.save(fact);
     }
 
     @Override

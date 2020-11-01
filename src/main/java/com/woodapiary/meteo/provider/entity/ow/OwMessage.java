@@ -79,6 +79,7 @@ public class OwMessage implements Serializable {
         this.source = source;
     }
 
+    //TODO remove M
     public OwFact getMfact() {
         return mfact;
     }

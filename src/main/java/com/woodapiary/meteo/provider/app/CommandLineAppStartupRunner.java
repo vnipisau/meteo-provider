@@ -13,6 +13,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //TODO invoke weather conditions
         LOG.info("run command line app startup");
         counter++;
     }

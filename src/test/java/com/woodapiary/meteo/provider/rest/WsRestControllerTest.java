@@ -33,7 +33,7 @@ import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
 public class WsRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(WsRestControllerTest.class);
@@ -50,8 +50,7 @@ public class WsRestControllerTest {
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        final WsMessage mes = dao.saveMessage(createMessage(), source);
-        dao.saveFact(mes, createFact());
+        dao.saveMessage(createMessage(createFact()), source);
     }
 
     @Test
@@ -80,8 +79,9 @@ public class WsRestControllerTest {
         return entity;
     }
 
-    WsMessage createMessage() {
+    WsMessage createMessage(WsFact wsFact) {
         final WsMessage entity = new WsMessage();
+        entity.setMfact(wsFact);
         return entity;
     }
 

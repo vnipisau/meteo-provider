@@ -20,20 +20,25 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.woodapiary.meteo.provider.dto.ow.OwAlertDto;
 import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
+import com.woodapiary.meteo.provider.dto.ow.OwDailyDto;
+import com.woodapiary.meteo.provider.dto.ow.OwHourlyDto;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.dto.ow.OwRainDto;
 import com.woodapiary.meteo.provider.entity.ow.OwAlert;
+import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
+import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.service.OwMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
 public class OwMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
     private final String testDataFile = "ow_onecall.json";
+    //private final String testDataFile2 = "ow_onecall_d.json";
     @Autowired
     private OwMessageDtoEntityMapper mapper;
     @Autowired
@@ -82,6 +87,29 @@ public class OwMessageDtoEntityMapperTest {
         final List<OwAlertDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getAlerts();
         final List<OwAlert> entity = mapper.alertListDtoToAlertList(dto1);
         final List<OwAlertDto> dto2 = mapper.alertListDtoFromAlertList(entity);
+        assertNotNull(dto2);
+        assertEquals(dto1, dto2);
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertTrue(dto1.equals(dto2));
+    }
+
+    //@Ignore
+    @Test
+    public void test05() throws IOException {
+        final List<OwDailyDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getDaily();
+        final List<OwDaily> entity = mapper.dailyListDtoToDailyList(dto1);
+        final List<OwDailyDto> dto2 = mapper.dailyListDtoFromDailyList(entity);
+        assertNotNull(dto2);
+        assertEquals(dto1, dto2);
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertTrue(dto1.equals(dto2));
+    }
+
+    @Test
+    public void test06() throws IOException {
+        final List<OwHourlyDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getHourly();
+        final List<OwHourly> entity = mapper.hourlyListDtoToHourlyList(dto1);
+        final List<OwHourlyDto> dto2 = mapper.hourlyListDtoFromHourlyList(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());

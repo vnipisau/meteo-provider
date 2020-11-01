@@ -73,7 +73,7 @@ public class YaDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage ent = dao.saveMessage(createMessage(), source);
+        final YaMessage ent = dao.saveMessage(createMessage(null, null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, mRepo.count());
         assertNotNull(ent.getMessageId());
@@ -83,35 +83,31 @@ public class YaDaoTest {
     @Test
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(), source);
-        final YaFact ft = dao.saveFact(mes, createFact());
-        //System.out.println(ent.getFactId());
+        final YaMessage mes = dao.saveMessage(createMessage(createFact(), null), source);
         assertEquals(1, ftRepo.count());
-        assertNotNull(ft.getFactId());
+        assertNotNull(mes.getMfact().getFactId());
     }
 
     @Test
     public void test03() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(), source);
-        final YaForecast fc = dao.saveForecast(mes, createForecast(), createParts());
+        final YaMessage mes = dao.saveMessage(createMessage(null, createForecast(createParts())), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, fcRepo.count());
-        assertNotNull(fc.getForecastId());
+        assertNotNull(mes.getMforecast().getForecastId());
         assertEquals(2, pRepo.count());
-        assertNotNull(fc.getParts().get(0));
-        assertNotNull(fc.getParts().get(0).getPartId());
-        assertNotNull(fc.getParts().get(0).getForecast().getForecastId());
+        assertNotNull(mes.getMforecast().getParts().get(0));
+        assertNotNull(mes.getMforecast().getParts().get(0).getPartId());
+        assertNotNull(mes.getMforecast().getParts().get(0).getForecast());
+        assertNotNull(mes.getMforecast().getParts().get(0).getForecast().getForecastId());
     }
 
     @Test
     public void test04() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(), source);
-        final YaFact ft = dao.saveFact(mes, createFact());
-        final YaForecast fc = dao.saveForecast(mes, createForecast(), createParts());
-        assertNotNull(fc.getForecastId());
-        assertNotNull(ft.getFactId());
+        final YaMessage mes = dao.saveMessage(createMessage(createFact(), createForecast(createParts())), source);
+        assertNotNull(mes.getMforecast().getForecastId());
+        assertNotNull(mes.getMfact().getFactId());
     }
 
     @After
@@ -129,9 +125,11 @@ public class YaDaoTest {
         return entity;
     }
 
-    YaMessage createMessage() {
+    YaMessage createMessage(YaFact yaFact, YaForecast yaForecast) {
         final YaMessage entity = new YaMessage();
         entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+        entity.setMfact(yaFact);
+        entity.setMforecast(yaForecast);
         return entity;
     }
 
@@ -141,10 +139,11 @@ public class YaDaoTest {
         return entity;
     }
 
-    YaForecast createForecast() {
+    YaForecast createForecast(List<YaPart> list) {
         final YaForecast entity = new YaForecast();
         entity.setDate(LocalDate.parse("2019-10-04", DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         entity.setDateTs(LocalDateTime.ofInstant(Instant.ofEpochMilli(1570136400L * 1000), ZoneId.of("UTC")));
+        entity.setParts(list);
         return entity;
     }
 

@@ -4,7 +4,6 @@
  */
 package com.woodapiary.meteo.provider.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -38,30 +37,21 @@ public class YaDaoImpl implements YaDao {
     @Transactional
     public YaMessage saveMessage(final YaMessage entity, final Source source) {
         entity.setSource(source);
-        //System.out.println(entity);
-        return messageRepo.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public YaFact saveFact(final YaMessage message, final YaFact fact) {
-        fact.setMessage(message);
-        return factRepo.save(fact);
-    }
-
-    @Override
-    @Transactional
-    public YaForecast saveForecast(final YaMessage message, final YaForecast forecast, final List<YaPart> parts) {
-        forecast.setMessage(message);
-        forecast.setParts(new ArrayList<>());
-        for (final YaPart part : parts) {
-            forecast.addPart(part);
+        messageRepo.save(entity);
+        if (entity.getMfact() != null) {
+            entity.getMfact().setMessage(entity);
+            factRepo.save(entity.getMfact());
         }
-        foreRepo.save(forecast);
-        for (final YaPart part : parts) {
-            partRepo.save(part);
+        final YaForecast forecast = entity.getMforecast();
+        if (forecast != null) {
+            forecast.setMessage(entity);
+            foreRepo.save(forecast);
+            for (final YaPart part : forecast.getParts()) {
+                part.setForecast(forecast);
+                partRepo.save(part);
+            }
         }
-        return forecast;
+        return entity;
     }
 
     @Override
