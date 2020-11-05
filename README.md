@@ -25,4 +25,4 @@ https://openweathermap.org/api/one-call-api
 
 # Demo app
 
-https://woodapiary.com/meteo-ya
+https://woodapiary.com/meteo-provider

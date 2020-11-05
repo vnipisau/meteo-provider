@@ -10,6 +10,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.woodapiary.meteo.provider.dao.OwDao;
@@ -28,9 +30,12 @@ public class OwDirectoryService {
     OwDao dao;
     @Autowired
     OwMessageDtoEntityMapper mapper;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     public List<OwWeatherDto> readWeatherFromFile() throws IOException {
-        return new ObjectSerializator<OwWeatherDto>().readCsvFromFile("classpath:data/ow_condition_codes.csv", OwWeatherDto.class);
+        final Resource resource = resourceLoader.getResource("classpath:data/ow_condition_codes.csv");
+        return new ObjectSerializator<OwWeatherDto>().readCsvFromFileV2(resource.getInputStream(), OwWeatherDto.class);
     }
 
     public List<OwWeather> saveWeatherToDb() throws IOException {

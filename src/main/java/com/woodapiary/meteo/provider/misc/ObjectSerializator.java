@@ -1,3 +1,7 @@
+/**
+ * 2002-2020
+ * woodapiary.com
+ */
 package com.woodapiary.meteo.provider.misc;
 
 import java.io.BufferedReader;
@@ -10,8 +14,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.List;
-
-import org.springframework.util.ResourceUtils;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -46,8 +48,7 @@ public class ObjectSerializator<T> {
         }
     }
 
-    public List<T> readCsvFromFile(final String path, Class<T> clazz) throws IOException {
-        final File file = ResourceUtils.getFile(path);
+    public List<T> readCsvFromFileV1(final File file, Class<T> clazz) throws IOException {
         try (final FileInputStream fis = new FileInputStream(file)) {
             final CsvMapper mapperCsv = new CsvMapper();
             final CsvSchema schema = mapperCsv.schemaFor(clazz).withHeader().withColumnReordering(true).withColumnSeparator('\t');
@@ -55,4 +56,12 @@ public class ObjectSerializator<T> {
             return reader.<T>readValues(fis).readAll();
         }
     }
+
+    public List<T> readCsvFromFileV2(final InputStream stream, Class<T> clazz) throws IOException {
+        final CsvMapper mapperCsv = new CsvMapper();
+        final CsvSchema schema = mapperCsv.schemaFor(clazz).withHeader().withColumnReordering(true).withColumnSeparator('\t');
+        final ObjectReader reader = mapperCsv.readerFor(clazz).with(schema);
+        return reader.<T>readValues(stream).readAll();
+    }
+
 }

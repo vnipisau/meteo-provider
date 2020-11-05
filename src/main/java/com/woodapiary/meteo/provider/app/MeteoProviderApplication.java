@@ -38,3 +38,4 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO yandex version 2 
 //TODO UUID
 //TODO ELK
+//TODO batch save
