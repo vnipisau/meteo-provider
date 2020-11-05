@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -31,19 +32,13 @@ public class WsMessageDtoEntityMapper {
     TypeMap<WsCurrentDto, WsFact> typeMapFactDtoToFact;
     TypeMap<WsFact, WsCurrentDto> typeMapFactDtoFromFact;
 
-    //TODO source.getSource().stream().map(Human::getName).collect(Collectors.joining(","))
     Converter<List<String>, String> listOfStringToString = new AbstractConverter<>() {
         @Override
         protected String convert(List<String> source) {
             if (source == null) {
                 return null;
             }
-            final StringBuffer res = new StringBuffer();
-            for (final String str : source) {
-                res.append(str);
-                res.append(';');
-            }
-            return res.toString();
+            return source.stream().collect(Collectors.joining(";"));
         }
     };
 
