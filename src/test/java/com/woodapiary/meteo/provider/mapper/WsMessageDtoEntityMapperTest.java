@@ -41,11 +41,11 @@ public class WsMessageDtoEntityMapperTest {
     @Test
     public void test02() throws IOException {
         final WsMessageDto dto1 = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
-        final WsMessage entity = mapper.messageDtoToMessage(dto1);
-        final WsMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setLocation(null);
         dto1.setCurrent(null);
         dto1.setRequest(null);
+        final WsMessage entity = mapper.messageDtoToMessage(dto1);
+        final WsMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());
