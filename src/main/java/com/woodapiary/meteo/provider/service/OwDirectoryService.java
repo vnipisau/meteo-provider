@@ -40,4 +40,9 @@ public class OwDirectoryService {
         return entityList;
     }
 
+    public void startup() throws IOException {
+        //TODO check when table is empty
+        saveWeatherToDb();
+    }
+
 }
