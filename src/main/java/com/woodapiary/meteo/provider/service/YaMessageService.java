@@ -6,7 +6,9 @@ package com.woodapiary.meteo.provider.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +45,10 @@ public class YaMessageService {
     public YaMessageDto request(final Source source) throws IOException {
         //System.out.println(prop.getApiKey());
         final String url = source.getUrl() + "?" + "lat=" + source.getLat() + "&" + "lon=" + source.getLon();
-        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().requestJsonFromUrl(url, YaMessageDto.class);
+        //connection.setRequestProperty("X-Yandex-API-Key", apiKey);
+        final Map<String, String> props = new HashMap<>();
+        props.put("X-Yandex-API-Key", apiKey);
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().requestJsonFromUrl(url, YaMessageDto.class, props);
         log.info("read yandex weather message   ok from " + url);
         return dto;
     }

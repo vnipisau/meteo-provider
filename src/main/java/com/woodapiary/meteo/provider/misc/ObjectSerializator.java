@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -23,9 +24,12 @@ import com.google.gson.GsonBuilder;
 
 public class ObjectSerializator<T> {
 
-    public T requestJsonFromUrl(String url, Class<T> clazz) throws IOException {
+    public T requestJsonFromUrl(String url, Class<T> clazz, Map<String, String> props) throws IOException {
         URLConnection connection;
         connection = new URL(url).openConnection();
+        if (props != null) {
+            props.entrySet().stream().forEach(e -> connection.setRequestProperty(e.getKey(), e.getValue()));
+        }
         try (InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));) {
             final String response = rd.readLine();
@@ -35,6 +39,10 @@ public class ObjectSerializator<T> {
             rd.close();
             return owDto;
         }
+    }
+
+    public T requestJsonFromUrl(String url, Class<T> clazz) throws IOException {
+        return requestJsonFromUrl(url, clazz, null);
     }
 
     public T readJsonFromFile(final String path, Class<T> clazz) throws IOException {
