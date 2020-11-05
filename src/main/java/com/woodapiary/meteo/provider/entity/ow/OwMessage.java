@@ -47,7 +47,7 @@ public class OwMessage implements Serializable {
     @JoinColumn(name = "source_id")
     private Source source;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private OwFact mfact;
+    private OwFact fact;
     @OneToMany(mappedBy = "alertId")
     private List<OwAlert> alerts;
     @OneToMany(mappedBy = "dailyId")
@@ -79,13 +79,12 @@ public class OwMessage implements Serializable {
         this.source = source;
     }
 
-    //TODO remove M
-    public OwFact getMfact() {
-        return mfact;
+    public OwFact getFact() {
+        return fact;
     }
 
-    public void setMfact(OwFact mfact) {
-        this.mfact = mfact;
+    public void setFact(OwFact fact) {
+        this.fact = fact;
     }
 
     public List<OwHourly> getHourly() {

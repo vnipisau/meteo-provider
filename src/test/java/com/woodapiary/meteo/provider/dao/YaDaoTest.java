@@ -71,7 +71,7 @@ public class YaDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(createFact(), null), source);
         assertEquals(1, dao.countFacts());
-        assertNotNull(mes.getMfact().getFactId());
+        assertNotNull(mes.getFact().getFactId());
     }
 
     @Test
@@ -80,20 +80,20 @@ public class YaDaoTest {
         final YaMessage mes = dao.saveMessage(createMessage(null, createForecast(createParts())), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countForecast());
-        assertNotNull(mes.getMforecast().getForecastId());
+        assertNotNull(mes.getForecast().getForecastId());
         assertEquals(2, dao.countParts());
-        assertNotNull(mes.getMforecast().getParts().get(0));
-        assertNotNull(mes.getMforecast().getParts().get(0).getPartId());
-        assertNotNull(mes.getMforecast().getParts().get(0).getForecast());
-        assertNotNull(mes.getMforecast().getParts().get(0).getForecast().getForecastId());
+        assertNotNull(mes.getForecast().getParts().get(0));
+        assertNotNull(mes.getForecast().getParts().get(0).getPartId());
+        assertNotNull(mes.getForecast().getParts().get(0).getForecast());
+        assertNotNull(mes.getForecast().getParts().get(0).getForecast().getForecastId());
     }
 
     @Test
     public void test04() {
         final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(createFact(), createForecast(createParts())), source);
-        assertNotNull(mes.getMforecast().getForecastId());
-        assertNotNull(mes.getMfact().getFactId());
+        assertNotNull(mes.getForecast().getForecastId());
+        assertNotNull(mes.getFact().getFactId());
     }
 
     @After
@@ -113,8 +113,8 @@ public class YaDaoTest {
     YaMessage createMessage(YaFact yaFact, YaForecast yaForecast) {
         final YaMessage entity = new YaMessage();
         entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
-        entity.setMfact(yaFact);
-        entity.setMforecast(yaForecast);
+        entity.setFact(yaFact);
+        entity.setForecast(yaForecast);
         return entity;
     }
 

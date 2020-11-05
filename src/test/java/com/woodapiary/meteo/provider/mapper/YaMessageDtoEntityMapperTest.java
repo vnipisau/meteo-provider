@@ -43,11 +43,11 @@ public class YaMessageDtoEntityMapperTest {
     @Test
     public void test02() throws IOException {
         final YaMessageDto dto1 = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
-        final YaMessage entity = mapper.messageDtoToMessage(dto1);
-        final YaMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setInfo(null);
         dto1.setFact(null);
         dto1.setForecast(null);
+        final YaMessage entity = mapper.messageDtoToMessage(dto1);
+        final YaMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         assertNotNull(dto2);
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());

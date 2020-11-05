@@ -138,7 +138,7 @@ public class YaForecast implements Serializable {
 
     public void setMessage(final YaMessage message) {
         this.message = message;
-        message.setMforecast(this);
+        message.setForecast(this);
     }
 
     @Override

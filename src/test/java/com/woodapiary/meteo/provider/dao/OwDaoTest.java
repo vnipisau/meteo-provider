@@ -70,7 +70,7 @@ public class OwDaoTest {
         final OwMessage mes = dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countFacts());
-        assertNotNull(mes.getMfact().getFactId());
+        assertNotNull(mes.getFact().getFactId());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class OwDaoTest {
 
     OwMessage createMessage(OwFact fact, List<OwDaily> daily, List<OwHourly> hourly, List<OwAlert> alerts) {
         final OwMessage entity = new OwMessage();
-        entity.setMfact(fact);
+        entity.setFact(fact);
         entity.setDaily(daily);
         entity.setHourly(hourly);
         entity.setAlerts(alerts);

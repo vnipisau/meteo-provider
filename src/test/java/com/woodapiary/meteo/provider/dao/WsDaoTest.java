@@ -61,8 +61,8 @@ public class WsDaoTest {
         final WsMessage mes = dao.saveMessage(createMessage(createFact()), source);
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countFacts());
-        assertNotNull(mes.getMfact());
-        assertNotNull(mes.getMfact().getFactId());
+        assertNotNull(mes.getFact());
+        assertNotNull(mes.getFact().getFactId());
     }
 
     @After
@@ -81,7 +81,7 @@ public class WsDaoTest {
 
     WsMessage createMessage(WsFact wsFact) {
         final WsMessage entity = new WsMessage();
-        entity.setMfact(wsFact);
+        entity.setFact(wsFact);
         return entity;
     }
 

@@ -83,7 +83,7 @@ public class WsRestControllerTest {
 
     WsMessage createMessage(WsFact wsFact) {
         final WsMessage entity = new WsMessage();
-        entity.setMfact(wsFact);
+        entity.setFact(wsFact);
         return entity;
     }
 

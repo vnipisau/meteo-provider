@@ -45,7 +45,7 @@ public class WsMessage implements Serializable {
     @JoinColumn(name = "source_id")
     private Source source;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private WsFact mfact;
+    private WsFact fact;
 
     public Long getMessageId() {
         return messageId;
@@ -71,12 +71,12 @@ public class WsMessage implements Serializable {
         this.source = source;
     }
 
-    public WsFact getMfact() {
-        return mfact;
+    public WsFact getFact() {
+        return fact;
     }
 
-    public void setMfact(WsFact mfact) {
-        this.mfact = mfact;
+    public void setFact(WsFact mfact) {
+        this.fact = mfact;
     }
 
     public static long getSerialversionuid() {

@@ -89,7 +89,7 @@ public class OwRestControllerTest {
 
     OwMessage createMessage(OwFact fact, List<OwDaily> daily, List<OwHourly> hourly, List<OwAlert> alerts) {
         final OwMessage entity = new OwMessage();
-        entity.setMfact(fact);
+        entity.setFact(fact);
         entity.setDaily(daily);
         entity.setHourly(hourly);
         entity.setAlerts(alerts);

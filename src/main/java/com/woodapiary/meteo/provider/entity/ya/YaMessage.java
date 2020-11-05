@@ -46,9 +46,9 @@ public class YaMessage implements Serializable {
     @JoinColumn(name = "source_id")
     private Source source;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private YaFact mfact;
+    private YaFact fact;
     @OneToOne(optional = true, mappedBy = "message", cascade = CascadeType.ALL)
-    private YaForecast mforecast;
+    private YaForecast forecast;
 
     public Long getMessageId() {
         return messageId;
@@ -74,20 +74,20 @@ public class YaMessage implements Serializable {
         this.source = source;
     }
 
-    public YaFact getMfact() {
-        return mfact;
+    public YaFact getFact() {
+        return fact;
     }
 
-    public void setMfact(final YaFact fact) {
-        this.mfact = fact;
+    public void setFact(final YaFact fact) {
+        this.fact = fact;
     }
 
-    public YaForecast getMforecast() {
-        return mforecast;
+    public YaForecast getForecast() {
+        return forecast;
     }
 
-    public void setMforecast(final YaForecast forecast) {
-        this.mforecast = forecast;
+    public void setForecast(final YaForecast forecast) {
+        this.forecast = forecast;
     }
 
     public LocalDateTime getModified() {

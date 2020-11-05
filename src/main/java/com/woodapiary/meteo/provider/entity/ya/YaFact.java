@@ -184,7 +184,7 @@ public class YaFact implements Serializable {
 
     public void setMessage(final YaMessage message) {
         this.message = message;
-        message.setMfact(this);
+        message.setFact(this);
     }
 
     @Override

@@ -81,7 +81,7 @@ public class YaRestControllerTest {
     YaMessage createMessage(YaFact yaFact, Object object) {
         final YaMessage entity = new YaMessage();
         entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
-        entity.setMfact(yaFact);
+        entity.setFact(yaFact);
         return entity;
     }
 
