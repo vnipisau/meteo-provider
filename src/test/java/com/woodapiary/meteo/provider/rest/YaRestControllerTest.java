@@ -34,7 +34,7 @@ import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.YaMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class YaRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(YaRestControllerTest.class);

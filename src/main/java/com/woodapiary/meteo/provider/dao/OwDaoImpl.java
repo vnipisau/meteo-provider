@@ -109,4 +109,24 @@ public class OwDaoImpl implements OwDao {
         weatherRepo.deleteAll();
     }
 
+    @Override
+    public long countFacts() {
+        return factRepo.count();
+    }
+
+    @Override
+    public long countDaily() {
+        return dailyRepo.count();
+    }
+
+    @Override
+    public long countHourly() {
+        return hourlyRepo.count();
+    }
+
+    @Override
+    public long countAlerts() {
+        return alertRepo.count();
+    }
+
 }

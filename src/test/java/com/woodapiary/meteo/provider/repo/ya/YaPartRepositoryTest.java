@@ -6,6 +6,7 @@ package com.woodapiary.meteo.provider.repo.ya;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.After;
@@ -15,19 +16,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.ya.YaPart;
-import com.woodapiary.meteo.provider.repo.ya.YaPartRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
-
+@SpringBootTest
+@Transactional
 public class YaPartRepositoryTest {
 
     static Logger log = LoggerFactory.getLogger(YaPartRepositoryTest.class);
@@ -37,7 +34,7 @@ public class YaPartRepositoryTest {
 
     @Before
     public void before() {
-        repo.deleteAll();
+
     }
 
     @Test
@@ -55,15 +52,18 @@ public class YaPartRepositoryTest {
 
     @Test
     public void test02() {
-        final YaPart ent1 = repo.save(createEntity());
-        final YaPart ent2 = repo.findById(ent1.getPartId()).orElseThrow();
+        final YaPart ent = repo.save(createEntity());
+        final YaPart ent2 = repo.findById(ent.getPartId()).orElseThrow();
         //System.out.println(ent1.getPartId());
-        assertEquals(ent1, ent2);
+        assertEquals(ent, ent2);
+        assertEquals(ent.hashCode(), ent2.hashCode());
+        assertTrue(ent.equals(ent2));
+        assertTrue(ent.toString().length() > 0);
     }
 
     @After
     public void after() {
-        repo.deleteAll();
+
     }
 
     YaPart createEntity() {

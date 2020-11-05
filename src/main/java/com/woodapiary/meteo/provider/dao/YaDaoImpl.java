@@ -74,4 +74,19 @@ public class YaDaoImpl implements YaDao {
         return messageRepo.count();
     }
 
+    @Override
+    public long countFacts() {
+        return factRepo.count();
+    }
+
+    @Override
+    public long countForecast() {
+        return foreRepo.count();
+    }
+
+    @Override
+    public long countParts() {
+        return partRepo.count();
+    }
+
 }

@@ -23,25 +23,20 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 import com.woodapiary.meteo.provider.entity.ya.YaPart;
-import com.woodapiary.meteo.provider.repo.ya.YaFactRepository;
-import com.woodapiary.meteo.provider.repo.ya.YaForecastRepository;
-import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
-import com.woodapiary.meteo.provider.repo.ya.YaPartRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
+//@Commit
 public class YaDaoTest {
 
     static Logger log = LoggerFactory.getLogger(YaDaoTest.class);
@@ -50,19 +45,10 @@ public class YaDaoTest {
     private YaDao dao;
     @Autowired
     private MeteoDao sRepo;
-    @Autowired
-    private YaMessageRepository mRepo;
-    @Autowired
-    private YaFactRepository ftRepo;
-    @Autowired
-    private YaForecastRepository fcRepo;
-    @Autowired
-    private YaPartRepository pRepo;
 
     @Before
     public void insert() {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
+
     }
 
     @Test
@@ -75,7 +61,7 @@ public class YaDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final YaMessage ent = dao.saveMessage(createMessage(null, null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, mRepo.count());
+        assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
         assertEquals(source.getSourceId(), ent.getSource().getSourceId());
     }
@@ -84,7 +70,7 @@ public class YaDaoTest {
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(createFact(), null), source);
-        assertEquals(1, ftRepo.count());
+        assertEquals(1, dao.countFacts());
         assertNotNull(mes.getMfact().getFactId());
     }
 
@@ -93,9 +79,9 @@ public class YaDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final YaMessage mes = dao.saveMessage(createMessage(null, createForecast(createParts())), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, fcRepo.count());
+        assertEquals(1, dao.countForecast());
         assertNotNull(mes.getMforecast().getForecastId());
-        assertEquals(2, pRepo.count());
+        assertEquals(2, dao.countParts());
         assertNotNull(mes.getMforecast().getParts().get(0));
         assertNotNull(mes.getMforecast().getParts().get(0).getPartId());
         assertNotNull(mes.getMforecast().getParts().get(0).getForecast());
@@ -112,8 +98,7 @@ public class YaDaoTest {
 
     @After
     public void after() {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
+
     }
 
     Source createSource() {
@@ -157,6 +142,11 @@ public class YaDaoTest {
         res.add(createPart());
         res.add(createPart());
         return res;
+    }
+
+    void clear() {
+        dao.deleteAllMessages();
+        sRepo.deleteAll();
     }
 
 }

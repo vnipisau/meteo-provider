@@ -23,10 +23,10 @@ import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
-import com.woodapiary.meteo.provider.service.YaMessageService;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 public class YaMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
@@ -34,8 +34,6 @@ public class YaMessageDtoEntityMapperTest {
     private final String testDataFile = "ya_v1.json";
     @Autowired
     private YaMessageDtoEntityMapper mapper;
-    @Autowired
-    private YaMessageService requester;
 
     @Test
     public void test01() {
@@ -44,7 +42,7 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final YaMessageDto dto1 = requester.readFromFile(testDataPath + testDataFile);
+        final YaMessageDto dto1 = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
         final YaMessage entity = mapper.messageDtoToMessage(dto1);
         final YaMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setInfo(null);
@@ -54,11 +52,13 @@ public class YaMessageDtoEntityMapperTest {
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());
         assertTrue(dto1.equals(dto2));
+        assertTrue(dto1.toString().length() > 0);
     }
 
     @Test
     public void test03() throws IOException {
-        final YaFactDto dto1 = requester.readFromFile(testDataPath + testDataFile).getFact();
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
+        final YaFactDto dto1 = dto.getFact();
         final YaFact entity = mapper.factDtoToFact(dto1);
         final YaFactDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);
@@ -69,7 +69,8 @@ public class YaMessageDtoEntityMapperTest {
 
     @Test
     public void test04() throws IOException {
-        final YaForecastDto dto1 = requester.readFromFile(testDataPath + testDataFile).getForecast();
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
+        final YaForecastDto dto1 = dto.getForecast();
         final YaForecast entity = mapper.forecastDtoToForecast(dto1);
         final YaForecastDto dto2 = mapper.forecastDtoFromForecast(entity);
         assertNotNull(dto2);

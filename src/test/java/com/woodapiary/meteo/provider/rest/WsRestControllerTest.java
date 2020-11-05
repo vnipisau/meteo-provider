@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.woodapiary.meteo.provider.dao.WsDao;
@@ -33,7 +34,7 @@ import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class WsRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(WsRestControllerTest.class);
@@ -48,6 +49,7 @@ public class WsRestControllerTest {
     private SourceRepository sRepo;
 
     @Before
+    @Commit
     public void insert() {
         final Source source = sRepo.save(createSource());
         dao.saveMessage(createMessage(createFact()), source);

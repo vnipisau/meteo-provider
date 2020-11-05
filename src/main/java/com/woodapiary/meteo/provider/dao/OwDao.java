@@ -27,5 +27,11 @@ public interface OwDao {
 
     long countMessages();
 
-    //TODO add count parts
+    long countFacts();
+
+    long countDaily();
+
+    long countHourly();
+
+    long countAlerts();
 }

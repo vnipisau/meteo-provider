@@ -18,10 +18,9 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ow.OwAlert;
@@ -30,16 +29,11 @@ import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
-import com.woodapiary.meteo.provider.repo.ow.OwAlertRepository;
-import com.woodapiary.meteo.provider.repo.ow.OwDailyRepository;
-import com.woodapiary.meteo.provider.repo.ow.OwFactRepository;
-import com.woodapiary.meteo.provider.repo.ow.OwHourlyRepository;
-import com.woodapiary.meteo.provider.repo.ow.OwMessageRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
+//@Commit
 public class OwDaoTest {
 
     static Logger log = LoggerFactory.getLogger(OwDaoTest.class);
@@ -48,22 +42,9 @@ public class OwDaoTest {
     private OwDao dao;
     @Autowired
     private MeteoDao sRepo;
-    @Autowired
-    private OwMessageRepository mRepo;
-    @Autowired
-    private OwFactRepository ftRepo;
-    @Autowired
-    private OwDailyRepository dailyRepo;
-    @Autowired
-    private OwHourlyRepository hourlyRepo;
-    @Autowired
-    private OwAlertRepository alertRepo;
 
     @Before
     public void insert() {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
-        dao.deleteWeatherConditionCodes();
     }
 
     @Test
@@ -76,7 +57,7 @@ public class OwDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, mRepo.count());
+        assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
         assertEquals(source.getSourceId(), ent.getSource().getSourceId());
     }
@@ -88,15 +69,16 @@ public class OwDaoTest {
         dao.saveWeatherConditionCodes(ews);
         final OwMessage mes = dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, ftRepo.count());
+        assertEquals(1, dao.countFacts());
         assertNotNull(mes.getMfact().getFactId());
     }
 
     @Test
+    //@Commit
     public void test03() {
         final Source source = sRepo.saveSource(createSource());
         final OwMessage mes = dao.saveMessage(createMessage(null, null, null, createAlertList()), source);
-        assertEquals(2, alertRepo.count());
+        assertEquals(2, dao.countAlerts());
         assertNotNull(mes.getAlerts().get(0).getAlertId());
     }
 
@@ -107,7 +89,7 @@ public class OwDaoTest {
         dao.saveWeatherConditionCodes(ews);
         final OwMessage mes = dao.saveMessage(createMessage(null, List.of(createDaily(ews)), null, null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, dailyRepo.count());
+        assertEquals(1, dao.countDaily());
         assertNotNull(mes.getDaily().get(0).getDailyId());
     }
 
@@ -118,12 +100,16 @@ public class OwDaoTest {
         dao.saveWeatherConditionCodes(ews);
         final OwMessage mes = dao.saveMessage(createMessage(null, null, List.of(createHourly(ews)), null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, hourlyRepo.count());
+        assertEquals(1, dao.countHourly());
         assertNotNull(mes.getHourly().get(0).getHourlyId());
     }
 
     @After
     public void after() {
+
+    }
+
+    void clear() {
         dao.deleteAllMessages();
         sRepo.deleteAll();
         dao.deleteWeatherConditionCodes();

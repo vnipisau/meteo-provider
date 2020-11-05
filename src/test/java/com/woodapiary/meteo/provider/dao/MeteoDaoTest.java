@@ -14,28 +14,26 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
+//@Commit
 public class MeteoDaoTest {
 
     static Logger log = LoggerFactory.getLogger(MeteoDaoTest.class);
 
     @Autowired
-    private SourceRepository sRepo;
+    private MeteoDao sRepo;
 
     @Before
     public void insert() {
-        sRepo.deleteAll();
+
     }
 
     @Test
@@ -45,7 +43,7 @@ public class MeteoDaoTest {
 
     @Test
     public void test01() {
-        final Source source = sRepo.save(createSource());
+        final Source source = sRepo.saveSource(createSource());
         //System.out.println(ent.getFactId());
         assertTrue(source.getSourceId() > 0);
 
@@ -53,6 +51,10 @@ public class MeteoDaoTest {
 
     @After
     public void after() {
+
+    }
+
+    void clear() {
         sRepo.deleteAll();
     }
 

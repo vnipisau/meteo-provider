@@ -22,9 +22,10 @@ import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 @Transactional
 public class OwMessageServiceTest {
 
@@ -49,7 +50,6 @@ public class OwMessageServiceTest {
 
     @Test
     public void test02() throws IOException {
-        //TODO
         assumeTrue("request to real service", providerTestEnabled);
         final OwMessageDto result = requester.request(createSource());
         System.out.println(result.toString());
@@ -58,24 +58,18 @@ public class OwMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final OwMessageDto result = requester.readFromFile(testDataPath + testDataFile);
+        final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
         //System.out.println(result.toString());
-        assertNotNull(result.getCurrent().getDt());
+        assertNotNull(dto1.getCurrent().getDt());
     }
 
     @Test
     public void test04() throws IOException {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
-        dao.deleteWeatherConditionCodes();
         final Source source = sRepo.saveSource(createSource());
-        dir.saveToDb();
-        final OwMessageDto dto = requester.readFromFile(testDataPath + testDataFile);
-        requester.saveToDb(dto, source);
+        dir.saveWeatherToDb();
+        final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
+        requester.saveToDb(dto1, source);
         assertEquals(1, dao.countMessages());
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
-        dao.deleteWeatherConditionCodes();
     }
 
     Source createSource() {

@@ -29,10 +29,10 @@ import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
-import com.woodapiary.meteo.provider.service.OwMessageService;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 public class OwMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
@@ -41,8 +41,6 @@ public class OwMessageDtoEntityMapperTest {
     //private final String testDataFile2 = "ow_onecall_d.json";
     @Autowired
     private OwMessageDtoEntityMapper mapper;
-    @Autowired
-    private OwMessageService requester;
 
     @Test
     public void test01() {
@@ -51,7 +49,7 @@ public class OwMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final OwMessageDto dto1 = requester.readFromFile(testDataPath + testDataFile);
+        final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
         dto1.setCurrent(null);
         dto1.setAlerts(null);
         dto1.setDaily(null);
@@ -66,11 +64,13 @@ public class OwMessageDtoEntityMapperTest {
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());
         assertTrue(dto1.equals(dto2));
+        assertTrue(dto1.toString().length() > 0);
     }
 
     @Test
     public void test03() throws IOException {
-        final OwCurrentDto dto1 = requester.readFromFile(testDataPath + testDataFile).getCurrent();
+        final OwMessageDto dto = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
+        final OwCurrentDto dto1 = dto.getCurrent();
         final OwRainDto ord = new OwRainDto();
         ord.set1h(0.1);
         dto1.setRain(ord);
@@ -84,7 +84,8 @@ public class OwMessageDtoEntityMapperTest {
 
     @Test
     public void test04() throws IOException {
-        final List<OwAlertDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getAlerts();
+        final OwMessageDto dto = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
+        final List<OwAlertDto> dto1 = dto.getAlerts();
         final List<OwAlert> entity = mapper.alertListDtoToAlertList(dto1);
         final List<OwAlertDto> dto2 = mapper.alertListDtoFromAlertList(entity);
         assertNotNull(dto2);
@@ -93,10 +94,10 @@ public class OwMessageDtoEntityMapperTest {
         assertTrue(dto1.equals(dto2));
     }
 
-    //@Ignore
     @Test
     public void test05() throws IOException {
-        final List<OwDailyDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getDaily();
+        final OwMessageDto dto = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
+        final List<OwDailyDto> dto1 = dto.getDaily();
         final List<OwDaily> entity = mapper.dailyListDtoToDailyList(dto1);
         final List<OwDailyDto> dto2 = mapper.dailyListDtoFromDailyList(entity);
         assertNotNull(dto2);
@@ -107,7 +108,8 @@ public class OwMessageDtoEntityMapperTest {
 
     @Test
     public void test06() throws IOException {
-        final List<OwHourlyDto> dto1 = requester.readFromFile(testDataPath + testDataFile).getHourly();
+        final OwMessageDto dto = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
+        final List<OwHourlyDto> dto1 = dto.getHourly();
         final List<OwHourly> entity = mapper.hourlyListDtoToHourlyList(dto1);
         final List<OwHourlyDto> dto2 = mapper.hourlyListDtoFromHourlyList(entity);
         assertNotNull(dto2);

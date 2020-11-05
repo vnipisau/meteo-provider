@@ -6,6 +6,7 @@ package com.woodapiary.meteo.provider.repo.ow;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
@@ -20,17 +21,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
 public class OwFactRepositoryTest {
 
     static Logger log = LoggerFactory.getLogger(OwFactRepositoryTest.class);
@@ -40,7 +39,7 @@ public class OwFactRepositoryTest {
 
     @Before
     public void before() {
-        repo.deleteAll();
+
     }
 
     @Test
@@ -54,14 +53,12 @@ public class OwFactRepositoryTest {
         //System.out.println(ent.getFactId());
         assertEquals(1, repo.count());
         assertNotNull(ent.getFactId());
-    }
-
-    @Test
-    public void test02() {
-        final OwFact ent1 = repo.save(createEntity());
-        final OwFact ent2 = repo.findById(ent1.getFactId()).orElseThrow();
+        final OwFact ent2 = repo.findById(ent.getFactId()).orElseThrow();
         //System.out.println(ent1.getFactId());
-        assertEquals(ent1, ent2);
+        assertEquals(ent, ent2);
+        assertEquals(ent.hashCode(), ent2.hashCode());
+        assertTrue(ent.equals(ent2));
+        assertTrue(ent.toString().length() > 0);
     }
 
     @Test
@@ -73,7 +70,7 @@ public class OwFactRepositoryTest {
 
     @After
     public void after() {
-        repo.deleteAll();
+
     }
 
     OwFact createEntity() {

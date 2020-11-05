@@ -4,14 +4,7 @@
  */
 package com.woodapiary.meteo.provider.service;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaFactDto;
@@ -31,6 +22,7 @@ import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 import com.woodapiary.meteo.provider.mapper.YaMessageDtoEntityMapper;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @Service
 public class YaMessageService {
@@ -51,30 +43,9 @@ public class YaMessageService {
     public YaMessageDto request(final Source source) throws IOException {
         //System.out.println(prop.getApiKey());
         final String url = source.getUrl() + "?" + "lat=" + source.getLat() + "&" + "lon=" + source.getLon();
-        URLConnection connection;
-        connection = new URL(url).openConnection();
-        connection.setRequestProperty("X-Yandex-API-Key", apiKey);
-        try (InputStream is = connection.getInputStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));) {
-            final String response = rd.readLine();
-            //System.out.println(response);
-            final YaMessageDto ywDto = new Gson().fromJson(response, YaMessageDto.class);
-            //System.out.println(ywDto.toString());
-            rd.close();
-            log.info("read yandex weather message   ok from " + url);
-            return ywDto;
-        }
-    }
-
-    public YaMessageDto readFromFile(final String path) throws IOException {
-        final FileInputStream fis = new FileInputStream(path);
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")))) {
-            final Gson parser = new GsonBuilder()
-                    //.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter().nullSafe())
-                    .create();
-            final YaMessageDto ywDto = parser.fromJson(rd, YaMessageDto.class);
-            return ywDto;
-        }
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().requestJsonFromUrl(url, YaMessageDto.class);
+        log.info("read yandex weather message   ok from " + url);
+        return dto;
     }
 
     public void saveToDb(final YaMessageDto dto, final Source source) {

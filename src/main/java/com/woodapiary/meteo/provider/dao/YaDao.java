@@ -23,4 +23,10 @@ public interface YaDao {
 
     long countMessages();
 
+    long countFacts();
+
+    long countForecast();
+
+    long countParts();
+
 }

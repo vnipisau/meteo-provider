@@ -22,9 +22,10 @@ import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.WsDao;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 @Transactional
 public class WsMessageServiceTest {
 
@@ -55,21 +56,17 @@ public class WsMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final WsMessageDto result = requester.readFromFile(testDataPath + testDataFile);
+        final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
         //System.out.println(result.toString());
-        assertNotNull(result.getCurrent().getObservationTime());
+        assertNotNull(dto.getCurrent().getObservationTime());
     }
 
     @Test
     public void test04() throws IOException {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
         final Source source = sRepo.saveSource(createSource());
-        final WsMessageDto dto = requester.readFromFile(testDataPath + testDataFile);
+        final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
         requester.saveToDb(dto, source);
         assertEquals(1, dao.countMessages());
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
     }
 
     Source createSource() {

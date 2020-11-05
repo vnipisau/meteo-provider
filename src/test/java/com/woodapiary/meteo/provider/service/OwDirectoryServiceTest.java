@@ -22,7 +22,7 @@ import com.woodapiary.meteo.provider.dto.ow.OwWeatherDto;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 @Transactional
 public class OwDirectoryServiceTest {
 
@@ -38,13 +38,13 @@ public class OwDirectoryServiceTest {
 
     @Test
     public void test02() throws IOException {
-        final List<OwWeatherDto> res = requester.readFromFile();
+        final List<OwWeatherDto> res = requester.readWeatherFromFile();
         assertTrue(res.size() > 0);
     }
 
     @Test
     public void test03() throws IOException {
-        final List<OwWeather> res = requester.saveToDb();
+        final List<OwWeather> res = requester.saveWeatherToDb();
         assertTrue(res.size() > 0);
         dao.deleteWeatherConditionCodes();
     }

@@ -21,10 +21,10 @@ import com.woodapiary.meteo.provider.dto.ws.WsCurrentDto;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.entity.ws.WsFact;
 import com.woodapiary.meteo.provider.entity.ws.WsMessage;
-import com.woodapiary.meteo.provider.service.WsMessageService;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 public class WsMessageDtoEntityMapperTest {
 
     @Value("${meteo-provider.provider.testdata.path}")
@@ -32,8 +32,6 @@ public class WsMessageDtoEntityMapperTest {
     private final String testDataFile = "ws.json";
     @Autowired
     private WsMessageDtoEntityMapper mapper;
-    @Autowired
-    private WsMessageService requester;
 
     @Test
     public void test01() {
@@ -42,7 +40,7 @@ public class WsMessageDtoEntityMapperTest {
 
     @Test
     public void test02() throws IOException {
-        final WsMessageDto dto1 = requester.readFromFile(testDataPath + testDataFile);
+        final WsMessageDto dto1 = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
         final WsMessage entity = mapper.messageDtoToMessage(dto1);
         final WsMessageDto dto2 = mapper.messageDtoFromMessage(entity);
         dto1.setLocation(null);
@@ -52,11 +50,13 @@ public class WsMessageDtoEntityMapperTest {
         assertEquals(dto1, dto2);
         assertEquals(dto1.hashCode(), dto2.hashCode());
         assertTrue(dto1.equals(dto2));
+        assertTrue(dto1.toString().length() > 0);
     }
 
     @Test
     public void test03() throws IOException {
-        final WsCurrentDto dto1 = requester.readFromFile(testDataPath + testDataFile).getCurrent();
+        final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
+        final WsCurrentDto dto1 = dto.getCurrent();
         final WsFact entity = mapper.factDtoToFact(dto1);
         final WsCurrentDto dto2 = mapper.factDtoFromFact(entity);
         assertNotNull(dto2);

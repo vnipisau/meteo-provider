@@ -22,4 +22,6 @@ public interface WsDao {
     List<WsFact> findBySource(String sourceId);
 
     long countMessages();
+
+    long countFacts();
 }

@@ -48,38 +48,26 @@ public class ProviderSchedulerTest {
     @Test
     public void test02() {
         assumeTrue("request to real service", providerTestEnabled);
-        daoYa.deleteAllMessages();
-        sRepo.deleteAll();
         sRepo.saveSource(createSourceYa());
         sheduler.runYa();
         assertEquals(1, daoYa.countMessages());
-        daoYa.deleteAllMessages();
-        sRepo.deleteAll();
     }
 
     @Test
     public void test03() {
         assumeTrue("request to real service", providerTestEnabled);
-        daoWs.deleteAllMessages();
-        sRepo.deleteAll();
         sRepo.saveSource(createSourceWs());
         sheduler.runWs();
         assertEquals(1, daoWs.countMessages());
-        daoWs.deleteAllMessages();
-        sRepo.deleteAll();
     }
 
     @Test
     public void test04() {
         //TODO замокать
         assumeTrue("request to real service", providerTestEnabled);
-        daoOw.deleteAllMessages();
-        sRepo.deleteAll();
         sRepo.saveSource(createSourceOw());
         sheduler.runOw();
         assertEquals(1, daoOw.countMessages());
-        daoOw.deleteAllMessages();
-        sRepo.deleteAll();
     }
 
     Source createSourceYa() {

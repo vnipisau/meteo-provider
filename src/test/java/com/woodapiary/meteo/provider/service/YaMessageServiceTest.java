@@ -22,9 +22,10 @@ import com.woodapiary.meteo.provider.dao.MeteoDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
+import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest
 @Transactional
 public class YaMessageServiceTest {
 
@@ -55,21 +56,17 @@ public class YaMessageServiceTest {
 
     @Test
     public void test03() throws IOException {
-        final YaMessageDto result = requester.readFromFile(testDataPath + testDataFile);
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
         //System.out.println(result.toString());
-        assertNotNull(result.getNow());
+        assertNotNull(dto.getNow());
     }
 
     @Test
     public void test04() throws IOException {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
         final Source source = sRepo.saveSource(createSource());
-        final YaMessageDto dto = requester.readFromFile(testDataPath + testDataFile);
+        final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
         requester.saveToDb(dto, source);
         assertEquals(1, dao.countMessages());
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
     }
 
     Source createSource() {

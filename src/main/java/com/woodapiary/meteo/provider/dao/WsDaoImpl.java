@@ -55,4 +55,9 @@ public class WsDaoImpl implements WsDao {
         return messageRepo.count();
     }
 
+    @Override
+    public long countFacts() {
+        return factRepo.count();
+    }
+
 }

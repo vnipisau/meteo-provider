@@ -39,7 +39,7 @@ import com.woodapiary.meteo.provider.repo.SourceRepository;
 import com.woodapiary.meteo.provider.service.OwMessageService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "meteo-provider.scheduling.enabled=false")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class OwRestControllerTest {
 
     static Logger log = LoggerFactory.getLogger(OwRestControllerTest.class);
@@ -64,7 +64,7 @@ public class OwRestControllerTest {
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("openweathermap").size() > 0).isTrue();
+        assertThat(messageService.getFacts("openweathermap").size() == 1).isTrue();
     }
 
     @Test
@@ -73,7 +73,7 @@ public class OwRestControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
-        assertThat(response.getBody().getFacts().size() > 0).isTrue();
+        assertThat(response.getBody().getFacts().size() == 1).isTrue();
     }
 
     Source createSource() {
@@ -118,9 +118,13 @@ public class OwRestControllerTest {
 
     @After
     public void after() {
+        clear();
+    }
+
+    void clear() {
         dao.deleteAllMessages();
-        sRepo.deleteAll();
         dao.deleteWeatherConditionCodes();
+        sRepo.deleteAll();
     }
 
 }

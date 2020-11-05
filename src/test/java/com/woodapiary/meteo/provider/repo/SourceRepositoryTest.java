@@ -5,8 +5,9 @@
 package com.woodapiary.meteo.provider.repo;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,18 +16,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
 
 public class SourceRepositoryTest {
 
@@ -37,7 +35,7 @@ public class SourceRepositoryTest {
 
     @Before
     public void insert() {
-        repo.deleteAll();
+
     }
 
     @Test
@@ -55,15 +53,19 @@ public class SourceRepositoryTest {
 
     @Test
     public void test02() {
-        final Source ent1 = repo.save(createEntity());
-        final Source ent2 = repo.findById(ent1.getSourceId()).orElseThrow();
+        final Source ent = repo.save(createEntity());
+        final Source ent2 = repo.findById(ent.getSourceId()).orElseThrow();
         //System.out.println(ent1);
-        assertEquals(ent1, ent2);
+        assertEquals(1, repo.count());
+        assertEquals(ent, ent2);
+        assertEquals(ent.hashCode(), ent2.hashCode());
+        assertTrue(ent.equals(ent2));
+        assertTrue(ent.toString().length() > 0);
     }
 
     @After
     public void after() {
-        repo.deleteAll();
+
     }
 
     Source createEntity() {

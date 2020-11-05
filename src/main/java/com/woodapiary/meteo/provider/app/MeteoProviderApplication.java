@@ -37,3 +37,4 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO metar
 //TODO created and modified
 //TODO yandex version 2 
+//TODO UUID

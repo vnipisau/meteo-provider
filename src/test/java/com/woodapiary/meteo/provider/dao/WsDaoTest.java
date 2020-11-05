@@ -15,21 +15,17 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ws.WsFact;
 import com.woodapiary.meteo.provider.entity.ws.WsMessage;
-import com.woodapiary.meteo.provider.repo.ws.WsFactRepository;
-import com.woodapiary.meteo.provider.repo.ws.WsMessageRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
+@SpringBootTest
+@Transactional
 public class WsDaoTest {
 
     static Logger log = LoggerFactory.getLogger(WsDaoTest.class);
@@ -38,15 +34,10 @@ public class WsDaoTest {
     private WsDao dao;
     @Autowired
     private MeteoDao sRepo;
-    @Autowired
-    private WsMessageRepository mRepo;
-    @Autowired
-    private WsFactRepository ftRepo;
 
     @Before
     public void insert() {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
+
     }
 
     @Test
@@ -59,7 +50,7 @@ public class WsDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final WsMessage ent = dao.saveMessage(createMessage(null), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, mRepo.count());
+        assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
         assertEquals(source.getSourceId(), ent.getSource().getSourceId());
     }
@@ -69,15 +60,14 @@ public class WsDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final WsMessage mes = dao.saveMessage(createMessage(createFact()), source);
         //System.out.println(ent.getFactId());
-        assertEquals(1, ftRepo.count());
+        assertEquals(1, dao.countFacts());
         assertNotNull(mes.getMfact());
         assertNotNull(mes.getMfact().getFactId());
     }
 
     @After
     public void after() {
-        dao.deleteAllMessages();
-        sRepo.deleteAll();
+
     }
 
     Source createSource() {
@@ -98,6 +88,11 @@ public class WsDaoTest {
     WsFact createFact() {
         final WsFact entity = new WsFact();
         return entity;
+    }
+
+    void clear() {
+        dao.deleteAllMessages();
+        sRepo.deleteAll();
     }
 
 }

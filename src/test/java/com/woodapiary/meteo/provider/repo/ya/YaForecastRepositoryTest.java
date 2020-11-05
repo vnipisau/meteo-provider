@@ -6,6 +6,7 @@ package com.woodapiary.meteo.provider.repo.ya;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
@@ -22,19 +23,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
-import com.woodapiary.meteo.provider.repo.ya.YaForecastRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Commit
-
+@SpringBootTest
+@Transactional
 public class YaForecastRepositoryTest {
 
     static Logger log = LoggerFactory.getLogger(YaForecastRepositoryTest.class);
@@ -44,7 +41,7 @@ public class YaForecastRepositoryTest {
 
     @Before
     public void before() {
-        repo.deleteAll();
+
     }
 
     @Test
@@ -62,15 +59,18 @@ public class YaForecastRepositoryTest {
 
     @Test
     public void test02() {
-        final YaForecast ent1 = repo.save(createEntity());
-        final YaForecast ent2 = repo.findById(ent1.getForecastId()).orElseThrow();
+        final YaForecast ent = repo.save(createEntity());
+        final YaForecast ent2 = repo.findById(ent.getForecastId()).orElseThrow();
         //System.out.println(ent1.getFactId());
-        assertEquals(ent1, ent2);
+        assertEquals(ent, ent2);
+        assertEquals(ent.hashCode(), ent2.hashCode());
+        assertTrue(ent.equals(ent2));
+        assertTrue(ent.toString().length() > 0);
     }
 
     @After
     public void after() {
-        repo.deleteAll();
+
     }
 
     YaForecast createEntity() {
