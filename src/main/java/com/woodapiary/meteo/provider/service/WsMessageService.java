@@ -54,7 +54,7 @@ public class WsMessageService {
     public void saveToDb(final WsMessageDto dto, final Source source) {
         final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
         //dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()));
-        log.info("save ws weather message to db - ok " + message.getMessageId());
+        log.info("save ws weather message to db - ok, id= " + message.getMessageId());
     }
 
     public void requestAllAndSave() {

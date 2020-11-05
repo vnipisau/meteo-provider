@@ -69,7 +69,7 @@ public class OwCurrentDto implements Serializable {
     //Wind speed. Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour. How to change units used
     @SerializedName("wind_speed")
     @Expose
-    private Integer windSpeed;
+    private Double windSpeed;
     //Wind direction, degrees (meteorological)
     @SerializedName("wind_deg")
     @Expose
@@ -178,11 +178,11 @@ public class OwCurrentDto implements Serializable {
         this.visibility = visibility;
     }
 
-    public Integer getWindSpeed() {
+    public Double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(Integer windSpeed) {
+    public void setWindSpeed(Double windSpeed) {
         this.windSpeed = windSpeed;
     }
 

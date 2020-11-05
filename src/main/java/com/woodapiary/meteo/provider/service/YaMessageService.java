@@ -50,7 +50,7 @@ public class YaMessageService {
 
     public void saveToDb(final YaMessageDto dto, final Source source) {
         final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        log.info("save yandex weather message to db - ok " + message.getMessageId());
+        log.info("save yandex weather message to db - ok, id= " + message.getMessageId());
     }
 
     public void requestAllAndSave() {

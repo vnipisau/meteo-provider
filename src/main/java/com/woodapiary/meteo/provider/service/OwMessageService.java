@@ -51,7 +51,7 @@ public class OwMessageService {
 
     public void saveToDb(final OwMessageDto dto, final Source source) {
         final OwMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), source);
-        log.info("save openweather message to db - ok" + message.getMessageId());
+        log.info("save openweather message to db - ok, id=" + message.getMessageId());
     }
 
     public void requestAllAndSave() {
