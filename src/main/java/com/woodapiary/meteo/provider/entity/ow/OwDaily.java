@@ -49,7 +49,7 @@ public class OwDaily implements Serializable {
     private Double nightFeelsLike;
     private Double eveFeelsLike;
     private Double mornFeelsLike;
-    private Integer pressure;
+    private Double pressure;
     private Integer humidity;
     private Double dewPoint;
     private Double windSpeed;
@@ -188,11 +188,11 @@ public class OwDaily implements Serializable {
         this.mornFeelsLike = mornFeelsLike;
     }
 
-    public Integer getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(Double pressure) {
         this.pressure = pressure;
     }
 

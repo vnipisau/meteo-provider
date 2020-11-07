@@ -41,7 +41,7 @@ public class OwFact implements Serializable {
     private LocalDateTime sunset;
     private Double temp;
     private Double feelsLike;
-    private Integer pressure;
+    private Double pressure;
     private Integer humidity;
     private Double dewPoint;
     private Double uvi;
@@ -115,11 +115,11 @@ public class OwFact implements Serializable {
         this.feelsLike = feelsLike;
     }
 
-    public Integer getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(Double pressure) {
         this.pressure = pressure;
     }
 

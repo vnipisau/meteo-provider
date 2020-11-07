@@ -39,7 +39,7 @@ public class OwHourly implements Serializable {
     private LocalDateTime dt;
     private Double temp;
     private Double feelsLike;
-    private Integer pressure;
+    private Double pressure;
     private Integer humidity;
     private Double dewPoint;
     private Integer clouds;
@@ -89,11 +89,11 @@ public class OwHourly implements Serializable {
         this.feelsLike = feelsLike;
     }
 
-    public Integer getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(Double pressure) {
         this.pressure = pressure;
     }
 

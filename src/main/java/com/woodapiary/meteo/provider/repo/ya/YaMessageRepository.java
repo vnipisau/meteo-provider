@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 
 public interface YaMessageRepository extends CrudRepository<YaMessage, Long> {
-
+    //TODO select message_id,  max (modified)  from ya_message ym 
 }

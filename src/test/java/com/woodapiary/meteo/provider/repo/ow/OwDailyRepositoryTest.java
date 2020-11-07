@@ -70,7 +70,7 @@ public class OwDailyRepositoryTest {
         entity.setDayFeelsLike(6.0);
         entity.setHumidity(79);
         entity.setDt(LocalDateTime.ofInstant(Instant.ofEpochMilli(1570197600L * 1000), ZoneId.of("UTC")));
-        entity.setPressure(990);
+        entity.setPressure(990.0);
         entity.setMinTemp(10.0);
         entity.setWindGust(1.0);
         entity.setWindDeg(100);
