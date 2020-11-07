@@ -28,4 +28,6 @@ public interface WsDao {
     long countMessages();
 
     long countFacts();
+
+    WsMessage findLastMessage(String sourceName);
 }

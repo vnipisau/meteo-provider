@@ -24,6 +24,8 @@ public class WsDaoImpl implements WsDao {
     private WsMessageRepository messageRepo;
     @Autowired
     private WsFactRepository factRepo;
+    @Autowired
+    private MeteoDao meteoDao;
 
     @Override
     @Transactional
@@ -58,6 +60,12 @@ public class WsDaoImpl implements WsDao {
     @Override
     public long countFacts() {
         return factRepo.count();
+    }
+
+    @Override
+    public WsMessage findLastMessage(String sourceName) {
+        final Source src = meteoDao.findBySourceName(sourceName);
+        return messageRepo.findLastMessage(src.getSourceId());
     }
 
 }

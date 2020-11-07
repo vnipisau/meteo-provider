@@ -63,6 +63,13 @@ public class SourceRepositoryTest {
         assertTrue(ent.toString().length() > 0);
     }
 
+    @Test
+    public void test03() {
+        final Source ent = repo.save(createEntity());
+        final Source ent2 = repo.findBySourceName(ent.getSourceName());
+        assertTrue(ent.equals(ent2));
+    }
+
     @After
     public void after() {
 

@@ -29,4 +29,6 @@ public interface YaDao {
 
     long countParts();
 
+    YaMessage findLastMessage(String sourceName);
+
 }

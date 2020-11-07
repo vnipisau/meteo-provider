@@ -69,7 +69,7 @@ public class WsMessageRepositoryTest {
         assertEquals(1, repo.count());
         assertNotNull(ent.getMessageId());
         final WsMessage ent2 = repo.findLastMessage(src.getSourceId());
-        System.out.println(ent2);
+        //System.out.println(ent2);
         assertTrue(ent.equals(ent2));
     }
 

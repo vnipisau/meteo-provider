@@ -40,6 +40,8 @@ public class OwDaoImpl implements OwDao {
     private OwDailyRepository dailyRepo;
     @Autowired
     private OwHourlyRepository hourlyRepo;
+    @Autowired
+    private MeteoDao meteoDao;
 
     @Override
     @Transactional
@@ -127,6 +129,12 @@ public class OwDaoImpl implements OwDao {
     @Override
     public long countAlerts() {
         return alertRepo.count();
+    }
+
+    @Override
+    public OwMessage findLastMessage(String sourceName) {
+        final Source src = meteoDao.findBySourceName(sourceName);
+        return messageRepo.findLastMessage(src.getSourceId());
     }
 
 }

@@ -96,6 +96,14 @@ public class YaDaoTest {
         assertNotNull(mes.getFact().getFactId());
     }
 
+    @Test
+    public void test07() {
+        final Source source = sRepo.saveSource(createSource());
+        final YaMessage ent = dao.saveMessage(createMessage(null, null), source);
+        final YaMessage ent2 = dao.findLastMessage(source.getSourceName());
+        assertEquals(ent, ent2);
+    }
+
     @After
     public void after() {
 

@@ -33,4 +33,9 @@ public class MeteoDaoImpl implements MeteoDao {
         return sRepo.findByProvider(provider);
     }
 
+    @Override
+    public Source findBySourceName(String sourceName) {
+        return sRepo.findBySourceName(sourceName);
+    }
+
 }

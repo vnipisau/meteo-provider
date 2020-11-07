@@ -104,6 +104,14 @@ public class OwDaoTest {
         assertNotNull(mes.getHourly().get(0).getHourlyId());
     }
 
+    @Test
+    public void test07() {
+        final Source source = sRepo.saveSource(createSource());
+        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source);
+        final OwMessage ent2 = dao.findLastMessage(source.getSourceName());
+        assertEquals(ent, ent2);
+    }
+
     @After
     public void after() {
 

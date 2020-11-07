@@ -32,6 +32,8 @@ public class YaDaoImpl implements YaDao {
     private YaForecastRepository foreRepo;
     @Autowired
     private YaPartRepository partRepo;
+    @Autowired
+    private MeteoDao meteoDao;
 
     @Override
     @Transactional
@@ -87,6 +89,12 @@ public class YaDaoImpl implements YaDao {
     @Override
     public long countParts() {
         return partRepo.count();
+    }
+
+    @Override
+    public YaMessage findLastMessage(String sourceName) {
+        final Source src = meteoDao.findBySourceName(sourceName);
+        return messageRepo.findLastMessage(src.getSourceId());
     }
 
 }

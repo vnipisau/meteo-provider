@@ -18,4 +18,6 @@ public interface MeteoDao {
     List<Source> findSourceByProvider(String provider);
 
     void deleteAll();
+
+    Source findBySourceName(String sourceName);
 }

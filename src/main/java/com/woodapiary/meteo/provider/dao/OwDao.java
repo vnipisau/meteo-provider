@@ -34,4 +34,6 @@ public interface OwDao {
     long countHourly();
 
     long countAlerts();
+
+    OwMessage findLastMessage(String sourceName);
 }

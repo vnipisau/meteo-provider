@@ -65,6 +65,14 @@ public class WsDaoTest {
         assertNotNull(mes.getFact().getFactId());
     }
 
+    @Test
+    public void test07() {
+        final Source source = sRepo.saveSource(createSource());
+        final WsMessage ent = dao.saveMessage(createMessage(null), source);
+        final WsMessage ent2 = dao.findLastMessage(source.getSourceName());
+        assertEquals(ent, ent2);
+    }
+
     @After
     public void after() {
 
