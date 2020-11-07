@@ -20,7 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ws.WsMessage;
+import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +33,8 @@ public class WsMessageRepositoryTest {
 
     @Autowired
     private WsMessageRepository repo;
+    @Autowired
+    private SourceRepository repoS;
 
     @Before
     public void insert() {
@@ -44,7 +48,7 @@ public class WsMessageRepositoryTest {
 
     @Test
     public void test01() {
-        final WsMessage ent = repo.save(createEntity());
+        final WsMessage ent = repo.save(createEntity(null));
         //System.out.println(ent.getFactId());
         assertEquals(1, repo.count());
         assertNotNull(ent.getMessageId());
@@ -58,8 +62,15 @@ public class WsMessageRepositoryTest {
     }
 
     @Test
-    public void test02() {
-
+    public void test03() {
+        final Source src = repoS.save(createSource());
+        final WsMessage ent = repo.save(createEntity(src));
+        //System.out.println(ent.getFactId());
+        assertEquals(1, repo.count());
+        assertNotNull(ent.getMessageId());
+        final WsMessage ent2 = repo.findLastMessage(src.getSourceId());
+        System.out.println(ent2);
+        assertTrue(ent.equals(ent2));
     }
 
     @After
@@ -67,8 +78,18 @@ public class WsMessageRepositoryTest {
 
     }
 
-    WsMessage createEntity() {
+    WsMessage createEntity(Source src) {
         final WsMessage entity = new WsMessage();
+        entity.setSource(src);
+        return entity;
+    }
+
+    Source createSource() {
+        final Source entity = new Source();
+        entity.setSourceName("ws-moscow");
+        entity.setProvider("ws");
+        entity.setEnabled(true);
+        entity.setUrl("none");
         return entity;
     }
 

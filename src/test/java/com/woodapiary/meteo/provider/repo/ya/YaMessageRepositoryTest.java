@@ -23,7 +23,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
+import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +36,8 @@ public class YaMessageRepositoryTest {
 
     @Autowired
     private YaMessageRepository repo;
+    @Autowired
+    private SourceRepository repoS;
 
     @Before
     public void insert() {
@@ -47,7 +51,7 @@ public class YaMessageRepositoryTest {
 
     @Test
     public void test01() {
-        final YaMessage ent = repo.save(createEntity());
+        final YaMessage ent = repo.save(createEntity(null));
         //System.out.println(ent.getFactId());
         assertEquals(1, repo.count());
         assertNotNull(ent.getMessageId());
@@ -56,7 +60,7 @@ public class YaMessageRepositoryTest {
 
     @Test
     public void test02() {
-        final YaMessage ent = repo.save(createEntity());
+        final YaMessage ent = repo.save(createEntity(null));
         final YaMessage ent2 = repo.findById(ent.getMessageId()).orElseThrow();
         //System.out.println(ent1.getModified());
         //System.out.println(ent2.getModified());
@@ -66,14 +70,36 @@ public class YaMessageRepositoryTest {
         assertTrue(ent.toString().length() > 0);
     }
 
+    @Test
+    public void test03() {
+        final Source src = repoS.save(createSource());
+        final YaMessage ent = repo.save(createEntity(src));
+        //System.out.println(ent.getFactId());
+        assertEquals(1, repo.count());
+        assertNotNull(ent.getMessageId());
+        final YaMessage ent2 = repo.findLastMessage(src.getSourceId());
+        //System.out.println(ent2);
+        assertTrue(ent.equals(ent2));
+    }
+
     @After
     public void after() {
 
     }
 
-    YaMessage createEntity() {
+    YaMessage createEntity(Source src) {
         final YaMessage entity = new YaMessage();
         entity.setNowDt(LocalDateTime.parse("2019-10-04T14:23:08.537Z", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+        entity.setSource(src);
+        return entity;
+    }
+
+    Source createSource() {
+        final Source entity = new Source();
+        entity.setSourceName("yandex-moscow");
+        entity.setProvider("yandex");
+        entity.setEnabled(true);
+        entity.setUrl("none");
         return entity;
     }
 

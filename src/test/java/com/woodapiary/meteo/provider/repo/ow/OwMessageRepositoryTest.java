@@ -20,7 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
+import com.woodapiary.meteo.provider.repo.SourceRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +33,8 @@ public class OwMessageRepositoryTest {
 
     @Autowired
     private OwMessageRepository repo;
+    @Autowired
+    private SourceRepository repoS;
 
     @Before
     public void insert() {
@@ -44,7 +48,7 @@ public class OwMessageRepositoryTest {
 
     @Test
     public void test01() {
-        final OwMessage ent = repo.save(createEntity());
+        final OwMessage ent = repo.save(createEntity(null));
         //System.out.println(ent.getFactId());
         assertEquals(1, repo.count());
         assertNotNull(ent.getMessageId());
@@ -57,14 +61,35 @@ public class OwMessageRepositoryTest {
         assertTrue(ent.toString().length() > 0);
     }
 
+    @Test
+    public void test03() {
+        final Source src = repoS.save(createSource());
+        final OwMessage ent = repo.save(createEntity(src));
+        //System.out.println(ent.getFactId());
+        assertEquals(1, repo.count());
+        assertNotNull(ent.getMessageId());
+        final OwMessage ent2 = repo.findLastMessage(src.getSourceId());
+        //System.out.println(ent2);
+        assertTrue(ent.equals(ent2));
+    }
+
     @After
     public void after() {
 
     }
 
-    OwMessage createEntity() {
+    OwMessage createEntity(Source src) {
         final OwMessage entity = new OwMessage();
+        entity.setSource(src);
         return entity;
     }
 
+    Source createSource() {
+        final Source entity = new Source();
+        entity.setSourceName("ow-moscow");
+        entity.setProvider("ow");
+        entity.setEnabled(true);
+        entity.setUrl("none");
+        return entity;
+    }
 }
