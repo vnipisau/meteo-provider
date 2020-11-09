@@ -54,7 +54,7 @@ public class WsMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
-        service.saveToDb(dto, source.getSourceName());
+        service.saveMessageToDb(dto, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

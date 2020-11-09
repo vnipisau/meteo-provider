@@ -23,11 +23,11 @@ import com.woodapiary.meteo.provider.entity.Source;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RequsterServiceTest {
+public class ProviderRequsterTest {
     @Value("${meteo-provider.provider.realtest.enabled}")
     private Boolean providerTestEnabled;
     @Autowired
-    private RequsterService requester;
+    private ProviderRequster requester;
 
     @Test
     public void test01() {

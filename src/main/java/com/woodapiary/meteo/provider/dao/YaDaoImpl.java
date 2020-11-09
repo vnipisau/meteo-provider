@@ -68,7 +68,7 @@ public class YaDaoImpl implements YaDao {
 
     @Override
     @Transactional
-    public List<YaFact> findBySource(String sourceId) {
+    public List<YaFact> findFacts(String sourceId) {
         return factRepo.findBySource(sourceId);
     }
 
@@ -96,6 +96,18 @@ public class YaDaoImpl implements YaDao {
     public YaMessage findLastMessage(String sourceName) {
         final Source src = meteoDao.findBySourceName(sourceName);
         return messageRepo.findLastMessage(src.getSourceId());
+    }
+
+    @Override
+    public List<YaMessage> saveMessages(List<YaMessage> messages, String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<YaMessage> findMessages(String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

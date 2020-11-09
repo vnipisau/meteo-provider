@@ -15,7 +15,7 @@ public interface OwDao {
 
     void deleteAllMessages();
 
-    List<OwFact> findBySource(String sourceName);
+    List<OwFact> findFacts(String sourceName);
 
     void saveWeatherConditionCodes(List<OwWeather> weather);
 
@@ -32,4 +32,8 @@ public interface OwDao {
     long countAlerts();
 
     OwMessage findLastMessage(String sourceName);
+
+    List<OwMessage> saveMessages(List<OwMessage> messages, String sourceName);
+
+    List<OwMessage> findMessages(String sourceName);
 }

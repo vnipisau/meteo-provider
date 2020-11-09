@@ -59,7 +59,7 @@ public class OwMessageServiceTest {
         final Source source = sRepo.saveSource(createSource());
         dir.saveWeatherToDb();
         final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
-        service.saveToDb(dto1, source.getSourceName());
+        service.saveMessageToDb(dto1, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

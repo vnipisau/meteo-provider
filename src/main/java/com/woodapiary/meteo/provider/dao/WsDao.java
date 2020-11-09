@@ -19,11 +19,15 @@ public interface WsDao {
 
     void deleteAllMessages();
 
-    List<WsFact> findBySource(String sourceName);
+    List<WsFact> findFacts(String sourceName);
 
     long countMessages();
 
     long countFacts();
 
     WsMessage findLastMessage(String sourceName);
+
+    List<WsMessage> saveMessages(List<WsMessage> messages, String sourceName);
+
+    List<WsMessage> findMessages(String sourceName);
 }

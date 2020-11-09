@@ -4,7 +4,6 @@
  */
 package com.woodapiary.meteo.provider.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,19 +31,32 @@ public class WsMessageService {
     @Autowired
     MeteoDao sRepo;
 
-    public void saveToDb(final WsMessageDto dto, final String sourceName) {
+    public void saveMessageToDb(final WsMessageDto dto, final String sourceName) {
         final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), sourceName);
-        //dao.saveFact(message, mapper.factDtoToFact(dto.getCurrent()));
         log.info("save ws weather message to db - ok, id= " + message.getMessageId());
     }
 
+    public void saveMessagesToDb(final List<WsMessageDto> dto, final String sourceName) {
+        final List<WsMessage> messages = dao.saveMessages(mapper.messagesDtoToMessages(dto), sourceName);
+        log.info("save ws messages to db - ok, count=" + messages.size());
+    }
+
     public List<WsCurrentDto> getFacts(String sourceName) {
-        final List<WsCurrentDto> res = new ArrayList<>();
-        final List<WsFact> src = dao.findBySource(sourceName);
-        for (final WsFact entity : src) {
-            res.add(mapper.factDtoFromFact(entity));
-        }
+        final List<WsFact> entityList = dao.findFacts(sourceName);
+        final List<WsCurrentDto> res = mapper.factsDtoFromFacts(entityList);
         return res;
+    }
+
+    public WsMessageDto getLastMessage(String sourceName) {
+        final WsMessage ent = dao.findLastMessage(sourceName);
+        final WsMessageDto dto = mapper.messageDtoFromMessage(ent);
+        return dto;
+    }
+
+    public List<WsMessageDto> getMessages(String sourceName) {
+        final List<WsMessage> ent = dao.findMessages(sourceName);
+        final List<WsMessageDto> dto = mapper.messagesDtoFromMessages(ent);
+        return dto;
     }
 
 }

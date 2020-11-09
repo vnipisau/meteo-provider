@@ -26,7 +26,7 @@ public class ProviderScheduler {
     public static final String providerOw = "openweathermap";
     public static final String providerWs = "weatherstack";
     @Autowired
-    RequsterService requster;
+    ProviderRequster requster;
     @Autowired
     YaMessageService serviceYa;
     @Autowired
@@ -54,7 +54,7 @@ public class ProviderScheduler {
         for (final Source source : sRepo.findSourceByProvider(providerYa)) {
             try {
                 dto = requster.requestYa(source);
-                serviceYa.saveToDb(dto, source.getSourceName());
+                serviceYa.saveMessageToDb(dto, source.getSourceName());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ya message is " + (dto == null ? "null" : dto.toString()));
@@ -72,7 +72,7 @@ public class ProviderScheduler {
         for (final Source source : sRepo.findSourceByProvider(providerWs)) {
             try {
                 dto = requster.requestWs(source);
-                serviceWs.saveToDb(dto, source.getSourceName());
+                serviceWs.saveMessageToDb(dto, source.getSourceName());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ws message is " + (dto == null ? "null" : dto.toString()));
@@ -90,7 +90,7 @@ public class ProviderScheduler {
         for (final Source source : sRepo.findSourceByProvider(providerOw)) {
             try {
                 dto = requster.requestOw(source);
-                serviceOw.saveToDb(dto, source.getSourceName());
+                serviceOw.saveMessageToDb(dto, source.getSourceName());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ow message is " + (dto == null ? "null" : dto.toString()));

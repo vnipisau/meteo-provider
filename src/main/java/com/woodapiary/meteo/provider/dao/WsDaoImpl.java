@@ -49,7 +49,7 @@ public class WsDaoImpl implements WsDao {
 
     @Override
     @Transactional
-    public List<WsFact> findBySource(String sourceId) {
+    public List<WsFact> findFacts(String sourceId) {
         return factRepo.findBySource(sourceId);
     }
 
@@ -67,6 +67,18 @@ public class WsDaoImpl implements WsDao {
     public WsMessage findLastMessage(String sourceName) {
         final Source src = meteoDao.findBySourceName(sourceName);
         return messageRepo.findLastMessage(src.getSourceId());
+    }
+
+    @Override
+    public List<WsMessage> saveMessages(List<WsMessage> messages, String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<WsMessage> findMessages(String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

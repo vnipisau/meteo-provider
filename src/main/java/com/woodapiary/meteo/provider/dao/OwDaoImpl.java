@@ -89,7 +89,7 @@ public class OwDaoImpl implements OwDao {
 
     @Override
     @Transactional
-    public List<OwFact> findBySource(String sourceId) {
+    public List<OwFact> findFacts(String sourceId) {
         return factRepo.findBySource(sourceId);
     }
 
@@ -136,6 +136,18 @@ public class OwDaoImpl implements OwDao {
     public OwMessage findLastMessage(String sourceName) {
         final Source src = meteoDao.findBySourceName(sourceName);
         return messageRepo.findLastMessage(src.getSourceId());
+    }
+
+    @Override
+    public List<OwMessage> saveMessages(List<OwMessage> messages, String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<OwMessage> findMessages(String sourceName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

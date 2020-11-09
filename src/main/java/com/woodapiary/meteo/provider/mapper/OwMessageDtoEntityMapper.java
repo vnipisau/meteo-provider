@@ -5,6 +5,7 @@
 package com.woodapiary.meteo.provider.mapper;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -280,6 +281,25 @@ public class OwMessageDtoEntityMapper {
         }.getType();
         final List<OwHourlyDto> dtoList = modelMapper.map(entityList, listType);
         return dtoList;
+    }
+
+    public List<OwMessage> messagesDtoToMessages(List<OwMessageDto> dto) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<OwMessageDto> messagesDtoFromMessages(List<OwMessage> entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<OwCurrentDto> factsDtoFromFacts(List<OwFact> entityList) {
+        // FIXME make via mapper
+        final List<OwCurrentDto> res = new ArrayList<>();
+        for (final OwFact entity : entityList) {
+            res.add(factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }

@@ -20,9 +20,9 @@ import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 
 @Service
-public class RequsterService {
+public class ProviderRequster {
 
-    static Logger log = LoggerFactory.getLogger(RequsterService.class);
+    static Logger log = LoggerFactory.getLogger(ProviderRequster.class);
 
     @Value("${YANDEX_API_KEY}")
     private String apiKeyYa;

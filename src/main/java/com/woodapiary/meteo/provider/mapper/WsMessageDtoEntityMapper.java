@@ -6,6 +6,7 @@ package com.woodapiary.meteo.provider.mapper;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,6 +108,25 @@ public class WsMessageDtoEntityMapper {
     public WsCurrentDto factDtoFromFact(final WsFact entity) {
         final WsCurrentDto dto = modelMapper.map(entity, WsCurrentDto.class);
         return dto;
+    }
+
+    public List<WsMessage> messagesDtoToMessages(List<WsMessageDto> dto) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<WsMessageDto> messagesDtoFromMessages(List<WsMessage> entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<WsCurrentDto> factsDtoFromFacts(List<WsFact> entityList) {
+        // FIXME make via mapper
+        final List<WsCurrentDto> res = new ArrayList<>();
+        for (final WsFact entity : entityList) {
+            res.add(factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }

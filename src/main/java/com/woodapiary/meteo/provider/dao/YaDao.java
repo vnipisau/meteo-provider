@@ -15,7 +15,7 @@ public interface YaDao {
 
     void deleteAllMessages();
 
-    List<YaFact> findBySource(String sourceName);
+    List<YaFact> findFacts(String sourceName);
 
     long countMessages();
 
@@ -26,5 +26,9 @@ public interface YaDao {
     long countParts();
 
     YaMessage findLastMessage(String sourceName);
+
+    List<YaMessage> saveMessages(List<YaMessage> messages, String sourceName);
+
+    List<YaMessage> findMessages(String sourceName);
 
 }

@@ -56,7 +56,7 @@ public class YaMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
-        service.saveToDb(dto, source.getSourceName());
+        service.saveMessageToDb(dto, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

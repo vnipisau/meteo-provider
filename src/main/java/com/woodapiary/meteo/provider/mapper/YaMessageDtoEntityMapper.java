@@ -5,6 +5,7 @@
 package com.woodapiary.meteo.provider.mapper;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -104,6 +105,25 @@ public class YaMessageDtoEntityMapper {
         }.getType();
         final List<YaPartDto> dtoList = modelMapper.map(entityList, listType);
         return dtoList;
+    }
+
+    public List<YaMessage> messagesDtoToMessages(List<YaMessageDto> dto) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<YaMessageDto> messagesDtoFromMessages(List<YaMessage> entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<YaFactDto> factsDtoFromFacts(List<YaFact> entityList) {
+        // FIXME make via mapper
+        final List<YaFactDto> res = new ArrayList<>();
+        for (final YaFact entity : entityList) {
+            res.add(factDtoFromFact(entity));
+        }
+        return res;
     }
 
 }
