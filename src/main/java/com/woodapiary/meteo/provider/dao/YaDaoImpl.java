@@ -9,7 +9,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
@@ -21,7 +21,7 @@ import com.woodapiary.meteo.provider.repo.ya.YaForecastRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaMessageRepository;
 import com.woodapiary.meteo.provider.repo.ya.YaPartRepository;
 
-@Component
+@Repository
 public class YaDaoImpl implements YaDao {
 
     @Autowired
@@ -37,7 +37,8 @@ public class YaDaoImpl implements YaDao {
 
     @Override
     @Transactional
-    public YaMessage saveMessage(final YaMessage entity, final Source source) {
+    public YaMessage saveMessage(final YaMessage entity, String sourceName) {
+        final Source source = meteoDao.findBySourceName(sourceName);
         entity.setSource(source);
         messageRepo.save(entity);
         if (entity.getFact() != null) {

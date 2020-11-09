@@ -55,7 +55,7 @@ public class OwDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source);
+        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
@@ -67,7 +67,7 @@ public class OwDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwMessage mes = dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
+        final OwMessage mes = dao.saveMessage(createMessage(createFact(ews), null, null, null), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countFacts());
         assertNotNull(mes.getFact().getFactId());
@@ -77,7 +77,7 @@ public class OwDaoTest {
     //@Commit
     public void test03() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage mes = dao.saveMessage(createMessage(null, null, null, createAlertList()), source);
+        final OwMessage mes = dao.saveMessage(createMessage(null, null, null, createAlertList()), source.getSourceName());
         assertEquals(2, dao.countAlerts());
         assertNotNull(mes.getAlerts().get(0).getAlertId());
     }
@@ -87,7 +87,7 @@ public class OwDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwMessage mes = dao.saveMessage(createMessage(null, List.of(createDaily(ews)), null, null), source);
+        final OwMessage mes = dao.saveMessage(createMessage(null, List.of(createDaily(ews)), null, null), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countDaily());
         assertNotNull(mes.getDaily().get(0).getDailyId());
@@ -98,7 +98,7 @@ public class OwDaoTest {
         final Source source = sRepo.saveSource(createSource());
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        final OwMessage mes = dao.saveMessage(createMessage(null, null, List.of(createHourly(ews)), null), source);
+        final OwMessage mes = dao.saveMessage(createMessage(null, null, List.of(createHourly(ews)), null), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countHourly());
         assertNotNull(mes.getHourly().get(0).getHourlyId());
@@ -107,7 +107,7 @@ public class OwDaoTest {
     @Test
     public void test07() {
         final Source source = sRepo.saveSource(createSource());
-        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source);
+        final OwMessage ent = dao.saveMessage(createMessage(null, null, null, null), source.getSourceName());
         final OwMessage ent2 = dao.findLastMessage(source.getSourceName());
         assertEquals(ent, ent2);
     }

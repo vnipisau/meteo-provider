@@ -9,7 +9,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ws.WsFact;
@@ -17,7 +17,7 @@ import com.woodapiary.meteo.provider.entity.ws.WsMessage;
 import com.woodapiary.meteo.provider.repo.ws.WsFactRepository;
 import com.woodapiary.meteo.provider.repo.ws.WsMessageRepository;
 
-@Component
+@Repository
 public class WsDaoImpl implements WsDao {
 
     @Autowired
@@ -29,7 +29,8 @@ public class WsDaoImpl implements WsDao {
 
     @Override
     @Transactional
-    public WsMessage saveMessage(WsMessage entity, Source source) {
+    public WsMessage saveMessage(WsMessage entity, String sourceName) {
+        final Source source = meteoDao.findBySourceName(sourceName);
         entity.setSource(source);
         messageRepo.save(entity);
         if (entity.getFact() != null) {

@@ -25,8 +25,8 @@ public class WsRestController {
 
     @GetMapping("/get-ws-facts")
     public WsGetFactsResultDto getFacts() {
-        final String sourceId = "q";
-        final WsGetFactsResultDto res = new WsGetFactsResultDto(messageService.getFacts(sourceId));
+        final String sourceName = "q";
+        final WsGetFactsResultDto res = new WsGetFactsResultDto(messageService.getFacts(sourceName));
         return res;
     }
 

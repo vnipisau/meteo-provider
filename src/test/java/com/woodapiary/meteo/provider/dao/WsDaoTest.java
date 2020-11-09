@@ -48,7 +48,7 @@ public class WsDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage ent = dao.saveMessage(createMessage(null), source);
+        final WsMessage ent = dao.saveMessage(createMessage(null), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
@@ -58,7 +58,7 @@ public class WsDaoTest {
     @Test
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage mes = dao.saveMessage(createMessage(createFact()), source);
+        final WsMessage mes = dao.saveMessage(createMessage(createFact()), source.getSourceName());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countFacts());
         assertNotNull(mes.getFact());
@@ -68,7 +68,7 @@ public class WsDaoTest {
     @Test
     public void test07() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage ent = dao.saveMessage(createMessage(null), source);
+        final WsMessage ent = dao.saveMessage(createMessage(null), source.getSourceName());
         final WsMessage ent2 = dao.findLastMessage(source.getSourceName());
         assertEquals(ent, ent2);
     }

@@ -7,12 +7,12 @@ package com.woodapiary.meteo.provider.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 
-@Component
+@Repository
 public class MeteoDaoImpl implements MeteoDao {
 
     @Autowired

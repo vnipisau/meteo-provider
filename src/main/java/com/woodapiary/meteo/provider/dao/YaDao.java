@@ -6,20 +6,16 @@ package com.woodapiary.meteo.provider.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
 
-@Repository
 public interface YaDao {
 
-    YaMessage saveMessage(YaMessage message, Source source);
+    YaMessage saveMessage(YaMessage message, String sourceName);
 
     void deleteAllMessages();
 
-    List<YaFact> findBySource(String sourceId);
+    List<YaFact> findBySource(String sourceName);
 
     long countMessages();
 

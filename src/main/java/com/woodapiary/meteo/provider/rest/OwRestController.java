@@ -25,8 +25,8 @@ public class OwRestController {
 
     @GetMapping("/get-ow-facts")
     public OwGetFactsResultDto getFacts() {
-        final String sourceId = "q";
-        final OwGetFactsResultDto res = new OwGetFactsResultDto(messageService.getFacts(sourceId));
+        final String sourceName = "q";
+        final OwGetFactsResultDto res = new OwGetFactsResultDto(messageService.getFacts(sourceName));
         return res;
     }
 

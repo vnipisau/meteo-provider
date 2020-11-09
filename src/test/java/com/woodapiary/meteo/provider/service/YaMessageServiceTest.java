@@ -5,7 +5,6 @@
 package com.woodapiary.meteo.provider.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class YaMessageServiceTest {
     private String testDataPath;
     private final String testDataFile = "ya_v1.json";
     @Autowired
-    private YaMessageService requester;
+    private YaMessageService service;
     @Autowired
     private YaDao dao;
     @Autowired
@@ -43,15 +42,7 @@ public class YaMessageServiceTest {
 
     @Test
     public void test01() {
-        assertNotNull(requester);
-    }
-
-    @Test
-    public void test02() throws IOException {
-        assumeTrue("request to real service", providerTestEnabled);
-        final YaMessageDto result = requester.request(createSource());
-        System.out.println(result.toString());
-        assertNotNull(result.getNow());
+        assertNotNull(service);
     }
 
     @Test
@@ -65,7 +56,7 @@ public class YaMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
-        requester.saveToDb(dto, source);
+        service.saveToDb(dto, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

@@ -11,23 +11,36 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
+import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
+import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
+import com.woodapiary.meteo.provider.entity.Source;
+
 @Service
 public class ProviderScheduler {
 
     static Logger log = LoggerFactory.getLogger(ProviderScheduler.class);
 
+    public static final String providerYa = "yandex";
+    public static final String providerOw = "openweathermap";
+    public static final String providerWs = "weatherstack";
     @Autowired
-    YaMessageService requsterYa;
+    RequsterService requster;
     @Autowired
-    WsMessageService requsterWs;
+    YaMessageService serviceYa;
     @Autowired
-    OwMessageService requsterOw;
+    WsMessageService serviceWs;
+    @Autowired
+    OwMessageService serviceOw;
     @Value("${meteo-provider.provider.ya.enabled}")
     private Boolean providerYaEnabled;
     @Value("${meteo-provider.provider.ws.enabled}")
     private Boolean providerWsEnabled;
     @Value("${meteo-provider.provider.ow.enabled}")
     private Boolean providerOwEnabled;
+    @Autowired
+    MeteoDao sRepo;
 
     final int mFixedRate = 3600 * 2;
 
@@ -37,7 +50,16 @@ public class ProviderScheduler {
             return;
         }
         log.info("yandex weather scheduler started ok");
-        requsterYa.requestAllAndSave();
+        YaMessageDto dto = null;
+        for (final Source source : sRepo.findSourceByProvider(providerYa)) {
+            try {
+                dto = requster.requestYa(source);
+                serviceYa.saveToDb(dto, source.getSourceName());
+            } catch (final Exception e) {
+                e.printStackTrace();
+                log.error("ya message is " + (dto == null ? "null" : dto.toString()));
+            }
+        }
     }
 
     @Scheduled(fixedRate = 1000 * mFixedRate, initialDelay = 6000)
@@ -46,7 +68,16 @@ public class ProviderScheduler {
             return;
         }
         log.info("ws weather scheduler started ok");
-        requsterWs.requestAllAndSave();
+        WsMessageDto dto = null;
+        for (final Source source : sRepo.findSourceByProvider(providerWs)) {
+            try {
+                dto = requster.requestWs(source);
+                serviceWs.saveToDb(dto, source.getSourceName());
+            } catch (final Exception e) {
+                e.printStackTrace();
+                log.error("ws message is " + (dto == null ? "null" : dto.toString()));
+            }
+        }
     }
 
     @Scheduled(fixedRate = 1000 * mFixedRate / 10, initialDelay = 7000)
@@ -55,7 +86,16 @@ public class ProviderScheduler {
             return;
         }
         log.info("ow weather scheduler started ok");
-        requsterOw.requestAllAndSave();
+        OwMessageDto dto = null;
+        for (final Source source : sRepo.findSourceByProvider(providerOw)) {
+            try {
+                dto = requster.requestOw(source);
+                serviceOw.saveToDb(dto, source.getSourceName());
+            } catch (final Exception e) {
+                e.printStackTrace();
+                log.error("ow message is " + (dto == null ? "null" : dto.toString()));
+            }
+        }
     }
 
 }

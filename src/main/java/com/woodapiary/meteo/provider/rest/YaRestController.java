@@ -25,8 +25,8 @@ public class YaRestController {
 
     @GetMapping("/get-ya-facts")
     public YaGetFactsResultDto getFacts() {
-        final String sourceId = "q";
-        final YaGetFactsResultDto res = new YaGetFactsResultDto(messageService.getFacts(sourceId));
+        final String sourceName = "q";
+        final YaGetFactsResultDto res = new YaGetFactsResultDto(messageService.getFacts(sourceName));
         return res;
     }
 

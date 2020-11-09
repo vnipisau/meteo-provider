@@ -58,7 +58,7 @@ public class OwRestControllerTest {
         final Source source = sRepo.save(createSource());
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        dao.saveMessage(createMessage(createFact(ews), null, null, null), source);
+        dao.saveMessage(createMessage(createFact(ews), null, null, null), source.getSourceName());
     }
 
     @Test

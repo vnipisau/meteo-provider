@@ -6,20 +6,16 @@ package com.woodapiary.meteo.provider.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 
-@Repository
 public interface OwDao {
-    OwMessage saveMessage(OwMessage message, Source source);
+    OwMessage saveMessage(OwMessage message, String sourceName);
 
     void deleteAllMessages();
 
-    List<OwFact> findBySource(String sourceId);
+    List<OwFact> findBySource(String sourceName);
 
     void saveWeatherConditionCodes(List<OwWeather> weather);
 

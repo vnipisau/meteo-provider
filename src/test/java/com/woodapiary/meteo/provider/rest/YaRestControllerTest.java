@@ -51,7 +51,7 @@ public class YaRestControllerTest {
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        dao.saveMessage(createMessage(createFact(), null), source);
+        dao.saveMessage(createMessage(createFact(), null), source.getSourceName());
     }
 
     @Test

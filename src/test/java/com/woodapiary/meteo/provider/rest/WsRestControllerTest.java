@@ -52,7 +52,7 @@ public class WsRestControllerTest {
     @Commit
     public void insert() {
         final Source source = sRepo.save(createSource());
-        dao.saveMessage(createMessage(createFact()), source);
+        dao.saveMessage(createMessage(createFact()), source.getSourceName());
     }
 
     @Test

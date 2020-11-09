@@ -5,7 +5,6 @@
 package com.woodapiary.meteo.provider.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class OwMessageServiceTest {
     private String testDataPath;
     private final String testDataFile = "ow_onecall.json";
     @Autowired
-    private OwMessageService requester;
+    private OwMessageService service;
     @Autowired
     private OwDao dao;
     @Autowired
@@ -45,15 +44,7 @@ public class OwMessageServiceTest {
 
     @Test
     public void test01() {
-        assertNotNull(requester);
-    }
-
-    @Test
-    public void test02() throws IOException {
-        assumeTrue("request to real service", providerTestEnabled);
-        final OwMessageDto result = requester.request(createSource());
-        System.out.println(result.toString());
-        assertNotNull(result.getCurrent().getDt());
+        assertNotNull(service);
     }
 
     @Test
@@ -68,7 +59,7 @@ public class OwMessageServiceTest {
         final Source source = sRepo.saveSource(createSource());
         dir.saveWeatherToDb();
         final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
-        requester.saveToDb(dto1, source);
+        service.saveToDb(dto1, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

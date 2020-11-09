@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 //TODO добавить timezone и timezoneoffset
 //TODO добавить unit
+//TODO разделить на Location и Request
 @Entity
 @Table(name = "source")
 public class Source implements Serializable {

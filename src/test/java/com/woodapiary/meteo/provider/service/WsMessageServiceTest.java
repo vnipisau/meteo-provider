@@ -5,7 +5,6 @@
 package com.woodapiary.meteo.provider.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -29,13 +28,11 @@ import com.woodapiary.meteo.provider.misc.ObjectSerializator;
 @Transactional
 public class WsMessageServiceTest {
 
-    @Value("${meteo-provider.provider.realtest.enabled}")
-    private Boolean providerTestEnabled;
     @Value("${meteo-provider.provider.testdata.path}")
     private String testDataPath;
     private final String testDataFile = "ws.json";
     @Autowired
-    private WsMessageService requester;
+    private WsMessageService service;
     @Autowired
     private WsDao dao;
     @Autowired
@@ -43,15 +40,7 @@ public class WsMessageServiceTest {
 
     @Test
     public void test01() {
-        assertNotNull(requester);
-    }
-
-    @Test
-    public void test02() throws IOException {
-        assumeTrue("request to real service", providerTestEnabled);
-        final WsMessageDto result = requester.request(createSource());
-        System.out.println(result.toString());
-        assertNotNull(result.getCurrent().getObservationTime());
+        assertNotNull(service);
     }
 
     @Test
@@ -65,7 +54,7 @@ public class WsMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
-        requester.saveToDb(dto, source);
+        service.saveToDb(dto, source.getSourceName());
         assertEquals(1, dao.countMessages());
     }
 

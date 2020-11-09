@@ -39,3 +39,4 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO UUID
 //TODO ELK
 //TODO batch save
+//TODO авторизация на рест
