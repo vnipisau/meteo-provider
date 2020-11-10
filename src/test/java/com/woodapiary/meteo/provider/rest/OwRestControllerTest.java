@@ -58,18 +58,18 @@ public class OwRestControllerTest {
         final Source source = sRepo.save(createSource());
         final List<OwWeather> ews = createWeatherList();
         dao.saveWeatherConditionCodes(ews);
-        dao.saveMessage(createMessage(createFact(ews), null, null, null), source.getSourceName());
+        dao.saveMessage(createMessage(createFact(ews), null, null, null), source.getProvider(), source.getGeoname());
     }
 
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("openweathermap").size() == 1).isTrue();
+        assertThat(messageService.getFacts("openweathermap", "moscow").size() == 1).isTrue();
     }
 
     @Test
     public void test01() {
-        final ResponseEntity<OwGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ow-facts", OwGetFactsResultDto.class);
+        final ResponseEntity<OwGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ow-facts?location={location}", OwGetFactsResultDto.class, "moscow");
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
@@ -83,6 +83,7 @@ public class OwRestControllerTest {
         entity.setSourceName("openweathermap-moscow");
         entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
         entity.setProvider("openweathermap");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }

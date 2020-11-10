@@ -14,5 +14,5 @@ import com.woodapiary.meteo.provider.entity.ws.WsFact;
 
 public interface WsFactRepository extends CrudRepository<WsFact, Long> {
     @Query(value = "select * from ws_fact", nativeQuery = true)
-    List<WsFact> findBySource(@Param("source_id") String sourceId);
+    List<WsFact> findBySource(@Param("source_id") Long sourceId);
 }

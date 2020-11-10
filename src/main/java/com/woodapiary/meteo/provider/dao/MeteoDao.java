@@ -16,5 +16,5 @@ public interface MeteoDao {
 
     void deleteAll();
 
-    Source findBySourceName(String sourceName);
+    Source findBySourceName(String provider, String location);
 }

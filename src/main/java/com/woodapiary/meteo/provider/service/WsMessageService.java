@@ -31,30 +31,30 @@ public class WsMessageService {
     @Autowired
     MeteoDao sRepo;
 
-    public void saveMessageToDb(final WsMessageDto dto, final String sourceName) {
-        final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), sourceName);
+    public void saveMessageToDb(final WsMessageDto dto, String provider, String location) {
+        final WsMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), provider, location);
         log.info("save ws weather message to db - ok, id= " + message.getMessageId());
     }
 
-    public void saveMessagesToDb(final List<WsMessageDto> dto, final String sourceName) {
-        final List<WsMessage> messages = dao.saveMessages(mapper.messagesDtoToMessages(dto), sourceName);
+    public void saveMessagesToDb(final List<WsMessageDto> dto, String provider, String location) {
+        final List<WsMessage> messages = dao.saveMessages(mapper.messagesDtoToMessages(dto), provider, location);
         log.info("save ws messages to db - ok, count=" + messages.size());
     }
 
-    public List<WsCurrentDto> getFacts(String sourceName) {
-        final List<WsFact> entityList = dao.findFacts(sourceName);
+    public List<WsCurrentDto> getFacts(String provider, String location) {
+        final List<WsFact> entityList = dao.findFacts(provider, location);
         final List<WsCurrentDto> res = mapper.factsDtoFromFacts(entityList);
         return res;
     }
 
-    public WsMessageDto getLastMessage(String sourceName) {
-        final WsMessage ent = dao.findLastMessage(sourceName);
+    public WsMessageDto getLastMessage(String provider, String location) {
+        final WsMessage ent = dao.findLastMessage(provider, location);
         final WsMessageDto dto = mapper.messageDtoFromMessage(ent);
         return dto;
     }
 
-    public List<WsMessageDto> getMessages(String sourceName) {
-        final List<WsMessage> ent = dao.findMessages(sourceName);
+    public List<WsMessageDto> getMessages(String provider, String location) {
+        final List<WsMessage> ent = dao.findMessages(provider, location);
         final List<WsMessageDto> dto = mapper.messagesDtoFromMessages(ent);
         return dto;
     }

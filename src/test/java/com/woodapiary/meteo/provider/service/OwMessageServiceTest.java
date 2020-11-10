@@ -59,7 +59,7 @@ public class OwMessageServiceTest {
         final Source source = sRepo.saveSource(createSource());
         dir.saveWeatherToDb();
         final OwMessageDto dto1 = new ObjectSerializator<OwMessageDto>().readJsonFromFile(testDataPath + testDataFile, OwMessageDto.class);
-        service.saveMessageToDb(dto1, source.getSourceName());
+        service.saveMessageToDb(dto1, source.getProvider(), source.getGeoname());
         assertEquals(1, dao.countMessages());
     }
 
@@ -70,6 +70,7 @@ public class OwMessageServiceTest {
         entity.setSourceName("openweather-moscow");
         entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
         entity.setProvider("openweathermap");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }

@@ -29,8 +29,8 @@ public class WsDaoImpl implements WsDao {
 
     @Override
     @Transactional
-    public WsMessage saveMessage(WsMessage entity, String sourceName) {
-        final Source source = meteoDao.findBySourceName(sourceName);
+    public WsMessage saveMessage(WsMessage entity, String provider, String location) {
+        final Source source = meteoDao.findBySourceName(provider, location);
         entity.setSource(source);
         messageRepo.save(entity);
         if (entity.getFact() != null) {
@@ -49,8 +49,9 @@ public class WsDaoImpl implements WsDao {
 
     @Override
     @Transactional
-    public List<WsFact> findFacts(String sourceId) {
-        return factRepo.findBySource(sourceId);
+    public List<WsFact> findFacts(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
+        return factRepo.findBySource(src.getSourceId());
     }
 
     @Override
@@ -64,19 +65,20 @@ public class WsDaoImpl implements WsDao {
     }
 
     @Override
-    public WsMessage findLastMessage(String sourceName) {
-        final Source src = meteoDao.findBySourceName(sourceName);
+    @Transactional
+    public WsMessage findLastMessage(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
         return messageRepo.findLastMessage(src.getSourceId());
     }
 
     @Override
-    public List<WsMessage> saveMessages(List<WsMessage> messages, String sourceName) {
+    public List<WsMessage> saveMessages(List<WsMessage> messages, String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<WsMessage> findMessages(String sourceName) {
+    public List<WsMessage> findMessages(String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }

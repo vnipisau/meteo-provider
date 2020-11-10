@@ -11,11 +11,11 @@ import com.woodapiary.meteo.provider.entity.ow.OwMessage;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 
 public interface OwDao {
-    OwMessage saveMessage(OwMessage message, String sourceName);
+    OwMessage saveMessage(OwMessage message, String provider, String location);
 
     void deleteAllMessages();
 
-    List<OwFact> findFacts(String sourceName);
+    List<OwFact> findFacts(String provider, String location);
 
     void saveWeatherConditionCodes(List<OwWeather> weather);
 
@@ -31,9 +31,9 @@ public interface OwDao {
 
     long countAlerts();
 
-    OwMessage findLastMessage(String sourceName);
+    OwMessage findLastMessage(String provider, String location);
 
-    List<OwMessage> saveMessages(List<OwMessage> messages, String sourceName);
+    List<OwMessage> saveMessages(List<OwMessage> messages, String provider, String location);
 
-    List<OwMessage> findMessages(String sourceName);
+    List<OwMessage> findMessages(String provider, String location);
 }

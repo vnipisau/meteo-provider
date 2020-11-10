@@ -62,6 +62,7 @@ public class MeteoDaoTest {
         final Source entity = new Source();
         entity.setSourceName("ws-moscow");
         entity.setProvider("ws");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         entity.setUrl("none");
         return entity;

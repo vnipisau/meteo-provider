@@ -52,18 +52,18 @@ public class WsRestControllerTest {
     @Commit
     public void insert() {
         final Source source = sRepo.save(createSource());
-        dao.saveMessage(createMessage(createFact()), source.getSourceName());
+        dao.saveMessage(createMessage(createFact()), source.getProvider(), source.getGeoname());
     }
 
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("weatherstack-moscow").size() > 0).isTrue();
+        assertThat(messageService.getFacts("weatherstack", "moscow").size() > 0).isTrue();
     }
 
     @Test
     public void test01() {
-        final ResponseEntity<WsGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ws-facts", WsGetFactsResultDto.class);
+        final ResponseEntity<WsGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ws-facts?location={location}", WsGetFactsResultDto.class, "moscow");
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
@@ -77,6 +77,7 @@ public class WsRestControllerTest {
         entity.setSourceName("weatherstack-moscow");
         entity.setUrl("http://api.weatherstack.com/current");
         entity.setProvider("weatherstack");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }

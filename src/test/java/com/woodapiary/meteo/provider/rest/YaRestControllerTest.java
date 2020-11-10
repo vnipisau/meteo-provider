@@ -51,18 +51,18 @@ public class YaRestControllerTest {
     @Before
     public void insert() {
         final Source source = sRepo.save(createSource());
-        dao.saveMessage(createMessage(createFact(), null), source.getSourceName());
+        dao.saveMessage(createMessage(createFact(), null), source.getProvider(), source.getGeoname());
     }
 
     @Test
     public void test00() {
         assertThat(restTemplate).isNotNull();
-        assertThat(messageService.getFacts("yandex-moscow").size() > 0).isTrue();
+        assertThat(messageService.getFacts("yandex", "moscow").size() > 0).isTrue();
     }
 
     @Test
     public void test01() {
-        final ResponseEntity<YaGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ya-facts", YaGetFactsResultDto.class);
+        final ResponseEntity<YaGetFactsResultDto> response = restTemplate.getForEntity("/api/get-ya-facts?location={location}", YaGetFactsResultDto.class, "moscow");
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         //System.out.println(response.getStatusCode());
         assertThat(response.getBody().getFacts()).isNotNull();
@@ -73,6 +73,7 @@ public class YaRestControllerTest {
         final Source entity = new Source();
         entity.setSourceName("yandex-moscow");
         entity.setProvider("yandex");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         entity.setUrl("none");
         return entity;

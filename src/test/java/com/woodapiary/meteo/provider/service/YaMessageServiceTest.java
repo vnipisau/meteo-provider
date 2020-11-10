@@ -56,7 +56,7 @@ public class YaMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final YaMessageDto dto = new ObjectSerializator<YaMessageDto>().readJsonFromFile(testDataPath + testDataFile, YaMessageDto.class);
-        service.saveMessageToDb(dto, source.getSourceName());
+        service.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
         assertEquals(1, dao.countMessages());
     }
 
@@ -67,6 +67,7 @@ public class YaMessageServiceTest {
         entity.setSourceName("yandex-moscow");
         entity.setUrl("https://api.weather.yandex.ru/v1/informers/");
         entity.setProvider("yandex");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }

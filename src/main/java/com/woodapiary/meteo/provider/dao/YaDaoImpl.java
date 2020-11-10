@@ -37,8 +37,8 @@ public class YaDaoImpl implements YaDao {
 
     @Override
     @Transactional
-    public YaMessage saveMessage(final YaMessage entity, String sourceName) {
-        final Source source = meteoDao.findBySourceName(sourceName);
+    public YaMessage saveMessage(final YaMessage entity, String provider, String location) {
+        final Source source = meteoDao.findBySourceName(provider, location);
         entity.setSource(source);
         messageRepo.save(entity);
         if (entity.getFact() != null) {
@@ -68,8 +68,9 @@ public class YaDaoImpl implements YaDao {
 
     @Override
     @Transactional
-    public List<YaFact> findFacts(String sourceId) {
-        return factRepo.findBySource(sourceId);
+    public List<YaFact> findFacts(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
+        return factRepo.findBySource(src.getSourceId());
     }
 
     @Override
@@ -93,19 +94,20 @@ public class YaDaoImpl implements YaDao {
     }
 
     @Override
-    public YaMessage findLastMessage(String sourceName) {
-        final Source src = meteoDao.findBySourceName(sourceName);
+    @Transactional
+    public YaMessage findLastMessage(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
         return messageRepo.findLastMessage(src.getSourceId());
     }
 
     @Override
-    public List<YaMessage> saveMessages(List<YaMessage> messages, String sourceName) {
+    public List<YaMessage> saveMessages(List<YaMessage> messages, String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<YaMessage> findMessages(String sourceName) {
+    public List<YaMessage> findMessages(String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }

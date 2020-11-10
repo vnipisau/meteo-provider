@@ -15,19 +15,19 @@ import com.woodapiary.meteo.provider.entity.ws.WsMessage;
 
 public interface WsDao {
 
-    WsMessage saveMessage(WsMessage message, String sourceName);
+    WsMessage saveMessage(WsMessage message, String provider, String location);
 
     void deleteAllMessages();
 
-    List<WsFact> findFacts(String sourceName);
+    List<WsFact> findFacts(String provider, String location);
 
     long countMessages();
 
     long countFacts();
 
-    WsMessage findLastMessage(String sourceName);
+    WsMessage findLastMessage(String provider, String location);
 
-    List<WsMessage> saveMessages(List<WsMessage> messages, String sourceName);
+    List<WsMessage> saveMessages(List<WsMessage> messages, String provider, String location);
 
-    List<WsMessage> findMessages(String sourceName);
+    List<WsMessage> findMessages(String provider, String location);
 }

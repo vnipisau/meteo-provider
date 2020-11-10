@@ -65,6 +65,7 @@ public class ProviderRequsterTest {
         entity.setSourceName("yandex-moscow");
         entity.setUrl("https://api.weather.yandex.ru/v1/informers/");
         entity.setProvider("yandex");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }
@@ -76,6 +77,7 @@ public class ProviderRequsterTest {
         entity.setSourceName("weatherstack-moscow");
         entity.setUrl("http://api.weatherstack.com/current");
         entity.setProvider("weatherstack");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }
@@ -87,6 +89,7 @@ public class ProviderRequsterTest {
         entity.setSourceName("openweather-moscow");
         entity.setUrl("https://api.openweathermap.org/data/2.5/onecall");
         entity.setProvider("openweathermap");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         return entity;
     }

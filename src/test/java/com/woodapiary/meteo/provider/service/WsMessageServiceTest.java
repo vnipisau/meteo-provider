@@ -54,7 +54,7 @@ public class WsMessageServiceTest {
     public void test04() throws IOException {
         final Source source = sRepo.saveSource(createSource());
         final WsMessageDto dto = new ObjectSerializator<WsMessageDto>().readJsonFromFile(testDataPath + testDataFile, WsMessageDto.class);
-        service.saveMessageToDb(dto, source.getSourceName());
+        service.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
         assertEquals(1, dao.countMessages());
     }
 
@@ -63,6 +63,7 @@ public class WsMessageServiceTest {
         entity.setLat(55.75);
         entity.setLon(37.6);
         entity.setSourceName("weatherstack-moscow");
+        entity.setGeoname("moscow");
         entity.setUrl("http://api.weatherstack.com/current");
         entity.setProvider("weatherstack");
         entity.setEnabled(true);

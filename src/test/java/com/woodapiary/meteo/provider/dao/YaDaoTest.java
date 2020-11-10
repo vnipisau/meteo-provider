@@ -59,7 +59,7 @@ public class YaDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage ent = dao.saveMessage(createMessage(null, null), source.getSourceName());
+        final YaMessage ent = dao.saveMessage(createMessage(null, null), source.getProvider(), source.getGeoname());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
@@ -69,7 +69,7 @@ public class YaDaoTest {
     @Test
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(createFact(), null), source.getSourceName());
+        final YaMessage mes = dao.saveMessage(createMessage(createFact(), null), source.getProvider(), source.getGeoname());
         assertEquals(1, dao.countFacts());
         assertNotNull(mes.getFact().getFactId());
     }
@@ -77,7 +77,7 @@ public class YaDaoTest {
     @Test
     public void test03() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(null, createForecast(createParts())), source.getSourceName());
+        final YaMessage mes = dao.saveMessage(createMessage(null, createForecast(createParts())), source.getProvider(), source.getGeoname());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countForecast());
         assertNotNull(mes.getForecast().getForecastId());
@@ -91,7 +91,7 @@ public class YaDaoTest {
     @Test
     public void test04() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage mes = dao.saveMessage(createMessage(createFact(), createForecast(createParts())), source.getSourceName());
+        final YaMessage mes = dao.saveMessage(createMessage(createFact(), createForecast(createParts())), source.getProvider(), source.getGeoname());
         assertNotNull(mes.getForecast().getForecastId());
         assertNotNull(mes.getFact().getFactId());
     }
@@ -99,8 +99,8 @@ public class YaDaoTest {
     @Test
     public void test07() {
         final Source source = sRepo.saveSource(createSource());
-        final YaMessage ent = dao.saveMessage(createMessage(null, null), source.getSourceName());
-        final YaMessage ent2 = dao.findLastMessage(source.getSourceName());
+        final YaMessage ent = dao.saveMessage(createMessage(null, null), source.getProvider(), source.getGeoname());
+        final YaMessage ent2 = dao.findLastMessage(source.getProvider(), source.getGeoname());
         assertEquals(ent, ent2);
     }
 
@@ -113,6 +113,7 @@ public class YaDaoTest {
         final Source entity = new Source();
         entity.setSourceName("yandex-moscow");
         entity.setProvider("yandex");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         entity.setUrl("none");
         return entity;

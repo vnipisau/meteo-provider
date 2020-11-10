@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woodapiary.meteo.provider.dto.ws.WsGetFactsResultDto;
+import com.woodapiary.meteo.provider.service.ProviderConst;
 import com.woodapiary.meteo.provider.service.WsMessageService;
 
 @RestController
@@ -24,9 +26,8 @@ public class WsRestController {
     private WsMessageService messageService;
 
     @GetMapping("/get-ws-facts")
-    public WsGetFactsResultDto getFacts() {
-        final String sourceName = "q";
-        final WsGetFactsResultDto res = new WsGetFactsResultDto(messageService.getFacts(sourceName));
+    public WsGetFactsResultDto getFacts(@RequestParam(name = "location", required = true) String location) {
+        final WsGetFactsResultDto res = new WsGetFactsResultDto(messageService.getFacts(ProviderConst.providerWs, location));
         return res;
     }
 

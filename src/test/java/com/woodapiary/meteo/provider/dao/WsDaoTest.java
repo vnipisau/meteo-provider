@@ -48,7 +48,7 @@ public class WsDaoTest {
     @Test
     public void test01() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage ent = dao.saveMessage(createMessage(null), source.getSourceName());
+        final WsMessage ent = dao.saveMessage(createMessage(null), source.getProvider(), source.getGeoname());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countMessages());
         assertNotNull(ent.getMessageId());
@@ -58,7 +58,7 @@ public class WsDaoTest {
     @Test
     public void test02() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage mes = dao.saveMessage(createMessage(createFact()), source.getSourceName());
+        final WsMessage mes = dao.saveMessage(createMessage(createFact()), source.getProvider(), source.getGeoname());
         //System.out.println(ent.getFactId());
         assertEquals(1, dao.countFacts());
         assertNotNull(mes.getFact());
@@ -68,8 +68,8 @@ public class WsDaoTest {
     @Test
     public void test07() {
         final Source source = sRepo.saveSource(createSource());
-        final WsMessage ent = dao.saveMessage(createMessage(null), source.getSourceName());
-        final WsMessage ent2 = dao.findLastMessage(source.getSourceName());
+        final WsMessage ent = dao.saveMessage(createMessage(null), source.getProvider(), source.getGeoname());
+        final WsMessage ent2 = dao.findLastMessage(source.getProvider(), source.getGeoname());
         assertEquals(ent, ent2);
     }
 
@@ -82,6 +82,7 @@ public class WsDaoTest {
         final Source entity = new Source();
         entity.setSourceName("ws-moscow");
         entity.setProvider("ws");
+        entity.setGeoname("moscow");
         entity.setEnabled(true);
         entity.setUrl("none");
         return entity;

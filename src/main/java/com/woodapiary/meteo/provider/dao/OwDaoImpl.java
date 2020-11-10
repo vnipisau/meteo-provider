@@ -45,8 +45,8 @@ public class OwDaoImpl implements OwDao {
 
     @Override
     @Transactional
-    public OwMessage saveMessage(OwMessage entity, String sourceName) {
-        final Source source = meteoDao.findBySourceName(sourceName);
+    public OwMessage saveMessage(OwMessage entity, String provider, String location) {
+        final Source source = meteoDao.findBySourceName(provider, location);
         entity.setSource(source);
         messageRepo.save(entity);
         if (entity.getFact() != null) {
@@ -89,8 +89,9 @@ public class OwDaoImpl implements OwDao {
 
     @Override
     @Transactional
-    public List<OwFact> findFacts(String sourceId) {
-        return factRepo.findBySource(sourceId);
+    public List<OwFact> findFacts(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
+        return factRepo.findBySource(src.getSourceId());
     }
 
     @Override
@@ -133,19 +134,20 @@ public class OwDaoImpl implements OwDao {
     }
 
     @Override
-    public OwMessage findLastMessage(String sourceName) {
-        final Source src = meteoDao.findBySourceName(sourceName);
+    @Transactional
+    public OwMessage findLastMessage(String provider, String location) {
+        final Source src = meteoDao.findBySourceName(provider, location);
         return messageRepo.findLastMessage(src.getSourceId());
     }
 
     @Override
-    public List<OwMessage> saveMessages(List<OwMessage> messages, String sourceName) {
+    public List<OwMessage> saveMessages(List<OwMessage> messages, String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<OwMessage> findMessages(String sourceName) {
+    public List<OwMessage> findMessages(String provider, String location) {
         // TODO Auto-generated method stub
         return null;
     }

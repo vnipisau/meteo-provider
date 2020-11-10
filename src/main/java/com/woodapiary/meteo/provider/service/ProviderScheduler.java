@@ -22,9 +22,6 @@ public class ProviderScheduler {
 
     static Logger log = LoggerFactory.getLogger(ProviderScheduler.class);
 
-    public static final String providerYa = "yandex";
-    public static final String providerOw = "openweathermap";
-    public static final String providerWs = "weatherstack";
     @Autowired
     ProviderRequster requster;
     @Autowired
@@ -51,10 +48,10 @@ public class ProviderScheduler {
         }
         log.info("yandex weather scheduler started ok");
         YaMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(providerYa)) {
+        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerYa)) {
             try {
                 dto = requster.requestYa(source);
-                serviceYa.saveMessageToDb(dto, source.getSourceName());
+                serviceYa.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ya message is " + (dto == null ? "null" : dto.toString()));
@@ -69,10 +66,10 @@ public class ProviderScheduler {
         }
         log.info("ws weather scheduler started ok");
         WsMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(providerWs)) {
+        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerWs)) {
             try {
                 dto = requster.requestWs(source);
-                serviceWs.saveMessageToDb(dto, source.getSourceName());
+                serviceWs.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ws message is " + (dto == null ? "null" : dto.toString()));
@@ -87,10 +84,10 @@ public class ProviderScheduler {
         }
         log.info("ow weather scheduler started ok");
         OwMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(providerOw)) {
+        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerOw)) {
             try {
                 dto = requster.requestOw(source);
-                serviceOw.saveMessageToDb(dto, source.getSourceName());
+                serviceOw.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.error("ow message is " + (dto == null ? "null" : dto.toString()));

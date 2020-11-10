@@ -35,24 +35,24 @@ public class YaMessageService {
     @Autowired
     MeteoDao sRepo;
 
-    public void saveMessageToDb(final YaMessageDto dto, final String sourceName) {
-        final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), sourceName);
+    public void saveMessageToDb(final YaMessageDto dto, String provider, String location) {
+        final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), provider, location);
         log.info("save yandex weather message to db - ok, id= " + message.getMessageId());
     }
 
-    public void saveMessagesToDb(final List<YaMessageDto> dto, final String sourceName) {
-        final List<YaMessage> messages = dao.saveMessages(mapper.messagesDtoToMessages(dto), sourceName);
+    public void saveMessagesToDb(final List<YaMessageDto> dto, String provider, String location) {
+        final List<YaMessage> messages = dao.saveMessages(mapper.messagesDtoToMessages(dto), provider, location);
         log.info("save ws messages to db - ok, count=" + messages.size());
     }
 
-    public List<YaFactDto> getFacts(String sourceName) {
-        final List<YaFact> entityList = dao.findFacts(sourceName);
+    public List<YaFactDto> getFacts(String provider, String location) {
+        final List<YaFact> entityList = dao.findFacts(provider, location);
         final List<YaFactDto> res = mapper.factsDtoFromFacts(entityList);
         return res;
     }
 
-    public YaMessageDto getLastMessage(String sourceName) {
-        final YaMessage ent = dao.findLastMessage(sourceName);
+    public YaMessageDto getLastMessage(String provider, String location) {
+        final YaMessage ent = dao.findLastMessage(provider, location);
         final YaMessageDto dto = mapper.messageDtoFromMessage(ent);
         return dto;
     }

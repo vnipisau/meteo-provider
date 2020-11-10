@@ -14,5 +14,5 @@ import com.woodapiary.meteo.provider.entity.ya.YaFact;
 
 public interface YaFactRepository extends CrudRepository<YaFact, Long> {
     @Query(value = "select * from ya_fact", nativeQuery = true)
-    List<YaFact> findBySource(@Param("source_id") String sourceId);
+    List<YaFact> findBySource(@Param("source_id") Long sourceId);
 }
