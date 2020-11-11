@@ -23,7 +23,7 @@ import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.ya.YaFact;
 import com.woodapiary.meteo.provider.entity.ya.YaForecast;
 import com.woodapiary.meteo.provider.entity.ya.YaMessage;
-import com.woodapiary.meteo.provider.misc.ObjectSerializator;
+import com.woodapiary.meteo.provider.util.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -29,7 +29,7 @@ import com.woodapiary.meteo.provider.entity.ow.OwDaily;
 import com.woodapiary.meteo.provider.entity.ow.OwFact;
 import com.woodapiary.meteo.provider.entity.ow.OwHourly;
 import com.woodapiary.meteo.provider.entity.ow.OwMessage;
-import com.woodapiary.meteo.provider.misc.ObjectSerializator;
+import com.woodapiary.meteo.provider.util.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

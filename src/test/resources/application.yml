@@ -1,0 +1,33 @@
+logging:
+  level:
+    root: WARN
+    org:
+      hibernate: WARN
+      springframework: WARN
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: false
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        show_sql: false
+        type: warn
+        use_sql_comments: true
+    show-sql: true
+  profiles:
+    active: '@spring.profiles.active@'
+  application:
+    name: meteo-provider-test
+
+
+
+
+
+
+
+

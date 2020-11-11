@@ -18,7 +18,7 @@ import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwWeatherDto;
 import com.woodapiary.meteo.provider.entity.ow.OwWeather;
 import com.woodapiary.meteo.provider.mapper.OwMessageDtoEntityMapper;
-import com.woodapiary.meteo.provider.misc.ObjectSerializator;
+import com.woodapiary.meteo.provider.util.ObjectSerializator;
 
 @Service
 public class OwDirectoryService {

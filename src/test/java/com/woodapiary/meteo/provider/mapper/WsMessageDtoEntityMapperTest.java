@@ -21,7 +21,7 @@ import com.woodapiary.meteo.provider.dto.ws.WsCurrentDto;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.entity.ws.WsFact;
 import com.woodapiary.meteo.provider.entity.ws.WsMessage;
-import com.woodapiary.meteo.provider.misc.ObjectSerializator;
+import com.woodapiary.meteo.provider.util.ObjectSerializator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

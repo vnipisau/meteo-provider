@@ -17,7 +17,7 @@ import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
-import com.woodapiary.meteo.provider.misc.ObjectSerializator;
+import com.woodapiary.meteo.provider.util.ObjectSerializator;
 
 @Service
 public class ProviderRequster {

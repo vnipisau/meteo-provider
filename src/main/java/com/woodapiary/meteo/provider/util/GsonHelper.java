@@ -2,7 +2,7 @@
  * 2002-2020
  * woodapiary.com
  */
-package com.woodapiary.meteo.provider.misc;
+package com.woodapiary.meteo.provider.util;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

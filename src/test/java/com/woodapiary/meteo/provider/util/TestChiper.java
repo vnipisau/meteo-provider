@@ -2,11 +2,13 @@
  * 2002-2020
  * woodapiary.com
  */
-package com.woodapiary.meteo.provider.misc;
+package com.woodapiary.meteo.provider.util;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.woodapiary.meteo.provider.util.Chiper;
 
 public class TestChiper {
 

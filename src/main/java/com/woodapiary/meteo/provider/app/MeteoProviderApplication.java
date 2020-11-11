@@ -23,8 +23,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class MeteoProviderApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        //TimeZone.setDefault(TimeZone.getTimeZone("GMT+2"));
-        SpringApplication.run(MeteoProviderApplication.class, args);
+        try {
+            //TimeZone.setDefault(TimeZone.getTimeZone("GMT+2"));
+            SpringApplication.run(MeteoProviderApplication.class, args);
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

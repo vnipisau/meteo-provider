@@ -1,0 +1,43 @@
+logging:
+  level:
+    org:
+      hibernate: INFO
+      springframework:
+        security: INFO
+        
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        
+server:
+  servlet:
+    context-path: /meteo-provider
+ 
+spring:
+  application:
+    name: meteo-provider
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: false
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        show_sql: false
+        type: info
+        use_sql_comments: true
+    show-sql: true
+  profiles:
+    active: '@spring.profiles.active@'

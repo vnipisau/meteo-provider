@@ -1,3 +1,7 @@
+/**
+ * 2002-2020
+ * woodapiary.com
+ */
 package com.woodapiary.meteo.provider.ws;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
