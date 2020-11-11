@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.SourceDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dao.WsDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
@@ -38,7 +38,7 @@ public class ProviderSchedulerTest {
     @Autowired
     private OwDao daoOw;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Test
     public void test01() {

@@ -25,7 +25,7 @@ public class WsDaoImpl implements WsDao {
     @Autowired
     private WsFactRepository factRepo;
     @Autowired
-    private MeteoDao meteoDao;
+    private SourceDao meteoDao;
 
     @Override
     @Transactional

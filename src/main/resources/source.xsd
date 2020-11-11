@@ -1,0 +1,23 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://woodapiary.com/meteo-provider/ws"
+	targetNamespace="http://woodapiary.com/meteo-provider/ws"
+	elementFormDefault="qualified">
+
+
+	<xs:element name="sourcesDto">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="sources" type="tns:source"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="source">
+		<xs:sequence>
+			<xs:element name="provider" type="xs:string" />
+			<xs:element name="location" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

@@ -27,7 +27,7 @@ public class DaoDeleteTest {
     @Autowired
     private WsDao daoWs;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
     @Autowired
     private OwDao daoOw;
 

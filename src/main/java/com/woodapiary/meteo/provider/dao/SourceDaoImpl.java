@@ -12,8 +12,11 @@ import org.springframework.stereotype.Repository;
 import com.woodapiary.meteo.provider.entity.Source;
 import com.woodapiary.meteo.provider.repo.SourceRepository;
 
+//TODO кеш сорца
+//TODO geoname by provider
+
 @Repository
-public class MeteoDaoImpl implements MeteoDao {
+public class SourceDaoImpl implements SourceDao {
 
     @Autowired
     private SourceRepository sRepo;
@@ -29,7 +32,7 @@ public class MeteoDaoImpl implements MeteoDao {
     }
 
     @Override
-    public List<Source> findSourceByProvider(String provider) {
+    public List<Source> findSourcesByProvider(String provider) {
         return sRepo.findByProvider(provider);
     }
 

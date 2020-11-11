@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.SourceDao;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
 import com.woodapiary.meteo.provider.dto.ws.WsMessageDto;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
@@ -37,7 +37,7 @@ public class ProviderScheduler {
     @Value("${meteo-provider.provider.ow.enabled}")
     private Boolean providerOwEnabled;
     @Autowired
-    MeteoDao sRepo;
+    SourceDao sRepo;
 
     final int mFixedRate = 3600 * 2;
 
@@ -48,7 +48,7 @@ public class ProviderScheduler {
         }
         log.info("yandex weather scheduler started ok");
         YaMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerYa)) {
+        for (final Source source : sRepo.findSourcesByProvider(ProviderConst.providerYa)) {
             try {
                 dto = requster.requestYa(source);
                 serviceYa.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
@@ -66,7 +66,7 @@ public class ProviderScheduler {
         }
         log.info("ws weather scheduler started ok");
         WsMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerWs)) {
+        for (final Source source : sRepo.findSourcesByProvider(ProviderConst.providerWs)) {
             try {
                 dto = requster.requestWs(source);
                 serviceWs.saveMessageToDb(dto, source.getProvider(), source.getGeoname());
@@ -84,7 +84,7 @@ public class ProviderScheduler {
         }
         log.info("ow weather scheduler started ok");
         OwMessageDto dto = null;
-        for (final Source source : sRepo.findSourceByProvider(ProviderConst.providerOw)) {
+        for (final Source source : sRepo.findSourcesByProvider(ProviderConst.providerOw)) {
             try {
                 dto = requster.requestOw(source);
                 serviceOw.saveMessageToDb(dto, source.getProvider(), source.getGeoname());

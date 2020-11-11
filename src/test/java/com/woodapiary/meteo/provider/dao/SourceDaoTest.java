@@ -24,12 +24,12 @@ import com.woodapiary.meteo.provider.entity.Source;
 @SpringBootTest
 @Transactional
 //@Commit
-public class MeteoDaoTest {
+public class SourceDaoTest {
 
-    static Logger log = LoggerFactory.getLogger(MeteoDaoTest.class);
+    static Logger log = LoggerFactory.getLogger(SourceDaoTest.class);
 
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Before
     public void insert() {

@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.SourceDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
 import com.woodapiary.meteo.provider.entity.Source;
@@ -38,7 +38,7 @@ public class YaMessageServiceTest {
     @Autowired
     private YaDao dao;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Test
     public void test01() {

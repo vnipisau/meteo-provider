@@ -44,7 +44,7 @@ public class YaDaoTest {
     @Autowired
     private YaDao dao;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Before
     public void insert() {

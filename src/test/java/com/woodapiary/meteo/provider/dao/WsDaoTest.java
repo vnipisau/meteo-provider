@@ -33,7 +33,7 @@ public class WsDaoTest {
     @Autowired
     private WsDao dao;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Before
     public void insert() {

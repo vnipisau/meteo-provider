@@ -41,7 +41,7 @@ public class OwDaoImpl implements OwDao {
     @Autowired
     private OwHourlyRepository hourlyRepo;
     @Autowired
-    private MeteoDao meteoDao;
+    private SourceDao meteoDao;
 
     @Override
     @Transactional

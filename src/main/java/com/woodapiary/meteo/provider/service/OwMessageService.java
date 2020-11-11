@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.SourceDao;
 import com.woodapiary.meteo.provider.dao.OwDao;
 import com.woodapiary.meteo.provider.dto.ow.OwCurrentDto;
 import com.woodapiary.meteo.provider.dto.ow.OwMessageDto;
@@ -29,7 +29,7 @@ public class OwMessageService {
     @Autowired
     OwMessageDtoEntityMapper mapper;
     @Autowired
-    MeteoDao sRepo;
+    SourceDao sRepo;
 
     public void saveMessageToDb(final OwMessageDto dto, String provider, String location) {
         final OwMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), provider, location);

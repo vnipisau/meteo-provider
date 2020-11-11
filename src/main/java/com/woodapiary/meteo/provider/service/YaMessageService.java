@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.woodapiary.meteo.provider.dao.MeteoDao;
+import com.woodapiary.meteo.provider.dao.SourceDao;
 import com.woodapiary.meteo.provider.dao.YaDao;
 import com.woodapiary.meteo.provider.dto.ya.YaFactDto;
 import com.woodapiary.meteo.provider.dto.ya.YaMessageDto;
@@ -33,7 +33,7 @@ public class YaMessageService {
     @Autowired
     YaMessageDtoEntityMapper mapper;
     @Autowired
-    MeteoDao sRepo;
+    SourceDao sRepo;
 
     public void saveMessageToDb(final YaMessageDto dto, String provider, String location) {
         final YaMessage message = dao.saveMessage(mapper.messageDtoToMessage(dto), provider, location);

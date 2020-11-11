@@ -8,11 +8,11 @@ import java.util.List;
 
 import com.woodapiary.meteo.provider.entity.Source;
 
-public interface MeteoDao {
+public interface SourceDao {
 
     Source saveSource(Source entity);
 
-    List<Source> findSourceByProvider(String provider);
+    List<Source> findSourcesByProvider(String provider);
 
     void deleteAll();
 

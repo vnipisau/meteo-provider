@@ -41,7 +41,7 @@ public class OwDaoTest {
     @Autowired
     private OwDao dao;
     @Autowired
-    private MeteoDao sRepo;
+    private SourceDao sRepo;
 
     @Before
     public void insert() {

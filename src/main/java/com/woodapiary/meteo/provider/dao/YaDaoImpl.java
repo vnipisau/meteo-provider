@@ -33,7 +33,7 @@ public class YaDaoImpl implements YaDao {
     @Autowired
     private YaPartRepository partRepo;
     @Autowired
-    private MeteoDao meteoDao;
+    private SourceDao meteoDao;
 
     @Override
     @Transactional
