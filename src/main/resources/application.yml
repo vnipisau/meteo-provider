@@ -7,10 +7,6 @@ logging:
         
 management:
   endpoint:
-    health:
-      enabled: true
-    info:
-      enabled: true
     shutdown:
       enabled: true
   endpoints:
