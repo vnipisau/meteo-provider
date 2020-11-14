@@ -52,4 +52,10 @@ public class MeteoProviderApplication extends SpringBootServletInitializer {
 //TODO UUID
 //TODO ELK
 //TODO batch save
-//TODO авторизация на рест
+//TODO авторизация на рест и вебсервис
+//TODO  com.google.common.collect.Lists;
+//TODO List<Singer> findAll() return Lists.newArrayList(singerRepository.findAll());
+//TODO аудит
+//TODO версионирование
+//TODO глобальные транзакции
+//TODO как тип в ентиту
