@@ -49,4 +49,4 @@ public class MeteoProviderApplication {
 //TODO аудит
 //TODO версионирование
 //TODO глобальные транзакции
-//TODO как тип в ентиту
+//TODO тестовые классы мессаджей сделать через бины
