@@ -4,13 +4,10 @@
  */
 package com.woodapiary.meteo_p;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -20,20 +17,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.woodapiary.meteo_p")
 @EnableJpaRepositories(basePackages = "com.woodapiary.meteo_p")
 @EntityScan(basePackages = "com.woodapiary.meteo_p")
-public class MeteoProviderApplication extends SpringBootServletInitializer {
+public class MeteoProviderApplication {
 
     public static void main(String[] args) {
         try {
             //TimeZone.setDefault(TimeZone.getTimeZone("GMT+2"));
-            SpringApplication.run(MeteoProviderApplication.class, args);
+            new SpringApplicationBuilder(MeteoProviderApplication.class)
+                    .web(WebApplicationType.SERVLET)
+                    .run(args);
         } catch (final Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        System.out.println("========" + servletContext.getContextPath() + "========");
     }
 
 }

@@ -2,7 +2,7 @@
  * 2002-2020
  * woodapiary.com
  */
-package com.woodapiary.meteo_p.app.service;
+package com.woodapiary.meteo_p.app.boot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
