@@ -1,4 +1,3 @@
-[![GitHub Release](https://img.shields.io/github/release/woodapiary/meteo-ya.svg)](https://github.com/woodapiary/meteo-ya/releases)
 ![Java CI with Maven](https://github.com/woodapiary/meteo-provider/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 # Spring Boot App for weather API 
@@ -14,7 +13,7 @@
 
 # Weather providers
 
-1. Yandex weather
+1. yandex weather
 https://yandex.ru/dev/weather/doc/dg/concepts/forecast-test-v1.html
 
 2. weatherstack.com
